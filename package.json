@@ -1,0 +1,33 @@
+{
+  "name": "frelein-radio-api",
+  "description": "Node.js Rest Apis with Express, Sequelize & MySQL for Radio App",
+  "version": "1.0.0",
+  "keywords": [
+    "nodejs",
+    "express",
+    "rest",
+    "api",
+    "sequelize",
+    "mysql"
+  ],
+  "author": {
+    "name": "Frelein",
+    "url": "https://www.frelein.my.id"
+  },
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "fastest-validator": "^1.17.0",
+    "morgan": "~1.9.1",
+    "mysql2": "^3.6.1",
+    "nodemon": "^3.0.1",
+    "sequelize": "^6.33.0",
+    "sequelize-cli": "^6.6.1"
+  }
+}
