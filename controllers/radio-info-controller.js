@@ -1,6 +1,8 @@
 const Validator = require("fastest-validator");
 const model = require("../models");
 const RadioInfo = model.RadioInfo;
+const RadioTracks = model.RadioTracks;
+const PersonalityInfo = model.PersonalityInfo;
 const v = new Validator();
 
 // Add radio info
@@ -11,7 +13,11 @@ exports.createRadioInfo = async (req, res) => {
       name: "string|min:3|max:255",
       name_jp: "string|min:3|max:255",
       image: "string|optional",
-      description: "string|optional|min:3",
+      description: "string|optional",
+      webiste: "string|optional",
+      social: "string|optional",
+      schedule: "string",
+      start_time: "string",
     };
 
     // Validate request body
@@ -39,6 +45,10 @@ exports.updateRadioInfo = async (req, res) => {
       name_jp: "string|optional|min:3|max:255",
       image: "string|optional",
       description: "string|optional",
+      webiste: "string|optional",
+      social: "string|optional",
+      schedule: "string|optional",
+      start_time: "string|optional",
     };
     const id = req.params.id;
     let radioinfo = await RadioInfo.findByPk(id);
@@ -74,19 +84,63 @@ exports.getAllRadioInfo = async (req, res) => {
 
 // Get radio info by ID
 exports.getRadioInfoByID = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const radioinfo = await RadioInfo.findByPk(id);
-    if (!radioinfo) {
-      return res.status(404).json({
-        error: "404 Not Found",
-        message: "Radio info not found",
-      });
-    }
-    return res.status(200).json(radioinfo);
-  } catch (error) {
-    res.json({ error });
+  const id = req.params.id;
+  const radioinfo = await RadioInfo.findByPk(id);
+  const { radiotracks } = await RadioTracks.findAll({
+    where: { radio_info: radioinfo.id },
+  });
+  console.log({ radiotracks });
+  const oa_list = [];
+  for (var radio of radiotracks) {
+    const personality1 = await PersonalityInfo.findOne({
+      where: { id: radio.personality_1 },
+    });
+    const personality2 = await PersonalityInfo.findOne({
+      where: { id: radio.personality_2 },
+    });
+    const personality3 = await PersonalityInfo.findOne({
+      where: { id: radio.personality_3 },
+    });
+    const oa_list_data = {
+      id: radio.id,
+      episode: radio.episode,
+      date: radio.radio_oa,
+      personality_1: {
+        name: personality1?.name,
+        name_kanji: personality1?.name_kanji,
+      },
+      personality_2: {
+        name: personality2?.name,
+        name_kanji: personality2?.name_kanji,
+      },
+      personality_3: {
+        name: personality3?.name,
+        name_kanji: personality3?.name_kanji,
+      },
+      image: radio?.image,
+    };
+    oa_list.push(oa_list_data);
   }
+  const result = {
+    id: radioinfo?.id,
+    name: radioinfo?.name,
+    name_jp: radioinfo?.name_jp,
+    oa_list: oa_list,
+    image: radioinfo?.image,
+    description: radioinfo?.description,
+    website: radioinfo?.website,
+    social: radioinfo?.social,
+    schedule: radioinfo?.schedule,
+    start_time: radioinfo?.start_time,
+    updatedAt: radioinfo?.updatedAt,
+  };
+  if (!radioinfo) {
+    return res.status(404).json({
+      error: "404 Not Found",
+      message: "Radio info not found",
+    });
+  }
+  return res.status(200).json(result);
 };
 
 // Delete radio info by ID

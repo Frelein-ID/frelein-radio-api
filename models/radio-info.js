@@ -21,6 +21,20 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT,
       },
+      website: {
+        type: DataTypes.STRING,
+      },
+      social: {
+        type: DataTypes.STRING,
+      },
+      schedule: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      start_time: {
+        type: DataTypes.TIME,
+        allowNull: false,
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

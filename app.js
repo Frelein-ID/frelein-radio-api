@@ -8,7 +8,8 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var radioInfoRouter = require("./routes/radio-info");
 var radioTracksRouter = require("./routes/radio-tracks");
-var presenterInfoRouter = require("./routes/presenter-info");
+var personalityInfoRouter = require("./routes/personality-info");
+var personalitiesRouter = require("./routes/personalities");
 
 var app = express();
 
@@ -22,7 +23,8 @@ app.use("/", indexRouter);
 // Radio routes
 app.use("/radio-info", radioInfoRouter);
 app.use("/radio-tracks", radioTracksRouter);
-// Presenter routes
-app.use("/presenter-info", presenterInfoRouter);
+// Personality routes
+app.use("/personality-info", personalityInfoRouter);
+app.use("/personalities", personalitiesRouter);
 
 module.exports = app;

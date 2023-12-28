@@ -1,10 +1,10 @@
 const Validator = require("fastest-validator");
 const model = require("../models");
-const PresenterInfo = model.PresenterInfo;
+const PersonalityInfo = model.PersonalityInfo;
 const v = new Validator();
 
-// Add new presenter info
-exports.createNewPresenter = async (req, res) => {
+// Add new personality info
+exports.createNewPersonality = async (req, res) => {
   try {
     const schema = {
       name: "string|min:3|max:255",
@@ -26,15 +26,15 @@ exports.createNewPresenter = async (req, res) => {
     if (validate.length) {
       return res.status(400).json(validate);
     }
-    const presenterinfo = await PresenterInfo.create(req.body);
-    return res.status(200).json(presenterinfo);
+    const personalityinfo = await PersonalityInfo.create(req.body);
+    return res.status(200).json(personalityinfo);
   } catch (error) {
     return res.json({ error });
   }
 };
 
-// Update presenter info by id
-exports.updatePresenterById = async (req, res) => {
+// Update personality info by id
+exports.updatePersonalityById = async (req, res) => {
   try {
     const schema = {
       name: "string|min:3|max:255|optional",
@@ -54,68 +54,68 @@ exports.updatePresenterById = async (req, res) => {
       image: "string|optional",
     };
     const id = req.params.id;
-    let presenterinfo = await PresenterInfo.findByPk(id);
+    let personalityinfo = await PersonalityInfo.findByPk(id);
     const validate = v.validate(req.body, schema);
-    if (!presenterinfo) {
+    if (!personalityinfo) {
       return res.status(400).json({
-        message: "Error, presenter not found",
+        message: "Error, personality not found",
       });
     }
     if (validate.length) {
       return res.status(400).json(validate);
     }
-    presenterinfo = await presenterinfo.update(req.body);
-    return res.status(200).json(presenterinfo);
+    personalityinfo = await personalityinfo.update(req.body);
+    return res.status(200).json(personalityinfo);
   } catch (error) {
     return res.json({ error });
   }
 };
 
-// Get all presenter info
-exports.getAllPresenterInfo = async (req, res) => {
+// Get all personality info
+exports.getAllPersonalityInfo = async (req, res) => {
   try {
-    const presenterinfo = await PresenterInfo.findAll();
-    if (presenterinfo.length === 0) {
+    const personalityinfo = await PersonalityInfo.findAll();
+    if (personalityinfo.length === 0) {
       return res.status(404).json({
         error: "404 Not Found",
-        message: "Presenter info not found",
+        message: "Personality info not found",
       });
     }
-    return res.status(200).json(presenterinfo);
+    return res.status(200).json(personalityinfo);
   } catch (error) {
     return res.json({ error });
   }
 };
 
-// Get presenter info by id
-exports.getPresenterInfoByID = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const presenterinfo = await PresenterInfo.findByPk(id);
-    if (!presenterinfo) {
-      return res.status(404).json({
-        error: "404 Not Found",
-        message: "Presenter info not found",
-      });
-    }
-    return res.status(200).json(presenterinfo);
-  } catch (error) {
-    return res.json({ error });
-  }
-};
-
-// Delete presenter info by id
-exports.deletePresenterInfoByID = async (req, res) => {
+// Get personality info by id
+exports.getPersonalityInfoByID = async (req, res) => {
   try {
     const id = req.params.id;
-    const presenterinfo = await PresenterInfo.findByPk(id);
-    if (!presenterinfo) {
+    const personalityinfo = await PersonalityInfo.findByPk(id);
+    if (!personalityinfo) {
       return res.status(404).json({
         error: "404 Not Found",
-        message: "Presenter not found",
+        message: "Personality info not found",
       });
     }
-    await presenterinfo.destroy();
+    return res.status(200).json(personalityinfo);
+  } catch (error) {
+    return res.json({ error });
+  }
+};
+
+// Delete personality info by id
+exports.deletePersonalityInfoByID = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const personalityinfo = await PersonalityInfo.findByPk(id);
+    if (!personalityinfo) {
+      return res.status(404).json({
+        error: "404 Not Found",
+        message: "Personality not found",
+      });
+    }
+    await personalityinfo.destroy();
     return res.status(200).json({
       message: "Deleted successfully!",
     });

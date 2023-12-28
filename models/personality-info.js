@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const PresenterInfo = sequelize.define(
-    "PresenterInfo",
+  const PersonalityInfo = sequelize.define(
+    "PersonalityInfo",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -52,9 +52,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "presenter-info",
+      tableName: "personality-info",
     }
   );
 
-  return PresenterInfo;
+  return PersonalityInfo;
 };

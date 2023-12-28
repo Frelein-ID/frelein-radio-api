@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("radio-info", {
+    await queryInterface.createTable("personality-info", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -14,28 +14,35 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      name_jp: {
+      name_kanji: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      nickname: {
         type: Sequelize.STRING,
       },
-      image: {
-        type: Sequelize.TEXT,
+      birthdate: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      birthplace: {
+        type: Sequelize.STRING,
+      },
+      bloodtype: {
+        type: Sequelize.ENUM("A", "B", "AB", "O"),
+        allowNull: false,
       },
       description: {
         type: Sequelize.TEXT,
       },
-      website: {
+      trivia: {
         type: Sequelize.TEXT,
       },
-      social: {
+      image: {
         type: Sequelize.TEXT,
       },
-      schedule: {
+      source: {
         type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      start_time: {
-        type: Sequelize.TIME,
-        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -49,6 +56,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("radio-info");
+    await queryInterface.dropTable("personality-info");
   },
 };

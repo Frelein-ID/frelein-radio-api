@@ -1,36 +1,29 @@
 "use strict";
 
-require("dotenv").config();
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("radio-tracks", {
+    await queryInterface.createTable("personalities", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      episode: {
-        type: Sequelize.INTEGER,
-      },
-      radio_info: {
+      tracks_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "radio-info",
+          model: "radio-tracks",
           key: "id",
         },
         allowNull: false,
       },
-      radio_oa: {
-        type: Sequelize.DATEONLY,
-      },
-      image: {
-        type: Sequelize.TEXT,
-      },
-      src: {
-        type: Sequelize.TEXT,
+      personality_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "personality-info",
+          key: "id",
+        },
         allowNull: false,
       },
       createdAt: {
@@ -45,6 +38,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("radio-tracks");
+    await queryInterface.dropTable("personalities");
   },
 };

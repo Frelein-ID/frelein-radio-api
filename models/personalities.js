@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const RadioTracks = sequelize.define(
-    "RadioTracks",
+  const Personalities = sequelize.define(
+    "Personalities",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -8,25 +8,20 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      episode: {
-        type: DataTypes.INTEGER,
-      },
-      radio_info: {
+      tracks_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: "radio-info",
+          model: "radio-tracks",
           key: "id",
         },
         allowNull: false,
       },
-      radio_oa: {
-        type: DataTypes.DATEONLY,
-      },
-      image: {
-        type: DataTypes.TEXT,
-      },
-      src: {
-        type: DataTypes.TEXT,
+      personality_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "personality-info",
+          key: "id",
+        },
         allowNull: false,
       },
       createdAt: {
@@ -39,9 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "radio-tracks",
+      tableName: "personalities",
     }
   );
 
-  return RadioTracks;
+  return Personalities;
 };
