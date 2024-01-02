@@ -82,6 +82,7 @@ exports.getAllRadioTracks = async (req, res) => {
       radio_image: radioinfo?.image,
       track_image: radio?.image,
       src: radio?.src,
+      createdAt: radio?.createdAt,
       updatedAt: radio?.updatedAt,
     };
     result.push(radioData);
@@ -129,6 +130,7 @@ exports.getRadioTrackByID = async (req, res) => {
     radio_image: radioinfo?.image,
     track_image: radiotracks?.image,
     src: radiotracks?.src,
+    createdAt: radiotracks?.createdAt,
     updatedAt: radiotracks?.updatedAt,
   };
   return res.status(200).json(result);

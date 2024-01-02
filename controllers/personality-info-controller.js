@@ -8,7 +8,7 @@ exports.createNewPersonality = async (req, res) => {
   try {
     const schema = {
       name: "string|min:3|max:255",
-      name_kanji: "string|min:3|max:255",
+      name_jp: "string|min:3|max:255",
       nickname: "string|min:3|max:255",
       birthdate: "string",
       birthplace: "string|optional",
@@ -18,7 +18,6 @@ exports.createNewPersonality = async (req, res) => {
         enum: ["A", "B", "AB", "O"],
       },
       description: "string|optional",
-      trivia: "string|optional",
       source: "string|optional",
       image: "string|optional",
     };
@@ -38,7 +37,7 @@ exports.updatePersonalityById = async (req, res) => {
   try {
     const schema = {
       name: "string|min:3|max:255|optional",
-      name_kanji: "string|min:3|max:255|optional",
+      name_jp: "string|min:3|max:255|optional",
       nickname: "string|min:3|max:255|optional",
       birthdate: "string|optional",
       birthplace: "string|optional",
@@ -49,7 +48,6 @@ exports.updatePersonalityById = async (req, res) => {
         optional: true,
       },
       description: "string|optional",
-      trivia: "string|optional",
       source: "string|optional",
       image: "string|optional",
     };

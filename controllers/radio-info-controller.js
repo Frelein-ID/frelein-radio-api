@@ -3,6 +3,7 @@ const model = require("../models");
 const RadioInfo = model.RadioInfo;
 const RadioTracks = model.RadioTracks;
 const PersonalityInfo = model.PersonalityInfo;
+const Personalities = model.Personalities;
 const v = new Validator();
 
 // Add radio info
@@ -86,46 +87,44 @@ exports.getAllRadioInfo = async (req, res) => {
 exports.getRadioInfoByID = async (req, res) => {
   const id = req.params.id;
   const radioinfo = await RadioInfo.findByPk(id);
-  const { radiotracks } = await RadioTracks.findAll({
-    where: { radio_info: radioinfo.id },
+  const radiotracks = await RadioTracks.findAll({
+    where: { radio_info: id },
   });
-  console.log({ radiotracks });
-  const oa_list = [];
+  const tracks = [];
   for (var radio of radiotracks) {
-    const personality1 = await PersonalityInfo.findOne({
-      where: { id: radio.personality_1 },
+    let personalities = [];
+    const personalities_list = await Personalities.findAll({
+      where: { tracks_id: radio.id },
     });
-    const personality2 = await PersonalityInfo.findOne({
-      where: { id: radio.personality_2 },
-    });
-    const personality3 = await PersonalityInfo.findOne({
-      where: { id: radio.personality_3 },
-    });
-    const oa_list_data = {
+    for (var personality of personalities_list) {
+      const person_data = await PersonalityInfo.findByPk(
+        personality.personality_id
+      );
+      const personality_info = {
+        name: person_data?.name,
+        name_kanji: person_data?.name_kanji,
+        nickname: person_data?.nickname,
+        image: person_data?.image,
+      };
+      personalities.push(personality_info);
+    }
+    const personalities_final = [
+      ...new Set(personalities.map(JSON.stringify)),
+    ].map(JSON.parse);
+    const tracks_data = {
       id: radio.id,
       episode: radio.episode,
       date: radio.radio_oa,
-      personality_1: {
-        name: personality1?.name,
-        name_kanji: personality1?.name_kanji,
-      },
-      personality_2: {
-        name: personality2?.name,
-        name_kanji: personality2?.name_kanji,
-      },
-      personality_3: {
-        name: personality3?.name,
-        name_kanji: personality3?.name_kanji,
-      },
+      personalities: personalities_final,
       image: radio?.image,
     };
-    oa_list.push(oa_list_data);
+    tracks.push(tracks_data);
   }
   const result = {
     id: radioinfo?.id,
     name: radioinfo?.name,
     name_jp: radioinfo?.name_jp,
-    oa_list: oa_list,
+    tracks: tracks,
     image: radioinfo?.image,
     description: radioinfo?.description,
     website: radioinfo?.website,

@@ -1,11 +1,13 @@
+const { v4: uuidv4 } = require("uuid");
+
 module.exports = (sequelize, DataTypes) => {
   const RadioInfo = sequelize.define(
     "RadioInfo",
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
       },
       name: {
@@ -45,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "radio-info",
+      tableName: "RadioInfo",
     }
   );
 

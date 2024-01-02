@@ -6,6 +6,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
+var authRouter = require("./routes/auth");
 var radioInfoRouter = require("./routes/radio-info");
 var radioTracksRouter = require("./routes/radio-tracks");
 var personalityInfoRouter = require("./routes/personality-info");
@@ -20,6 +21,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+// Auth
+app.use("/auth", authRouter);
 // Radio routes
 app.use("/radio-info", radioInfoRouter);
 app.use("/radio-tracks", radioTracksRouter);

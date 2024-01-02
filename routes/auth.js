@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const controller = require("../controllers/auth-controller");
 
-const { authenticateToken } = require("../middleware/authMiddleware");
+router.post("/login", controller.login);
 
-router.post("/secure-route", authenticateToken, (req, res) => {
-  // Hanya dapat diakses dengan token yang valid
-  res.json({ data: "Data aman", user: req.user });
-});
+router.post("/register", controller.register);
 
 module.exports = router;

@@ -1,18 +1,20 @@
+const { v4: uuidv4 } = require("uuid");
+
 module.exports = (sequelize, DataTypes) => {
   const PersonalityInfo = sequelize.define(
     "PersonalityInfo",
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      name_kanji: {
+      name_jp: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -33,9 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT,
       },
-      trivia: {
-        type: DataTypes.TEXT,
-      },
       image: {
         type: DataTypes.STRING,
       },
@@ -52,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "personality-info",
+      tableName: "PersonalityInfo",
     }
   );
 

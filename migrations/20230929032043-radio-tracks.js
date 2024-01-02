@@ -1,40 +1,37 @@
 "use strict";
 
+const { DataTypes } = require("sequelize");
+const { v4: uuidv4 } = require("uuid");
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("radio-info", {
+    await queryInterface.createTable("RadioTracks", {
       id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: () => uuidv4(),
         allowNull: false,
       },
-      name: {
-        type: Sequelize.STRING,
+      episode: {
+        type: Sequelize.INTEGER,
+      },
+      radio_info: {
+        type: DataTypes.UUID,
+        references: {
+          model: "RadioInfo",
+          key: "id",
+        },
         allowNull: false,
       },
-      name_jp: {
-        type: Sequelize.STRING,
+      radio_oa: {
+        type: Sequelize.DATEONLY,
       },
       image: {
         type: Sequelize.TEXT,
       },
-      description: {
+      src: {
         type: Sequelize.TEXT,
-      },
-      website: {
-        type: Sequelize.TEXT,
-      },
-      social: {
-        type: Sequelize.TEXT,
-      },
-      schedule: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      start_time: {
-        type: Sequelize.TIME,
         allowNull: false,
       },
       createdAt: {
@@ -49,6 +46,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("radio-info");
+    await queryInterface.dropTable("RadioTracks");
   },
 };

@@ -6,27 +6,38 @@ const { v4: uuidv4 } = require("uuid");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Personalities", {
+    await queryInterface.createTable("RadioInfo", {
       id: {
         type: DataTypes.UUID,
         defaultValue: () => uuidv4(),
         primaryKey: true,
         allowNull: false,
       },
-      tracks_id: {
-        type: DataTypes.UUID,
-        references: {
-          model: "RadioTracks",
-          key: "id",
-        },
+      name: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
-      personality_id: {
-        type: DataTypes.UUID,
-        references: {
-          model: "PersonalityInfo",
-          key: "id",
-        },
+      name_jp: {
+        type: Sequelize.STRING,
+      },
+      image: {
+        type: Sequelize.TEXT,
+      },
+      description: {
+        type: Sequelize.TEXT,
+      },
+      website: {
+        type: Sequelize.TEXT,
+      },
+      social: {
+        type: Sequelize.TEXT,
+      },
+      schedule: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      start_time: {
+        type: Sequelize.TIME,
         allowNull: false,
       },
       createdAt: {
@@ -41,6 +52,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Personalities");
+    await queryInterface.dropTable("RadioInfo");
   },
 };

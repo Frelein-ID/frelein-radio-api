@@ -1,20 +1,23 @@
 "use strict";
 
+const { DataTypes } = require("sequelize");
+const { v4: uuidv4 } = require("uuid");
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("personality-info", {
+    await queryInterface.createTable("PersonalityInfo", {
       id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      name_kanji: {
+      name_jp: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -35,9 +38,6 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
-      trivia: {
-        type: Sequelize.TEXT,
-      },
       image: {
         type: Sequelize.TEXT,
       },
@@ -56,6 +56,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("personality-info");
+    await queryInterface.dropTable("PersonalityInfo");
   },
 };

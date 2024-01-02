@@ -1,20 +1,22 @@
+const { v4: uuidv4 } = require("uuid");
+
 module.exports = (sequelize, DataTypes) => {
   const RadioTracks = sequelize.define(
     "RadioTracks",
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
       },
       episode: {
         type: DataTypes.INTEGER,
       },
       radio_info: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         references: {
-          model: "radio-info",
+          model: "RadioInfo",
           key: "id",
         },
         allowNull: false,
@@ -39,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "radio-tracks",
+      tableName: "RadioTracks",
     }
   );
 

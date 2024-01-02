@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { generateToken } = require("../utils/tokenUtils");
 
-router.post("/login", (req, res) => {
+router.post("/profile", (req, res) => {
   // Proses validasi kredensial (dapat menggunakan Sequelize atau lainnya)
   const { username, password } = req.body;
 

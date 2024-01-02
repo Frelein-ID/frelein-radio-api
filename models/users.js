@@ -1,13 +1,14 @@
-const { bcrypt } = require("bcrypt");
+const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
+  const Users = sequelize.define(
+    "Users",
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
       },
       role: {
@@ -41,9 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "user",
-    },
-    {
       hooks: {
         beforeCreate: async (user) => {
           const saltRounds = 10;
@@ -51,12 +49,15 @@ module.exports = (sequelize, DataTypes) => {
           user.password = hashedPassword;
         },
       },
+    },
+    {
+      tableName: "Users",
     }
   );
 
-  User.prototype.isValidPassword = async function (password) {
+  Users.prototype.isValidPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
   };
 
-  return User;
+  return Users;
 };

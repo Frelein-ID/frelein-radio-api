@@ -4,7 +4,7 @@ const { faker } = require("@faker-js/faker");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // const usersData = Array.from({ length: 100 }, () => ({
+    // const radioData = Array.from({ length: 100 }, () => ({
     //   name: faker.person.fullName(),
     //   name_jp: faker.person.fullName(),
     //   image: faker.image.avatar(),
@@ -16,10 +16,10 @@ module.exports = {
     //   createdAt: new Date(),
     //   updatedAt: new Date(),
     // }));
-    // await queryInterface.bulkInsert("user", usersData, {});
+    // await queryInterface.bulkInsert("radio-info", radioData, {});
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("radio-info", null, {});
+    await queryInterface.bulkDelete("RadioInfo", null, {});
   },
 };
