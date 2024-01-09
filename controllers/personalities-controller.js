@@ -9,8 +9,8 @@ const v = new Validator();
 // Add personalities
 exports.createPersonalities = async (req, res) => {
   const schema = {
-    tracks_id: "number|integer",
-    personality_id: "number|integer",
+    tracks_id: "string",
+    personality_id: "string",
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
@@ -23,8 +23,8 @@ exports.createPersonalities = async (req, res) => {
 // Update personalities
 exports.updatePersonalities = async (req, res) => {
   const schema = {
-    tracks_id: "number|integer",
-    personality_id: "number|integer",
+    tracks_id: "string",
+    personality_id: "string",
   };
   const id = req.params.id;
   let radiotracks = await RadioTracks.findByPk(id);
@@ -58,7 +58,7 @@ exports.getPersonalitiesByRadioTracksID = async (req, res) => {
     );
     const personality_info = {
       name: person_data?.name,
-      name_kanji: person_data?.name_kanji,
+      name_jp: person_data?.name_kanji,
       nickname: person_data?.nickname,
       image: person_data?.image,
     };

@@ -1,11 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-const Validator = require("fastest-validator");
-const { RadioTracks } = require("../models");
 const controller = require("../controllers/radio-tracks-controller");
-
-const v = new Validator();
 
 /* GET all radio tracks */
 router.get("/", controller.getAllRadioTracks);

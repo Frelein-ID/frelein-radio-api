@@ -1,13 +1,10 @@
 var express = require("express");
 var router = express.Router();
-const Validator = require("fastest-validator");
 const controller = require("../controllers/radio-info-controller");
 const {
   accessAllUser,
   accessOnlyAdmin,
 } = require("../middleware/auth-middleware");
-
-const v = new Validator();
 
 /* GET all radio info */
 router.get("/", accessAllUser, controller.getAllRadioInfo);

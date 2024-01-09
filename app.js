@@ -11,6 +11,9 @@ var radioInfoRouter = require("./routes/radio-info");
 var radioTracksRouter = require("./routes/radio-tracks");
 var personalityInfoRouter = require("./routes/personality-info");
 var personalitiesRouter = require("./routes/personalities");
+var userFavRadioTracks = require("./routes/users-fav-radio-tracks");
+var userFavRadioInfo = require("./routes/users-fav-radio-info");
+var userFavPersonality = require("./routes/users-fav-personality");
 
 var app = express();
 
@@ -29,5 +32,9 @@ app.use("/radio-tracks", radioTracksRouter);
 // Personality routes
 app.use("/personality-info", personalityInfoRouter);
 app.use("/personalities", personalitiesRouter);
+// Favorites routes
+app.use("/favorites/radio-tracks", userFavRadioTracks);
+app.use("/favorites/radio-info", userFavRadioInfo);
+app.use("/favorites/personality", userFavPersonality);
 
 module.exports = app;

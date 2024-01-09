@@ -11,10 +11,8 @@ const accessAllUser = (req, res, next) => {
   try {
     const decoded = verifyToken(token);
 
-    if (decoded.user.role !== "user" || decoded.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized. Only user allowed." });
+    if (decoded.user.role !== "user" && decoded.user.role !== "admin") {
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
     next();
