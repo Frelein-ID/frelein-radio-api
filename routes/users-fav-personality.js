@@ -1,17 +1,17 @@
 var express = require("express");
 var router = express.Router();
 const controller = require("../controllers/users-fav-personality-controller");
+const { accessAllUser } = require("../middleware/auth-middleware");
 
-/* GET all users fav radio tracks */
-router.get("/", controller.getAllUsersFavPersonality);
+router.get("/", [accessAllUser], controller.getAllUsersFavPersonality);
 
-/* POST users fav radio tracks */
-router.post("/", controller.createUsersFavPersonality);
+// GET all users fav personality by user id
+router.get("/:id", [accessAllUser], controller.getUsersFavPersonalityByUserID);
 
-/* UPDATE users fav radio tracks by ID */
-router.put("/:id", controller.updateUsersFavPersonality);
+// POST users fav personality
+router.post("/", [accessAllUser], controller.createUsersFavPersonality);
 
-/* DELETE users fav radio tracks by ID */
-router.delete("/:id", controller.deleteUsersFavPersonality);
+// DELETE users fav personality by ID
+router.delete("/:id", [accessAllUser], controller.deleteUsersFavPersonality);
 
 module.exports = router;

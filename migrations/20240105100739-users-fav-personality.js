@@ -21,7 +21,7 @@ module.exports = {
         },
         allowNull: false,
       },
-      radio_info_id: {
+      personality_id: {
         type: DataTypes.UUID,
         references: {
           model: "PersonalityInfo",

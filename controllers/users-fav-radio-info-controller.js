@@ -68,7 +68,7 @@ exports.getUsersFavRadioInfoByUserID = async (req, res) => {
   if (result.length == 0) {
     return res.status(404).json({
       error: "404 Not Found",
-      message: "Users fav radio tracks not found",
+      message: "Users fav radio info not found",
     });
   }
   const result_final = [...new Set(result.map(JSON.stringify))].map(JSON.parse);
@@ -82,7 +82,7 @@ exports.deleteUsersFavRadioInfo = async (req, res) => {
   if (!fav) {
     return res.status(404).json({
       error: "404 Not Found",
-      message: "User favorite radio info not found",
+      message: "You don't have any radio info favorites",
     });
   }
   await fav.destroy();

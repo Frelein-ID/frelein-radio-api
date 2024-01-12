@@ -1,8 +1,8 @@
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = (sequelize, DataTypes) => {
-  const History = sequelize.define(
-    "History",
+  const LoginLogs = sequelize.define(
+    "LoginLogs",
     {
       id: {
         type: DataTypes.UUID,
@@ -18,32 +18,24 @@ module.exports = (sequelize, DataTypes) => {
         },
         allowNull: false,
       },
-      endpoint: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      action: {
+      ipAddress: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      dataBefore: {
-        type: DataTypes.JSON,
+      userAgent: {
+        type: DataTypes.TEXT,
         allowNull: true,
       },
-      dataAfter: {
-        type: DataTypes.JSON,
-        allowNull: false,
-      },
-      createdAt: {
+      loginTime: {
         type: DataTypes.DATE,
         allowNull: false,
       },
     },
     {
-      tableName: "History",
-      createdAt: false,
+      tableName: "LoginLogs",
+      timestamps: false,
     }
   );
 
-  return History;
+  return LoginLogs;
 };

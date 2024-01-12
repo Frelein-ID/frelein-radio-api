@@ -1,11 +1,12 @@
 "use strict";
+
 const { DataTypes } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("History", {
+    await queryInterface.createTable("LoginLogs", {
       id: {
         type: DataTypes.UUID,
         defaultValue: () => uuidv4(),
@@ -20,23 +21,15 @@ module.exports = {
         },
         allowNull: false,
       },
-      endpoint: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      action: {
+      ipAddress: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      dataBefore: {
-        type: Sequelize.JSON,
+      userAgent: {
+        type: Sequelize.TEXT,
         allowNull: true,
       },
-      dataAfter: {
-        type: Sequelize.JSON,
-        allowNull: false,
-      },
-      createdAt: {
+      loginTime: {
         type: Sequelize.DATE,
         allowNull: false,
       },
@@ -44,6 +37,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("History");
+    await queryInterface.dropTable("LoginLogs");
   },
 };

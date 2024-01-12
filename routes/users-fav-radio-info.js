@@ -1,25 +1,11 @@
 var express = require("express");
 var router = express.Router();
 const controller = require("../controllers/users-fav-radio-info-controller");
-const {
-  accessAllUser,
-  accessOnlyAdmin,
-} = require("../middleware/auth-middleware");
-const recordHistory = require("../middleware/record-history");
-
-// GET all users fav radio tracks
-router.get(
-  "/",
-  [accessOnlyAdmin, recordHistory],
-  controller.getAllUsersFavRadioInfo
-);
+const { accessAllUser } = require("../middleware/auth-middleware");
+const { recordHistory } = require("../middleware/record-history");
 
 // GET all users fav radio tracks by user id
-router.get(
-  "/:id",
-  [accessAllUser, recordHistory],
-  controller.getUsersFavRadioInfoByUserID
-);
+router.get("/:id", [accessAllUser], controller.getUsersFavRadioInfoByUserID);
 
 // POST users fav radio tracks
 router.post(
@@ -29,10 +15,6 @@ router.post(
 );
 
 // DELETE users fav radio tracks by ID
-router.delete(
-  "/:id",
-  [accessAllUser, recordHistory],
-  controller.deleteUsersFavRadioInfo
-);
+router.delete("/:id", [accessAllUser], controller.deleteUsersFavRadioInfo);
 
 module.exports = router;
