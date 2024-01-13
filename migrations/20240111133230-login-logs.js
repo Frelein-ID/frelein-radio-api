@@ -27,7 +27,7 @@ module.exports = {
       },
       userAgent: {
         type: Sequelize.TEXT,
-        allowNull: true,
+        allowNull: false,
       },
       loginTime: {
         type: Sequelize.DATE,

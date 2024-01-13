@@ -7,18 +7,18 @@ const {
 } = require("../middleware/auth-middleware");
 
 /* GET all personality info */
-router.get("/", accessAllUser, controller.getAllPersonalityInfo);
+router.get("/", accessAllUser, controller.getAll);
 
 /* GET personality info by ID */
-router.get("/:id", accessAllUser, controller.getPersonalityInfoByID);
+router.get("/:id", accessAllUser, controller.get);
 
 /* POST personality info */
-router.post("/", accessOnlyAdmin, controller.createNewPersonality);
+router.post("/", accessOnlyAdmin, controller.create);
 
 /* UPDATE personality info by ID */
-router.put("/:id", accessOnlyAdmin, controller.updatePersonalityById);
+router.put("/:id", accessOnlyAdmin, controller.update);
 
 /* DELETE personality info by ID */
-router.delete("/:id", accessOnlyAdmin, controller.deletePersonalityInfoByID);
+router.delete("/:id", accessOnlyAdmin, controller.delete);
 
 module.exports = router;

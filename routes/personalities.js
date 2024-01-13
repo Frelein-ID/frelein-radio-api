@@ -3,18 +3,18 @@ var router = express.Router();
 const controller = require("../controllers/personalities-controller");
 
 /* GET all personality info */
-router.get("/", controller.getAllPersonalities);
+router.get("/", controller.getAll);
 
 /* GET personality info by ID */
-router.get("/:id", controller.getPersonalitiesByRadioTracksID);
+router.get("/:id", controller.get);
 
 /* POST personality info */
-router.post("/", controller.createPersonalities);
+router.post("/", controller.create);
 
 /* UPDATE personality info by ID */
-router.put("/:id", controller.updatePersonalities);
+router.put("/:id", controller.update);
 
 /* DELETE personality info by ID */
-router.delete("/:id", controller.deletePersonalitiesByID);
+router.delete("/:id", controller.delete);
 
 module.exports = router;

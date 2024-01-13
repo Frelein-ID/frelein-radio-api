@@ -19,26 +19,31 @@ module.exports = {
       },
       name_jp: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       image: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       description: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       website: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       social: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       schedule: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       start_time: {
         type: Sequelize.TIME,
-        allowNull: false,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DATE,

@@ -2,6 +2,19 @@ const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @class
+   * @classdesc The object model that contains user data that will be entered in the user table.
+   * @property {String} id - UUIDv4 which represents the user's ID.
+   * @property {('admin' | 'user')} role - An enum that has only admin and user values, represents the user's role.
+   * @property {String} username - User's username.
+   * @property {String} email - User's email.
+   * @property {String} password - User's password.
+   * @property {String=} name - User's full name.
+   * @property {String=} image - An url links which represents the user's image.
+   * @property {Date} createdAt - The time the user account was created.
+   * @property {Date} updatedAt - The last time the user account was updated.
+   */
   const Users = sequelize.define(
     "Users",
     {
@@ -39,6 +52,14 @@ module.exports = (sequelize, DataTypes) => {
       image: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
     {

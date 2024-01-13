@@ -15,6 +15,7 @@ module.exports = {
       },
       episode: {
         type: Sequelize.INTEGER,
+        allowNull: true,
       },
       radio_info: {
         type: DataTypes.UUID,
@@ -26,9 +27,11 @@ module.exports = {
       },
       radio_oa: {
         type: Sequelize.DATEONLY,
+        allowNull: true,
       },
       image: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       src: {
         type: Sequelize.TEXT,

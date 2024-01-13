@@ -1,52 +1,88 @@
 const Validator = require("fastest-validator");
 const model = require("../models");
 const RadioTracks = model.RadioTracks;
-const RadioInfo = model.RadioInfo;
 const PersonalityInfo = model.PersonalityInfo;
 const Personalities = model.Personalities;
 const v = new Validator();
+const {
+  RESPONSE_400,
+  RESPONSE_404,
+  PERSONALITIES_SUCCESS_CREATED,
+  PERSONALITIES_SUCCESS_UPDATED,
+  PERSONALITIES_FAILURE_NOT_FOUND,
+  ERROR_500,
+} = require("../constants/constants");
 
-// Add personalities
-exports.createPersonalities = async (req, res) => {
-  const schema = {
-    tracks_id: "string",
-    personality_id: "string",
-  };
-  const validate = v.validate(req.body, schema);
-  if (validate.length) {
-    return res.status(400).json(validate);
-  }
-  const radiotracks = await RadioTracks.create(req.body);
-  return res.json(radiotracks);
+const schema = {
+  tracks_id: "string",
+  personality_id: "string",
 };
 
-// Update personalities
-exports.updatePersonalities = async (req, res) => {
-  const schema = {
-    tracks_id: "string",
-    personality_id: "string",
-  };
+exports.create = async (req, res) => {
+  try {
+    const validate = v.validate(req.body, schema);
+    if (validate.length) {
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: validate,
+      });
+    }
+    // Check if tracks and personality already exists
+    const checkData = await Personalities.findOne({
+      where: {
+        tracks_id: req.body.tracks_id,
+        personality_id: req.body.personality_id,
+      },
+    });
+    console.log({ checkData });
+    const isDataValid = checkData?.isNewRecord;
+    // if (isTrackValid === false) {
+    //   // Return registration process failure because of username already exist on database
+    //   return res.status(400).json({
+    //     message: REGISTER_FAILURE_UNIQUE_USERNAME,
+    //   });
+    // }
+    // const radiotracks = await RadioTracks.create(req.body);
+    // return res.status(200).json({
+    //   message: PERSONALITIES_SUCCESS_CREATED,
+    //   data: radiotracks,
+    // });
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ error: ERROR_500 });
+  }
+};
+
+exports.update = async (req, res) => {
   const id = req.params.id;
-  let radiotracks = await RadioTracks.findByPk(id);
-  if (!radiotracks) {
-    return res.status(404).json({ message: "Error, radio tracks not found" });
+  let personalities = await Personalities.findByPk(id);
+  if (!personalities) {
+    return res.status(404).json({
+      error: RESPONSE_404,
+      message: PERSONALITIES_FAILURE_NOT_FOUND,
+    });
   }
   const validate = v.validate(req.body, schema);
   if (validate.length) {
-    return res.status(400).json(validate);
+    return res.status(400).json({
+      error: RESPONSE_400,
+      message: validate,
+    });
   }
-  radiotracks = await radiotracks.update(req.body);
-  return res.status(200).json(radiotracks);
+  personalities = await Personalities.update(req.body);
+  return res.status(200).json({
+    message: PERSONALITIES_SUCCESS_UPDATED,
+    data: personalities,
+  });
 };
 
-// Get all radio tracks
-exports.getAllPersonalities = async (req, res) => {
+exports.getAll = async (req, res) => {
   const personalities = await Personalities.findAll();
   return res.status(200).json(personalities);
 };
 
-// Get personalities by radio tracks id
-exports.getPersonalitiesByRadioTracksID = async (req, res) => {
+exports.get = async (req, res) => {
   let result = [];
   const id = req.params.id;
   const personalities_list = await Personalities.findAll({
@@ -74,8 +110,7 @@ exports.getPersonalitiesByRadioTracksID = async (req, res) => {
   return res.status(200).json(result_final);
 };
 
-// Delete personalities
-exports.deletePersonalitiesByID = async (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
   const radiotracks = await RadioTracks.findByPk(id);
   if (!radiotracks) {

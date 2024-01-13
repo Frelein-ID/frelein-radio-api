@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "allowUnknownTags": false
+  },
+  "source": {
+    "include": ["./controllers", "./middleware", "./models", "./utils"],
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "search": true,
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "template": "node_modules/docdash/",
+    "encoding": "utf8",
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "menu": {
+    "Github Repo": {
+      "href": "https://github.com/yusufadji/frelein-radio-api",
+      "target": "_blank",
+      "class": "menu-item",
+      "id": "website_link"
+    }
+  }
+}

@@ -1,6 +1,15 @@
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @class
+   * @classdesc The object model that contains data that will be entered into the login log table to record the login history of the user.
+   * @property {String} id - UUIDv4 which represents the login log's ID.
+   * @property {String} users_id - UUIDv4 which represents the user's ID refering to {@link Users}.
+   * @property {String} ipAddress - Client's IP Address.
+   * @property {String} userAgent - Client's User Agent.
+   * @property {Object} loginTime - User's login time.
+   */
   const LoginLogs = sequelize.define(
     "LoginLogs",
     {
@@ -24,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       userAgent: {
         type: DataTypes.TEXT,
-        allowNull: true,
+        allowNull: false,
       },
       loginTime: {
         type: DataTypes.DATE,

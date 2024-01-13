@@ -27,12 +27,6 @@ const recordHistory = async (req, res, next) => {
               },
             });
             return data;
-          case 2:
-            console.log("Nilai sama dengan 2");
-            break;
-          case 3:
-            console.log("Nilai sama dengan 3");
-            break;
           default:
             console.log("Invalid Endpoint");
         }

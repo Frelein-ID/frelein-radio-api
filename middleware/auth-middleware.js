@@ -1,9 +1,22 @@
+/**
+ * @module
+ * @name auth-middleware
+ *  */
+
+// Import required modules
 require("dotenv").config();
 const { verifyToken } = require("../utils/token-utils");
 const model = require("../models");
 const User = model.Users;
 const LoginLogs = model.LoginLogs;
 
+/**
+ * @function
+ * @memberof module:auth-middleware
+ * @name accessAllUser
+ * @summary Decode user's token and get user information to filter route only can be accessed by user.
+ * @param {String} token - User's token JWT.
+ * */
 const accessAllUser = (req, res, next) => {
   const token = req.header("Authorization");
 
@@ -27,6 +40,13 @@ const accessAllUser = (req, res, next) => {
   }
 };
 
+/**
+ * @function
+ * @memberof module:auth-middleware
+ * @name accessOnlyAdmin
+ * @summary Decode user's token and get user information to filter route only can be accessed by admin.
+ * @param {String} token - User's token JWT.
+ * */
 const accessOnlyAdmin = (req, res, next) => {
   const token = req.header("Authorization");
 
@@ -52,6 +72,16 @@ const accessOnlyAdmin = (req, res, next) => {
   }
 };
 
+/**
+ * @function
+ * @memberof module:auth-middleware
+ * @name logLogin
+ * @summary Log user login activity.
+ * @param {String} email - User's email.
+ * @param {String} ipAddress - User's IP Address.
+ * @param {String} userAgent - User's user agent.
+ * @param {String} loginTime - User's login time.
+ * */
 const logLogin = async (req, res, next) => {
   try {
     const { email } = req.body;

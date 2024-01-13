@@ -4,18 +4,18 @@ var router = express.Router();
 const controller = require("../controllers/radio-tracks-controller");
 
 /* GET all radio tracks */
-router.get("/", controller.getAllRadioTracks);
+router.get("/", controller.getAll);
 
 /* GET radio track by ID */
-router.get("/:id", controller.getRadioTrackByID);
+router.get("/:id", controller.get);
 
 /* POST radio track */
-router.post("/", controller.createRadioTracks);
+router.post("/", controller.create);
 
 /* UPDATE radio track by ID */
-router.put("/:id", controller.updateRadioTracks);
+router.put("/:id", controller.update);
 
 /* DELETE radio track by ID */
-router.delete("/:id", controller.deleteRadioTrackByID);
+router.delete("/:id", controller.delete);
 
 module.exports = router;

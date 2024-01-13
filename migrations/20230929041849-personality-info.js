@@ -19,10 +19,11 @@ module.exports = {
       },
       name_jp: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       nickname: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       birthdate: {
         type: Sequelize.DATEONLY,
@@ -30,19 +31,23 @@ module.exports = {
       },
       birthplace: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       bloodtype: {
         type: Sequelize.ENUM("A", "B", "AB", "O"),
-        allowNull: false,
+        allowNull: true,
       },
       description: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       image: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       source: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DATE,

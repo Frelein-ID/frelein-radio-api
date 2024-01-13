@@ -1,123 +1,246 @@
+/**
+ * @module
+ * @name personality-info
+ *  */
+
+// Import required modules
 const Validator = require("fastest-validator");
 const model = require("../models");
+const {
+  RESPONSE_500,
+  PERSONALITY_INFO_CREATE_SUCCESS,
+  RESPONSE_400,
+  PERSONALITY_INFO_NOT_FOUND,
+  PERSONALITY_INFO_UPDATE_FAILURE,
+  RESPONSE_404,
+  PERSONALITY_INFO_DELETE_SUCCESS,
+  PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
+} = require("../constants/constants");
 const PersonalityInfo = model.PersonalityInfo;
 const v = new Validator();
 
-// Add new personality info
-exports.createNewPersonality = async (req, res) => {
-  try {
-    const schema = {
-      name: "string|min:3|max:255",
-      name_jp: "string|min:3|max:255",
-      nickname: "string|min:3|max:255",
-      birthdate: "string",
-      birthplace: "string|optional",
-      bloodtype: {
-        type: "string",
-        items: "string",
-        enum: ["A", "B", "AB", "O"],
-      },
-      description: "string|optional",
-      source: "string|optional",
-      image: "string|optional",
-    };
-    const validate = v.validate(req.body, schema);
-    if (validate.length) {
-      return res.status(400).json(validate);
-    }
-    const personalityinfo = await PersonalityInfo.create(req.body);
-    return res.status(200).json(personalityinfo);
-  } catch (error) {
-    return res.json({ error });
-  }
+// Define schema for personality information
+const schema = {
+  name: "string|min:3|max:255",
+  name_jp: "string|min:3|max:255|optional",
+  nickname: "string|min:3|max:255|optional",
+  birthdate: "string",
+  birthplace: "string|optional",
+  bloodtype: {
+    type: "string",
+    items: "string",
+    enum: ["A", "B", "AB", "O"],
+    optional: true,
+  },
+  description: "string|optional",
+  source: "string|optional",
+  image: "string|optional",
 };
 
-// Update personality info by id
-exports.updatePersonalityById = async (req, res) => {
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to add new personality information.
+ * @name create
+ * @param {String} name - Personality's full name.
+ * @param {String=} name_jp - Personality's name in Japanese.
+ * @param {String=} nickname - Personality's nickname.
+ * @param {String=} birthdate - Personality's birthdate.
+ * @param {String=} birthplace - Personality's birthplace.
+ * @param {String=} bloodtype - Personality's bloodtype.
+ * @param {String=} description - Personality's description.
+ * @param {String=} source - A link source to personality information.
+ * @param {String=} image - Personality's image.
+ * @returns {JSON} An object that contains both an error message and a successful about personality information.
+ * */
+exports.create = async (req, res) => {
   try {
-    const schema = {
-      name: "string|min:3|max:255|optional",
-      name_jp: "string|min:3|max:255|optional",
-      nickname: "string|min:3|max:255|optional",
-      birthdate: "string|optional",
-      birthplace: "string|optional",
-      bloodtype: {
-        type: "string",
-        items: "string",
-        enum: ["A", "B", "AB", "O"],
-        optional: true,
-      },
-      description: "string|optional",
-      source: "string|optional",
-      image: "string|optional",
-    };
-    const id = req.params.id;
-    let personalityinfo = await PersonalityInfo.findByPk(id);
+    // Validate request body
     const validate = v.validate(req.body, schema);
-    if (!personalityinfo) {
+    // Check for validation errors
+    if (validate.length) {
+      // Return error response
       return res.status(400).json({
-        message: "Error, personality not found",
+        error: RESPONSE_400,
+        message: validate,
       });
     }
-    if (validate.length) {
-      return res.status(400).json(validate);
-    }
-    personalityinfo = await personalityinfo.update(req.body);
-    return res.status(200).json(personalityinfo);
-  } catch (error) {
-    return res.json({ error });
-  }
-};
-
-// Get all personality info
-exports.getAllPersonalityInfo = async (req, res) => {
-  try {
-    const personalityinfo = await PersonalityInfo.findAll();
-    if (personalityinfo.length === 0) {
-      return res.status(404).json({
-        error: "404 Not Found",
-        message: "Personality info not found",
+    // Check if there's already a record with same name
+    const checkData = await PersonalityInfo.findOne({
+      where: { name: req.body.name },
+    });
+    // If there's already a record with same name
+    if (checkData != null) {
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
       });
     }
-    return res.status(200).json(personalityinfo);
-  } catch (error) {
-    return res.json({ error });
-  }
-};
-
-// Get personality info by id
-exports.getPersonalityInfoByID = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const personalityinfo = await PersonalityInfo.findByPk(id);
-    if (!personalityinfo) {
-      return res.status(404).json({
-        error: "404 Not Found",
-        message: "Personality info not found",
-      });
-    }
-    return res.status(200).json(personalityinfo);
-  } catch (error) {
-    return res.json({ error });
-  }
-};
-
-// Delete personality info by id
-exports.deletePersonalityInfoByID = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const personalityinfo = await PersonalityInfo.findByPk(id);
-    if (!personalityinfo) {
-      return res.status(404).json({
-        error: "404 Not Found",
-        message: "Personality not found",
-      });
-    }
-    await personalityinfo.destroy();
+    // Create new personality info
+    const personalityinfo = await PersonalityInfo.create(req.body);
+    // Return success response
     return res.status(200).json({
-      message: "Deleted successfully!",
+      message: PERSONALITY_INFO_CREATE_SUCCESS,
+      data: personalityinfo,
     });
   } catch (error) {
-    return res.json({ error });
+    // Handle errors
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to update the personality information.
+ * @name update
+ * @param {String=} name - Personality's full name.
+ * @param {String=} name_jp - Personality's name in Japanese.
+ * @param {String=} nickname - Personality's nickname.
+ * @param {String=} birthdate - Personality's birthdate.
+ * @param {String=} birthplace - Personality's birthplace.
+ * @param {String=} bloodtype - Personality's bloodtype.
+ * @param {String=} description - Personality's description.
+ * @param {String=} source - A link source to personality information.
+ * @param {String=} image - Personality's image.
+ * @returns {JSON} An object that contains both an error message and a successful about personality information.
+ * */
+exports.update = async (req, res) => {
+  try {
+    // Validate request body
+    const validate = v.validate(req.body, schema);
+    // Check if personality info exists
+    if (!personalityinfo) {
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    const id = req.params.id;
+    // Get personality info by ID
+    let personalityinfo = await PersonalityInfo.findByPk(id);
+    // Validate request data
+    if (validate.length) {
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: validate,
+      });
+    }
+    // Update personality info
+    personalityinfo = await personalityinfo.update(req.body);
+    // Return success response
+    return res.status(200).json({
+      message: PERSONALITY_INFO_UPDATE_FAILURE,
+      data: personalityinfo,
+    });
+  } catch (error) {
+    // Handle errors
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to get all of personality information stored in database.
+ * @name getAll
+ * @returns {JSON} An object that contains personality information.
+ * */
+exports.getAll = async (req, res) => {
+  try {
+    // Find all personality info
+    const personalityinfo = await PersonalityInfo.findAll();
+    // If no personality info found
+    if (personalityinfo.length === 0) {
+      // Return not found error
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    // Return personality info
+    return res.status(200).json(personalityinfo);
+  } catch (error) {
+    // Handle errors
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to get a specific personality information stored in database by it's ID.
+ * @name get
+ * @param {String} id - UUIDv4 which is represents an ID of personality information.
+ * @returns {JSON} An object that contains a specific personality information.
+ * */
+exports.get = async (req, res) => {
+  try {
+    // Get the ID from params
+    const id = req.params.id;
+    // Find personality info by ID
+    const personalityinfo = await PersonalityInfo.findByPk(id);
+    // If no personality info found
+    if (!personalityinfo) {
+      // Return not found error
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    // Return personality info
+    return res.status(200).json(personalityinfo);
+  } catch (error) {
+    // Handle error
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to delete a specific personality information stored in database by it's ID.
+ * @name delete
+ * @param {String} id - UUIDv4 which is represents an ID of personality information.
+ * @returns {JSON} An object that contains a message about personality information deletion.
+ * */
+exports.delete = async (req, res) => {
+  try {
+    // Get the ID from params
+    const id = req.params.id;
+    // Find personality info by ID
+    const personalityinfo = await PersonalityInfo.findByPk(id);
+    // If no personality info found
+    if (!personalityinfo) {
+      // Return not found error
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    // Delete the personality information
+    await personalityinfo.destroy();
+    // Return success message
+    return res.status(200).json({
+      message: PERSONALITY_INFO_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    // Handle error
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
   }
 };

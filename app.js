@@ -7,15 +7,15 @@ var logger = require("morgan");
 var helmet = require("helmet");
 var cors = require("cors");
 
-var indexRouter = require("./routes/index");
-var authRouter = require("./routes/auth");
-var radioInfoRouter = require("./routes/radio-info");
-var radioTracksRouter = require("./routes/radio-tracks");
-var personalityInfoRouter = require("./routes/personality-info");
-var personalitiesRouter = require("./routes/personalities");
-var userFavRadioTracks = require("./routes/users-fav-radio-tracks");
-var userFavRadioInfo = require("./routes/users-fav-radio-info");
-var userFavPersonality = require("./routes/users-fav-personality");
+var indexRoutes = require("./routes/index");
+var authRoutes = require("./routes/auth");
+var radioInfoRoutes = require("./routes/radio-info");
+var radioTracksRoutes = require("./routes/radio-tracks");
+var personalityInfoRoutes = require("./routes/personality-info");
+var personalitiesRoutes = require("./routes/personalities");
+var userFavRadioTracksRoutes = require("./routes/users-fav-radio-tracks");
+var userFavRadioInfoRoutes = require("./routes/users-fav-radio-info");
+var userFavPersonalityRoutes = require("./routes/users-fav-personality");
 
 var app = express();
 
@@ -27,18 +27,18 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(helmet());
 app.use(cors());
 
-app.use("/", indexRouter);
+app.use("/", indexRoutes);
 // Auth
-app.use("/auth", authRouter);
+app.use("/auth", authRoutes);
 // Radio routes
-app.use("/radio-info", radioInfoRouter);
-app.use("/radio-tracks", radioTracksRouter);
+app.use("/radio-info", radioInfoRoutes);
+app.use("/radio-tracks", radioTracksRoutes);
 // Personality routes
-app.use("/personality-info", personalityInfoRouter);
-app.use("/personalities", personalitiesRouter);
+app.use("/personality-info", personalityInfoRoutes);
+app.use("/personalities", personalitiesRoutes);
 // Favorites routes
-app.use("/favorites/radio-tracks", userFavRadioTracks);
-app.use("/favorites/radio-info", userFavRadioInfo);
-app.use("/favorites/personality", userFavPersonality);
+app.use("/favorites/radio-tracks", userFavRadioTracksRoutes);
+app.use("/favorites/radio-info", userFavRadioInfoRoutes);
+app.use("/favorites/personality", userFavPersonalityRoutes);
 
 module.exports = app;
