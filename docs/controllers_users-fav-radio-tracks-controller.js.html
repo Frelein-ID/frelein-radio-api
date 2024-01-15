@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>controllers/users-fav-radio-tracks-controller.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports-History.html">History</a></li><li><a href="module.exports-LoginLogs.html">LoginLogs</a></li><li><a href="module.exports-Personalities.html">Personalities</a></li><li><a href="module.exports-PersonalityInfo.html">PersonalityInfo</a></li><li><a href="module.exports-RadioInfo.html">RadioInfo</a></li><li><a href="module.exports-RadioTracks.html">RadioTracks</a></li><li><a href="module.exports-Users.html">Users</a></li><li><a href="module.exports-UsersFavPersonality.html">UsersFavPersonality</a></li><li><a href="module.exports-UsersFavRadioInfo.html">UsersFavRadioInfo</a></li><li><a href="module.exports-UsersFavRadioTracks.html">UsersFavRadioTracks</a></li></ul><h3>Modules</h3><ul><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#.login">login</a></li><li data-type='method'><a href="module-auth.html#.register">register</a></li></ul></li><li><a href="module-auth-middleware.html">auth-middleware</a><ul class='methods'><li data-type='method'><a href="module-auth-middleware.html#.accessAllUser">accessAllUser</a></li><li data-type='method'><a href="module-auth-middleware.html#.accessOnlyAdmin">accessOnlyAdmin</a></li><li data-type='method'><a href="module-auth-middleware.html#.logLogin">logLogin</a></li></ul></li><li><a href="module-personality-info.html">personality-info</a><ul class='methods'><li data-type='method'><a href="module-personality-info.html#.create">create</a></li><li data-type='method'><a href="module-personality-info.html#.delete">delete</a></li><li data-type='method'><a href="module-personality-info.html#.get">get</a></li><li data-type='method'><a href="module-personality-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-personality-info.html#.update">update</a></li></ul></li><li><a href="module-radio-info.html">radio-info</a><ul class='methods'><li data-type='method'><a href="module-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-info.html#.get">get</a></li><li data-type='method'><a href="module-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-info.html#.update">update</a></li></ul></li><li><a href="module-radio-tracks.html">radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-radio-tracks.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-tracks.html#.update">update</a></li></ul></li><li><a href="module-token-utils.html">token-utils</a><ul class='methods'><li data-type='method'><a href="module-token-utils.html#~generateToken">generateToken</a></li><li data-type='method'><a href="module-token-utils.html#~verifyToken">verifyToken</a></li></ul></li><li><a href="module-user.html">user</a><ul class='methods'><li data-type='method'><a href="module-user.html#.delete">delete</a></li><li data-type='method'><a href="module-user.html#.update">update</a></li></ul></li><li><a href="module-users-fav-personality.html">users-fav-personality</a><ul class='methods'><li data-type='method'><a href="module-users-fav-personality.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-personality.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-info.html">users-fav-radio-info</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-tracks.html">users-fav-radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.getAll">getAll</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/users-fav-radio-tracks-controller.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module
+ * @name users-fav-radio-tracks
+ *  */
+
+// Import required modules
+const Validator = require("fastest-validator");
+const model = require("../models");
+const UsersFavRadioTracks = model.UsersFavRadioTracks;
+const RadioTracks = model.RadioTracks;
+const RadioInfo = model.RadioInfo;
+const v = new Validator();
+
+const {
+  RESPONSE_400,
+  RESPONSE_404,
+  RESPONSE_500,
+  USER_FAVORITE_RADIO_TRACKS_EXIST,
+  USER_FAVORITE_RADIO_TRACKS_SUCCESS_DELETE,
+  USER_FAVORITE_RADIO_TRACKS_SUCCESS_ADD,
+  USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
+} = require("../constants/constants");
+
+// Define validation schema
+const schema = {
+  users_id: "string",
+  tracks_id: "string",
+};
+
+/**
+ * @function
+ * @memberof module:users-fav-radio-tracks
+ * @summary A function to add new users favorite radio tracks.
+ * @name create
+ * @param {String} users_id - UUIDv4 which represents user's ID.
+ * @param {String} tracks_id - UUIDv4 which represents radio track's ID.
+ * @returns {JSON} An object that contains both an error message and a successful about users favorite radio tracks.
+ * */
+exports.create = async (req, res) => {
+  try {
+    const validate = v.validate(req.body, schema);
+    if (validate.length) {
+      return res.status(400).json(validate);
+    }
+    // check if data is already added or not
+    const users_id = req.body.users_id;
+    const tracks_id = req.body.tracks_id;
+    if (users_id) {
+      const userData = await UsersFavRadioTracks.findOne({
+        where: { users_id: users_id },
+      });
+      if (userData &amp;&amp; userData.tracks_id === tracks_id) {
+        return res.status(400).json({
+          error: RESPONSE_400,
+          message: USER_FAVORITE_RADIO_TRACKS_EXIST,
+        });
+      }
+    }
+    const fav = await UsersFavRadioTracks.create(req.body);
+    return res.json({
+      message: USER_FAVORITE_RADIO_TRACKS_SUCCESS_ADD,
+      id: fav.id,
+      createdAt: fav.createdAt,
+    });
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:users-fav-radio-tracks
+ * @summary A function to get all data about users favorite radio tracks.
+ * @name getAll
+ * @returns {JSON} An object that contains list about users favorite radio tracks.
+ * */
+exports.getAll = async (req, res) => {
+  try {
+    const fav = await UsersFavRadioTracks.findAll();
+    if (fav.length == 0) {
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
+      });
+    }
+    return res.status(200).json(fav);
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:users-fav-radio-tracks
+ * @summary A function to get a specific data about users favorite radio tracks.
+ * @param {String} id - UUIDv4 which represents user's ID.
+ * @name get
+ * @returns {JSON} An object that contains a specific data about users favorite radio tracks.
+ * */
+exports.get = async (req, res) => {
+  try {
+    let result = [];
+    const id = req.params.id;
+    const favList = await UsersFavRadioTracks.findAll({
+      where: { users_id: id },
+    });
+    for (var fav of favList) {
+      const fav_data = await RadioTracks.findByPk(fav.tracks_id);
+      const radio_info = await RadioInfo.findByPk(fav_data.radio_info);
+      const data = {
+        id: fav_data.id,
+        name: radio_info?.name,
+        name_jp: radio_info?.name_jp,
+        image: fav_data?.image,
+        radio_oa: fav_data?.radio_oa,
+        episode: fav_data?.episode,
+        createdAt: fav.createdAt,
+        updatedAt: fav.updatedAt,
+      };
+      result.push(data);
+    }
+    if (result.length == 0) {
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
+      });
+    }
+    const result_final = [...new Set(result.map(JSON.stringify))].map(
+      JSON.parse
+    );
+    return res.status(200).json(result_final);
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:users-fav-radio-tracks
+ * @summary A function to get delete users favorite radio tracks.
+ * @param {String} id - UUIDv4 which represents users favorite radio track's ID.
+ * @name delete
+ * @returns {JSON} An object that contains message about users favorite radio info tracks.
+ * */
+exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const fav = await UsersFavRadioTracks.findByPk(id);
+    if (fav.length == 0) {
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
+      });
+    }
+    await fav.destroy();
+    return res.status(200).json({
+      message: USER_FAVORITE_RADIO_TRACKS_SUCCESS_DELETE,
+    });
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Jan 15 2024 17:27:14 GMT+0700 (Western Indonesia Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

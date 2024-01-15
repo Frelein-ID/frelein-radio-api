@@ -1,6 +1,6 @@
 {
   "name": "frelein-radio-api",
-  "description": "Node.js Rest Apis with Express, Sequelize & MySQL for Radio App",
+  "description": "API project created using Express JS for the Sakamichi radio streaming application",
   "version": "1.0.0",
   "keywords": [
     "nodejs",

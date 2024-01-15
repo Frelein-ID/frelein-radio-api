@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>controllers/user-controller.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports-History.html">History</a></li><li><a href="module.exports-LoginLogs.html">LoginLogs</a></li><li><a href="module.exports-Personalities.html">Personalities</a></li><li><a href="module.exports-PersonalityInfo.html">PersonalityInfo</a></li><li><a href="module.exports-RadioInfo.html">RadioInfo</a></li><li><a href="module.exports-RadioTracks.html">RadioTracks</a></li><li><a href="module.exports-Users.html">Users</a></li><li><a href="module.exports-UsersFavPersonality.html">UsersFavPersonality</a></li><li><a href="module.exports-UsersFavRadioInfo.html">UsersFavRadioInfo</a></li><li><a href="module.exports-UsersFavRadioTracks.html">UsersFavRadioTracks</a></li></ul><h3>Modules</h3><ul><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#.login">login</a></li><li data-type='method'><a href="module-auth.html#.register">register</a></li></ul></li><li><a href="module-auth-middleware.html">auth-middleware</a><ul class='methods'><li data-type='method'><a href="module-auth-middleware.html#.accessAllUser">accessAllUser</a></li><li data-type='method'><a href="module-auth-middleware.html#.accessOnlyAdmin">accessOnlyAdmin</a></li><li data-type='method'><a href="module-auth-middleware.html#.logLogin">logLogin</a></li></ul></li><li><a href="module-personality-info.html">personality-info</a><ul class='methods'><li data-type='method'><a href="module-personality-info.html#.create">create</a></li><li data-type='method'><a href="module-personality-info.html#.delete">delete</a></li><li data-type='method'><a href="module-personality-info.html#.get">get</a></li><li data-type='method'><a href="module-personality-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-personality-info.html#.update">update</a></li></ul></li><li><a href="module-radio-info.html">radio-info</a><ul class='methods'><li data-type='method'><a href="module-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-info.html#.get">get</a></li><li data-type='method'><a href="module-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-info.html#.update">update</a></li></ul></li><li><a href="module-radio-tracks.html">radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-radio-tracks.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-tracks.html#.update">update</a></li></ul></li><li><a href="module-token-utils.html">token-utils</a><ul class='methods'><li data-type='method'><a href="module-token-utils.html#~generateToken">generateToken</a></li><li data-type='method'><a href="module-token-utils.html#~verifyToken">verifyToken</a></li></ul></li><li><a href="module-user.html">user</a><ul class='methods'><li data-type='method'><a href="module-user.html#.delete">delete</a></li><li data-type='method'><a href="module-user.html#.update">update</a></li></ul></li><li><a href="module-users-fav-personality.html">users-fav-personality</a><ul class='methods'><li data-type='method'><a href="module-users-fav-personality.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-personality.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-info.html">users-fav-radio-info</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-tracks.html">users-fav-radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.getAll">getAll</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/user-controller.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module
+ * @name user
+ *  */
+
+// Import required modules
+const Validator = require("fastest-validator");
+const model = require("../models");
+const User = model.User;
+const v = new Validator();
+const {
+  RESPONSE_404,
+  USER_NOT_FOUND,
+  USER_DELETE_SUCCESS,
+  RESPONSE_500,
+} = require("../constants/constants");
+
+// Define validation schema
+const schema = {
+  username: "string|optional|min:3|max:255",
+  email: "string|optional",
+  password: "string|optional",
+  name: "string|optional|min:3|max:255",
+  image: "string|optional",
+};
+
+/**
+ * @function
+ * @memberof module:user
+ * @summary A function to update user data.
+ * @name update
+ * @param {Integer=} username - User's username.
+ * @param {String} email - User's email.
+ * @param {String=} password - User's password.
+ * @param {String=} name - User's full name.
+ * @param {String=} image - User's image url.
+ * @returns {JSON} An object that contains both an error message and a successful about user.
+ * */
+exports.updateUser = async (req, res) => {
+  try {
+    // Validate request body
+    const validate = v.validate(req.body, schema);
+    // If validation fails
+    if (validate.length) {
+      return res.status(400).json(validate);
+    }
+    // Get id from params
+    const id = req.params.id;
+    // Get user data using it's ID
+    let user = await User.findByPk(id);
+    if (!user) {
+      // Return error
+      return res.json({
+        error: RESPONSE_404,
+        message: USER_NOT_FOUND,
+      });
+    }
+    radioinfo = await radioinfo.update(req.body);
+    return res.status(200).json(radioinfo);
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:user
+ * @summary A function to update user data.
+ * @name delete
+ * @param {String} id - UUIDv4 which represents user's ID.
+ * @returns {JSON} An object that contains both an error message and a successful about user deletion.
+ * */
+exports.deleteUser = async (req, res) => {
+  try {
+    // Get id from params
+    const id = req.params.id;
+    // Get user data using it's ID
+    const user = await User.findByPk(id);
+    // If user not found
+    if (!user) {
+      // Return error
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: USER_NOT_FOUND,
+      });
+    }
+    // Delete user data
+    await user.destroy();
+    // Return success
+    return res.status(200).json({
+      message: USER_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Jan 15 2024 17:27:14 GMT+0700 (Western Indonesia Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

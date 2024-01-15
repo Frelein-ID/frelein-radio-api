@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>controllers/auth-controller.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports-History.html">History</a></li><li><a href="module.exports-LoginLogs.html">LoginLogs</a></li><li><a href="module.exports-Personalities.html">Personalities</a></li><li><a href="module.exports-PersonalityInfo.html">PersonalityInfo</a></li><li><a href="module.exports-RadioInfo.html">RadioInfo</a></li><li><a href="module.exports-RadioTracks.html">RadioTracks</a></li><li><a href="module.exports-Users.html">Users</a></li><li><a href="module.exports-UsersFavPersonality.html">UsersFavPersonality</a></li><li><a href="module.exports-UsersFavRadioInfo.html">UsersFavRadioInfo</a></li><li><a href="module.exports-UsersFavRadioTracks.html">UsersFavRadioTracks</a></li></ul><h3>Modules</h3><ul><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#.login">login</a></li><li data-type='method'><a href="module-auth.html#.register">register</a></li></ul></li><li><a href="module-auth-middleware.html">auth-middleware</a><ul class='methods'><li data-type='method'><a href="module-auth-middleware.html#.accessAllUser">accessAllUser</a></li><li data-type='method'><a href="module-auth-middleware.html#.accessOnlyAdmin">accessOnlyAdmin</a></li><li data-type='method'><a href="module-auth-middleware.html#.logLogin">logLogin</a></li></ul></li><li><a href="module-personality-info.html">personality-info</a><ul class='methods'><li data-type='method'><a href="module-personality-info.html#.create">create</a></li><li data-type='method'><a href="module-personality-info.html#.delete">delete</a></li><li data-type='method'><a href="module-personality-info.html#.get">get</a></li><li data-type='method'><a href="module-personality-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-personality-info.html#.update">update</a></li></ul></li><li><a href="module-radio-info.html">radio-info</a><ul class='methods'><li data-type='method'><a href="module-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-info.html#.get">get</a></li><li data-type='method'><a href="module-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-info.html#.update">update</a></li></ul></li><li><a href="module-radio-tracks.html">radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-radio-tracks.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-tracks.html#.update">update</a></li></ul></li><li><a href="module-token-utils.html">token-utils</a><ul class='methods'><li data-type='method'><a href="module-token-utils.html#~generateToken">generateToken</a></li><li data-type='method'><a href="module-token-utils.html#~verifyToken">verifyToken</a></li></ul></li><li><a href="module-user.html">user</a><ul class='methods'><li data-type='method'><a href="module-user.html#.delete">delete</a></li><li data-type='method'><a href="module-user.html#.update">update</a></li></ul></li><li><a href="module-users-fav-personality.html">users-fav-personality</a><ul class='methods'><li data-type='method'><a href="module-users-fav-personality.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-personality.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-info.html">users-fav-radio-info</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-tracks.html">users-fav-radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.getAll">getAll</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/auth-controller.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module
+ * @name auth
+ *  */
+
+// Import required modules
+const Validator = require("fastest-validator");
+const bcrypt = require("bcrypt");
+const model = require("../models");
+const User = model.Users;
+const v = new Validator();
+const { generateToken } = require("../utils/token-utils");
+const {
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE_UNIQUE_USERNAME,
+  REGISTER_FAILURE_UNIQUE_EMAIL,
+  LOGIN_FAILURE_INVALID_CREDENTIALS,
+  RESPONSE_500,
+} = require("../constants/constants");
+
+// Define schema for user registration
+const schema = {
+  role: {
+    type: "string",
+    items: "string",
+    enum: ["admin", "user"],
+  },
+  username: "string|min:4|max:255",
+  email: "email",
+  password: "string|min:3|max:255",
+  name: "string|min:3|max:255",
+};
+
+/**
+ * @function
+ * @memberof module:auth
+ * @name register
+ * @param {String} username - User's username.
+ * @param {String} email - User's email.
+ * @param {String} password - User's password.
+ * @param {String} name - User's full name.
+ * @returns {JSON} An object that contains both an error message and a successful registration message.
+ * */
+exports.register = async (req, res) => {
+  try {
+    // Declare variable
+    const role = "user";
+    // Destructure request body
+    const { username, email, password, name } = req.body;
+
+    // Validate request body against schema using fastest-validator
+    const validate = v.validate(req.body, schema);
+    if (validate.length) {
+      // Return validation errors
+      return res.status(400).json(validate);
+    }
+    // Check if username already exists
+    const checkUsername = await User.findOne({
+      where: { username: username },
+    });
+    if (checkUsername != null) {
+      // Return registration process failure because of username already exist on database
+      return res.status(400).json({
+        message: REGISTER_FAILURE_UNIQUE_USERNAME,
+      });
+    }
+    // Check if email already exists
+    const checkEmail = await User.findOne({
+      where: { email: email },
+    });
+    if (checkEmail != null) {
+      // Return registration process failure because of email already exist on database
+      return res.status(400).json({
+        message: REGISTER_FAILURE_UNIQUE_EMAIL,
+      });
+    }
+    // Register user's data into database
+    await User.create({ role, username, email, password, name });
+    // Return registration success message
+    return res.status(200).json({
+      message: REGISTER_SUCCESS,
+    });
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ error: RESPONSE_500 });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:auth
+ * @name login
+ * @param {String} email - The email used by the user to log in.
+ * @param {String} password - The password used by the user to log in.
+ * @returns {JSON} An object with generated JWT token.
+ * */
+exports.login = async (req, res) => {
+  try {
+    // Get email and password from request body
+    const { email, password } = req.body;
+    // Find user by email
+    const user = await User.findOne({ where: { email } });
+
+    // If user not found
+    if (!user) {
+      // Return unauthorized error
+      return res.status(401).json({ error: LOGIN_FAILURE_INVALID_CREDENTIALS });
+    }
+
+    // Compare provided password with user's hashed password
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    // If password is not valid
+    if (!isValidPassword) {
+      // Return unauthorized error
+      return res.status(401).json({ error: LOGIN_FAILURE_INVALID_CREDENTIALS });
+    }
+
+    // Generate token
+    const token = generateToken({
+      id: user.id,
+      role: user.role,
+    });
+    // Return token
+    res.json({ token });
+  } catch (error) {
+    // Log error and return internal server error
+    console.error(error);
+    res.status(500).json({ error: SERVER_ERROR_INTERNAL_SERVER_ERROR });
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Jan 15 2024 17:27:14 GMT+0700 (Western Indonesia Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

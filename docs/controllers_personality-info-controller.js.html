@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>controllers/personality-info-controller.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports-History.html">History</a></li><li><a href="module.exports-LoginLogs.html">LoginLogs</a></li><li><a href="module.exports-Personalities.html">Personalities</a></li><li><a href="module.exports-PersonalityInfo.html">PersonalityInfo</a></li><li><a href="module.exports-RadioInfo.html">RadioInfo</a></li><li><a href="module.exports-RadioTracks.html">RadioTracks</a></li><li><a href="module.exports-Users.html">Users</a></li><li><a href="module.exports-UsersFavPersonality.html">UsersFavPersonality</a></li><li><a href="module.exports-UsersFavRadioInfo.html">UsersFavRadioInfo</a></li><li><a href="module.exports-UsersFavRadioTracks.html">UsersFavRadioTracks</a></li></ul><h3>Modules</h3><ul><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#.login">login</a></li><li data-type='method'><a href="module-auth.html#.register">register</a></li></ul></li><li><a href="module-auth-middleware.html">auth-middleware</a><ul class='methods'><li data-type='method'><a href="module-auth-middleware.html#.accessAllUser">accessAllUser</a></li><li data-type='method'><a href="module-auth-middleware.html#.accessOnlyAdmin">accessOnlyAdmin</a></li><li data-type='method'><a href="module-auth-middleware.html#.logLogin">logLogin</a></li></ul></li><li><a href="module-personality-info.html">personality-info</a><ul class='methods'><li data-type='method'><a href="module-personality-info.html#.create">create</a></li><li data-type='method'><a href="module-personality-info.html#.delete">delete</a></li><li data-type='method'><a href="module-personality-info.html#.get">get</a></li><li data-type='method'><a href="module-personality-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-personality-info.html#.update">update</a></li></ul></li><li><a href="module-radio-info.html">radio-info</a><ul class='methods'><li data-type='method'><a href="module-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-info.html#.get">get</a></li><li data-type='method'><a href="module-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-info.html#.update">update</a></li></ul></li><li><a href="module-radio-tracks.html">radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-radio-tracks.html#.getAll">getAll</a></li><li data-type='method'><a href="module-radio-tracks.html#.update">update</a></li></ul></li><li><a href="module-token-utils.html">token-utils</a><ul class='methods'><li data-type='method'><a href="module-token-utils.html#~generateToken">generateToken</a></li><li data-type='method'><a href="module-token-utils.html#~verifyToken">verifyToken</a></li></ul></li><li><a href="module-user.html">user</a><ul class='methods'><li data-type='method'><a href="module-user.html#.delete">delete</a></li><li data-type='method'><a href="module-user.html#.update">update</a></li></ul></li><li><a href="module-users-fav-personality.html">users-fav-personality</a><ul class='methods'><li data-type='method'><a href="module-users-fav-personality.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-personality.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-personality.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-info.html">users-fav-radio-info</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-info.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li><li data-type='method'><a href="module-users-fav-radio-info.html#.getAll">getAll</a></li></ul></li><li><a href="module-users-fav-radio-tracks.html">users-fav-radio-tracks</a><ul class='methods'><li data-type='method'><a href="module-users-fav-radio-tracks.html#.create">create</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.delete">delete</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.get">get</a></li><li data-type='method'><a href="module-users-fav-radio-tracks.html#.getAll">getAll</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/personality-info-controller.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module
+ * @name personality-info
+ *  */
+
+// Import required modules
+const Validator = require("fastest-validator");
+const model = require("../models");
+const {
+  RESPONSE_500,
+  PERSONALITY_INFO_CREATE_SUCCESS,
+  RESPONSE_400,
+  PERSONALITY_INFO_NOT_FOUND,
+  PERSONALITY_INFO_UPDATE_FAILURE,
+  RESPONSE_404,
+  PERSONALITY_INFO_DELETE_SUCCESS,
+  PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
+} = require("../constants/constants");
+const PersonalityInfo = model.PersonalityInfo;
+const v = new Validator();
+
+// Define schema for personality information
+const schema = {
+  name: "string|min:3|max:255",
+  name_jp: "string|min:3|max:255|optional",
+  nickname: "string|min:3|max:255|optional",
+  birthdate: "string",
+  birthplace: "string|optional",
+  bloodtype: {
+    type: "string",
+    items: "string",
+    enum: ["A", "B", "AB", "O"],
+    optional: true,
+  },
+  description: "string|optional",
+  source: "string|optional",
+  image: "string|optional",
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to add new personality information.
+ * @name create
+ * @param {String} name - Personality's full name.
+ * @param {String=} name_jp - Personality's name in Japanese.
+ * @param {String=} nickname - Personality's nickname.
+ * @param {String=} birthdate - Personality's birthdate.
+ * @param {String=} birthplace - Personality's birthplace.
+ * @param {String=} bloodtype - Personality's bloodtype.
+ * @param {String=} description - Personality's description.
+ * @param {String=} source - A link source to personality information.
+ * @param {String=} image - Personality's image.
+ * @returns {JSON} An object that contains both an error message and a successful about personality information.
+ * */
+exports.create = async (req, res) => {
+  try {
+    // Validate request body
+    const validate = v.validate(req.body, schema);
+    // Check for validation errors
+    if (validate.length) {
+      // Return error response
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: validate,
+      });
+    }
+    // Check if there's already a record with same name
+    const checkData = await PersonalityInfo.findOne({
+      where: { name: req.body.name },
+    });
+    // If there's already a record with same name
+    if (checkData != null) {
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
+      });
+    }
+    // Create new personality info
+    const personalityinfo = await PersonalityInfo.create(req.body);
+    // Return success response
+    return res.status(200).json({
+      message: PERSONALITY_INFO_CREATE_SUCCESS,
+      data: personalityinfo,
+    });
+  } catch (error) {
+    // Handle errors
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to update the personality information.
+ * @name update
+ * @param {String=} name - Personality's full name.
+ * @param {String=} name_jp - Personality's name in Japanese.
+ * @param {String=} nickname - Personality's nickname.
+ * @param {String=} birthdate - Personality's birthdate.
+ * @param {String=} birthplace - Personality's birthplace.
+ * @param {String=} bloodtype - Personality's bloodtype.
+ * @param {String=} description - Personality's description.
+ * @param {String=} source - A link source to personality information.
+ * @param {String=} image - Personality's image.
+ * @returns {JSON} An object that contains both an error message and a successful about personality information.
+ * */
+exports.update = async (req, res) => {
+  try {
+    // Validate request body
+    const validate = v.validate(req.body, schema);
+    // Check if personality info exists
+    if (!personalityinfo) {
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    const id = req.params.id;
+    // Get personality info by ID
+    let personalityinfo = await PersonalityInfo.findByPk(id);
+    // Validate request data
+    if (validate.length) {
+      return res.status(400).json({
+        error: RESPONSE_400,
+        message: validate,
+      });
+    }
+    // Update personality info
+    personalityinfo = await personalityinfo.update(req.body);
+    // Return success response
+    return res.status(200).json({
+      message: PERSONALITY_INFO_UPDATE_FAILURE,
+      data: personalityinfo,
+    });
+  } catch (error) {
+    // Handle errors
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to get all of personality information stored in database.
+ * @name getAll
+ * @returns {JSON} An object that contains personality information.
+ * */
+exports.getAll = async (req, res) => {
+  try {
+    // Find all personality info
+    const personalityinfo = await PersonalityInfo.findAll();
+    // If no personality info found
+    if (personalityinfo.length === 0) {
+      // Return not found error
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    // Return personality info
+    return res.status(200).json(personalityinfo);
+  } catch (error) {
+    // Handle errors
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to get a specific personality information stored in database by it's ID.
+ * @name get
+ * @param {String} id - UUIDv4 which is represents an ID of personality information.
+ * @returns {JSON} An object that contains a specific personality information.
+ * */
+exports.get = async (req, res) => {
+  try {
+    // Get the ID from params
+    const id = req.params.id;
+    // Find personality info by ID
+    const personalityinfo = await PersonalityInfo.findByPk(id);
+    // If no personality info found
+    if (!personalityinfo) {
+      // Return not found error
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    // Return personality info
+    return res.status(200).json(personalityinfo);
+  } catch (error) {
+    // Handle error
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:personality-info
+ * @summary A function to delete a specific personality information stored in database by it's ID.
+ * @name delete
+ * @param {String} id - UUIDv4 which is represents an ID of personality information.
+ * @returns {JSON} An object that contains a message about personality information deletion.
+ * */
+exports.delete = async (req, res) => {
+  try {
+    // Get the ID from params
+    const id = req.params.id;
+    // Find personality info by ID
+    const personalityinfo = await PersonalityInfo.findByPk(id);
+    // If no personality info found
+    if (!personalityinfo) {
+      // Return not found error
+      return res.status(404).json({
+        error: RESPONSE_404,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
+    // Delete the personality information
+    await personalityinfo.destroy();
+    // Return success message
+    return res.status(200).json({
+      message: PERSONALITY_INFO_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    // Handle error
+    return res.status(500).json({
+      error: RESPONSE_500,
+      message: error.message,
+    });
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Jan 15 2024 17:27:14 GMT+0700 (Western Indonesia Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
