@@ -1,14 +1,17 @@
 <h1 align="center">Welcome to frelein-radio-api 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
-  <a href="https://www.frelein.my.id/" target="_blank">
+  <a href="https://frelein-id.github.io/frelein-radio-api" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
     <img alt="License: Apache--2.0 license" src="https://img.shields.io/badge/License-Apache--2.0 license-yellow.svg" />
   </a>
-  <a href="https://twitter.com/frelein\_asli" target="_blank">
-    <img alt="Twitter: frelein\_asli" src="https://img.shields.io/twitter/follow/frelein\_asli.svg?style=social" />
+  <a href="https://github.com/Frelein-ID/frelein-radio-api/graphs/contributors" target="_blank">
+    <img alt="Contributors" src="https://img.shields.io/github/contributors/Frelein-ID/frelein-radio-api" />
+  </a>
+  <a href="https://twitter.com/frelein_asli" target="_blank">
+    <img alt="Twitter: frelein_asli" src="https://img.shields.io/twitter/follow/frelein_asli.svg?style=social" />
   </a>
 </p>
 
@@ -16,7 +19,7 @@
 
 ### 🏠 [Homepage](https://www.frelein.my.id/)
 
-### ✨ [Demo](https://www.frelein.my.id/)
+### ✨ [Documentation](https://frelein-id.github.io/frelein-radio-api)
 
 ## Install
 
@@ -41,7 +44,7 @@ npm run test
 👤 **Frelein**
 
 * Website: https://www.frelein.my.id/
-* Twitter: [@frelein\_asli](https://twitter.com/frelein\_asli)
+* Twitter: [@frelein_asli](https://twitter.com/frelein_asli)
 * Github: [@Frelein-ID](https://github.com/Frelein-ID)
 
 ## 🤝 Contributing
