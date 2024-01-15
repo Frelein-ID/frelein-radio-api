@@ -7,6 +7,10 @@
 require("dotenv").config();
 const { verifyToken } = require("../utils/token-utils");
 const model = require("../models");
+const {
+  RESPONSE_400,
+  ERROR_USER_AGENT_NULL,
+} = require("../constants/constants");
 const User = model.Users;
 const LoginLogs = model.LoginLogs;
 
@@ -18,13 +22,12 @@ const LoginLogs = model.LoginLogs;
  * @param {String} token - User's token JWT.
  * */
 const accessAllUser = (req, res, next) => {
-  const token = req.header("Authorization");
-
-  if (!token) {
-    return res.status(401).json({ message: "Token not provided" });
-  }
-
   try {
+    const token = req.header("Authorization");
+
+    if (!token) {
+      return res.status(401).json({ message: "Token not provided" });
+    }
     const decoded = verifyToken(token);
 
     if (decoded.user.role !== "user" && decoded.user.role !== "admin") {
@@ -48,13 +51,13 @@ const accessAllUser = (req, res, next) => {
  * @param {String} token - User's token JWT.
  * */
 const accessOnlyAdmin = (req, res, next) => {
-  const token = req.header("Authorization");
-
-  if (!token) {
-    return res.status(401).json({ message: "Token not provided" });
-  }
-
   try {
+    const token = req.header("Authorization");
+
+    if (!token) {
+      return res.status(401).json({ message: "Token not provided" });
+    }
+
     const decoded = verifyToken(token);
 
     if (decoded.user.role !== "admin") {
@@ -90,6 +93,11 @@ const logLogin = async (req, res, next) => {
     const userAgent = req.get("user-agent");
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
+    }
+    if (!userAgent) {
+      return res
+        .status(400)
+        .json({ error: RESPONSE_400, message: ERROR_USER_AGENT_NULL });
     }
     await LoginLogs.create({
       users_id: user.id,

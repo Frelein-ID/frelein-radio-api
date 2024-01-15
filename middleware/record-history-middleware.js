@@ -4,12 +4,11 @@ const UsersFavRadioInfo = model.UsersFavRadioInfo;
 const { verifyToken } = require("../utils/token-utils");
 
 const recordHistory = async (req, res, next) => {
-  const token = req.header("Authorization");
-
-  if (!token) {
-    return res.status(401).json({ message: "Token not provided" });
-  }
   try {
+    const token = req.header("Authorization");
+    if (!token) {
+      return res.status(401).json({ message: "Token not provided" });
+    }
     const decoded = verifyToken(token);
     const userId = decoded.user.id ? decoded.user.id : null;
     const endpoint = req.originalUrl;

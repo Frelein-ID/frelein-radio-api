@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property {String} username - User's username.
    * @property {String} email - User's email.
    * @property {String} password - User's password.
-   * @property {String=} name - User's full name.
+   * @property {String} name - User's full name.
    * @property {String=} image - An url links which represents the user's image.
    * @property {Date} createdAt - The time the user account was created.
    * @property {Date} updatedAt - The last time the user account was updated.

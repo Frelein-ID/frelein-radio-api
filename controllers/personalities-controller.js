@@ -10,7 +10,7 @@ const {
   PERSONALITIES_SUCCESS_CREATED,
   PERSONALITIES_SUCCESS_UPDATED,
   PERSONALITIES_FAILURE_NOT_FOUND,
-  ERROR_500,
+  RESPONSE_500,
 } = require("../constants/constants");
 
 const schema = {
@@ -50,7 +50,7 @@ exports.create = async (req, res) => {
   } catch (error) {
     // Handle errors
     console.error(error);
-    res.status(500).json({ error: ERROR_500 });
+    res.status(500).json({ error: RESPONSE_500 });
   }
 };
 

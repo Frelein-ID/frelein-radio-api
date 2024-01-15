@@ -1,19 +1,28 @@
 "use strict";
 const { faker } = require("@faker-js/faker");
+const { RadioInfo } = require("../models");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // const RadioTracksData = Array.from({ length: 100 }, () => ({
-    //   episode: faker.number.int({ min: 1, max: 100 }),
-    //   radio_info: 1,
-    //   radio_oa: faker.date.birthdate(),
-    //   image: faker.image.avatar(),
-    //   src: faker.string.uuid(),
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // }));
-    // await queryInterface.bulkInsert("RadioTracks", RadioTracksData, {});
+    const radio = await RadioInfo.findAll({
+      attributes: ["id"],
+      limit: 50,
+      order: Sequelize.literal("rand()"),
+    });
+    const filtered = radio.map((item) => item.id);
+    const randomIndex = Math.floor(Math.random() * filtered.length);
+    const data = Array.from({ length: 100 }, () => ({
+      id: faker.string.uuid(),
+      episode: faker.number.int({ min: 1, max: 100 }),
+      radio_info: filtered[randomIndex],
+      radio_oa: faker.date.birthdate(),
+      image: faker.image.avatar(),
+      src: faker.string.uuid(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+    await queryInterface.bulkInsert("RadioTracks", data, {});
   },
 
   async down(queryInterface, Sequelize) {

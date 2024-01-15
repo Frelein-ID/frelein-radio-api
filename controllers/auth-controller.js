@@ -15,7 +15,7 @@ const {
   REGISTER_FAILURE_UNIQUE_USERNAME,
   REGISTER_FAILURE_UNIQUE_EMAIL,
   LOGIN_FAILURE_INVALID_CREDENTIALS,
-  ERROR_500,
+  RESPONSE_500,
 } = require("../constants/constants");
 
 // Define schema for user registration
@@ -83,7 +83,7 @@ exports.register = async (req, res) => {
   } catch (error) {
     // Handle errors
     console.error(error);
-    res.status(500).json({ error: ERROR_500 });
+    res.status(500).json({ error: RESPONSE_500 });
   }
 };
 

@@ -5,6 +5,8 @@ module.exports = {
   RESPONSE_403: "403 Forbidden",
   RESPONSE_404: "404 Not Found",
   RESPONSE_500: "500 Internal Server Error",
+  // Auth
+  ERROR_USER_AGENT_NULL: "User Agent cannot be null",
   // Login
   LOGIN_FAILURE_INVALID_CREDENTIALS: "Invalid credentials",
   //  Register
@@ -83,6 +85,4 @@ module.exports = {
     "This radio tracks successfully deleted from your favorites",
   USER_FAVORITE_RADIO_TRACKS_NOT_FOUND:
     "You didn't have any favorite personalities",
-  // Messages
-  ERROR_500: "Internal server error",
 };
