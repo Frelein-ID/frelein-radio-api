@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       dataAfter: {
         type: DataTypes.JSON,
-        allowNull: false,
+        allowNull: true,
       },
       createdAt: {
         type: DataTypes.DATE,

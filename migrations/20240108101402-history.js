@@ -34,7 +34,7 @@ module.exports = {
       },
       dataAfter: {
         type: Sequelize.JSON,
-        allowNull: false,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DATE,

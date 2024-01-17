@@ -17,6 +17,6 @@ router.get("/:id", [accessAllUser], controller.get);
 router.post("/", [accessAllUser, recordHistory], controller.create);
 
 // DELETE users fav radio tracks by ID
-router.delete("/:id", [accessAllUser], controller.delete);
+router.delete("/:id", [accessAllUser, recordHistory], controller.delete);
 
 module.exports = router;

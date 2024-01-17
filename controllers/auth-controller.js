@@ -14,8 +14,10 @@ const {
   REGISTER_SUCCESS,
   REGISTER_FAILURE_UNIQUE_USERNAME,
   REGISTER_FAILURE_UNIQUE_EMAIL,
-  LOGIN_FAILURE_INVALID_CREDENTIALS,
+  LOGIN_FAILURE_INVALID_EMAIL: LOGIN_FAILURE_INVALID_CREDENTIALS,
   RESPONSE_500,
+  LOGIN_FAILURE_INVALID_EMAIL,
+  LOGIN_FAILURE_INVALID_PASSWORD,
 } = require("../constants/constants");
 
 // Define schema for user registration
@@ -105,7 +107,7 @@ exports.login = async (req, res) => {
     // If user not found
     if (!user) {
       // Return unauthorized error
-      return res.status(401).json({ error: LOGIN_FAILURE_INVALID_CREDENTIALS });
+      return res.status(401).json({ error: LOGIN_FAILURE_INVALID_EMAIL });
     }
 
     // Compare provided password with user's hashed password
@@ -114,7 +116,7 @@ exports.login = async (req, res) => {
     // If password is not valid
     if (!isValidPassword) {
       // Return unauthorized error
-      return res.status(401).json({ error: LOGIN_FAILURE_INVALID_CREDENTIALS });
+      return res.status(401).json({ error: LOGIN_FAILURE_INVALID_PASSWORD });
     }
 
     // Generate token

@@ -1,19 +1,21 @@
-// const express = require("express");
-// const router = express.Router();
+const express = require("express");
+const router = express.Router();
+const controller = require("../controllers/user-controller");
+const {
+  accessAllUser,
+  accessOnlyAdmin,
+} = require("../middleware/auth-middleware");
 
-// const { generateToken } = require("../utils/tokenUtils");
+router.get("/", [accessOnlyAdmin], controller.getAll);
 
-// router.post("/profile", (req, res) => {
-//   // Proses validasi kredensial (dapat menggunakan Sequelize atau lainnya)
-//   const { username, password } = req.body;
+router.get("/:id", [accessAllUser], controller.get);
 
-//   // Contoh sederhana: Jika kredensial benar, kirim token
-//   if (username === "user" && password === "pass") {
-//     const token = generateToken(username);
-//     res.json({ token });
-//   } else {
-//     res.status(401).send("Login gagal");
-//   }
-// });
+router.get("/:id/mine", [accessAllUser], controller.getMyData);
 
-// module.exports = router;
+router.put("/:id/change-password", [accessAllUser], controller.updatePassword);
+
+router.put("/:id", [accessOnlyAdmin], controller.updateUser);
+
+router.delete("/:id", [accessOnlyAdmin], controller.delete);
+
+module.exports = router;

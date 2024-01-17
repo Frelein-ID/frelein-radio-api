@@ -1,21 +1,24 @@
 var express = require("express");
 var router = express.Router();
-
 const controller = require("../controllers/radio-tracks-controller");
+const {
+  accessAllUser,
+  accessOnlyAdmin,
+} = require("../middleware/auth-middleware");
 
 /* GET all radio tracks */
-router.get("/", controller.getAll);
+router.get("/", [accessAllUser], controller.getAll);
 
 /* GET radio track by ID */
-router.get("/:id", controller.get);
+router.get("/:id", [accessAllUser], controller.get);
 
 /* POST radio track */
-router.post("/", controller.create);
+router.post("/", [accessOnlyAdmin], controller.create);
 
 /* UPDATE radio track by ID */
-router.put("/:id", controller.update);
+router.put("/:id", [accessOnlyAdmin], controller.update);
 
 /* DELETE radio track by ID */
-router.delete("/:id", controller.delete);
+router.delete("/:id", [accessOnlyAdmin], controller.delete);
 
 module.exports = router;

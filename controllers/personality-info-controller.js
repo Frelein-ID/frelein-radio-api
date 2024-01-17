@@ -15,6 +15,7 @@ const {
   RESPONSE_404,
   PERSONALITY_INFO_DELETE_SUCCESS,
   PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
+  PERSONALITY_INFO_UPDATE_SUCCESS,
 } = require("../constants/constants");
 const PersonalityInfo = model.PersonalityInfo;
 const v = new Validator();
@@ -133,7 +134,7 @@ exports.update = async (req, res) => {
     personalityinfo = await personalityinfo.update(req.body);
     // Return success response
     return res.status(200).json({
-      message: PERSONALITY_INFO_UPDATE_FAILURE,
+      message: PERSONALITY_INFO_UPDATE_SUCCESS,
       data: personalityinfo,
     });
   } catch (error) {

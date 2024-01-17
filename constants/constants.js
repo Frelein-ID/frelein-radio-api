@@ -5,10 +5,19 @@ module.exports = {
   RESPONSE_403: "403 Forbidden",
   RESPONSE_404: "404 Not Found",
   RESPONSE_500: "500 Internal Server Error",
+  // Error
+  INVALID_ENDPOINT: "Invalid endpoint",
+  INVALID_TOKEN: "Invalid token",
+  INVALID_ID: "Invalid ID",
+  INVALID_ID_NULL: "Invalid ID. ID shouldn't be null",
+  INVALID_ACCESS_DENIED: "Access denied",
+  DATA_DELETED: "Data has been deleted",
   // Auth
   ERROR_USER_AGENT_NULL: "User Agent cannot be null",
   // Login
-  LOGIN_FAILURE_INVALID_CREDENTIALS: "Invalid credentials",
+  LOGIN_FAILURE_INVALID_EMAIL:
+    "Invalid credentials. This email is not registered",
+  LOGIN_FAILURE_INVALID_PASSWORD: "Wrong password",
   //  Register
   REGISTER_SUCCESS: "Account successfully created",
   REGISTER_FAILURE_UNIQUE_EMAIL: "This email is already registered",
@@ -54,6 +63,7 @@ module.exports = {
   USER_CREATE_SUCCESS: "User created successfully",
   USER_CREATE_FAILURE: "User create failure",
   USER_UPDATE_SUCCESS: "User updated successfully",
+  USER_UPDATE_PASSWORD_SUCCESS: "Your password has been changed",
   USER_UPDATE_FAILURE: "User update failure",
   USER_DELETE_SUCCESS: "User deleted successfully",
   USER_DELETE_FAILURE: "User delete failure",

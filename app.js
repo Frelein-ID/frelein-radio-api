@@ -9,6 +9,7 @@ var cors = require("cors");
 
 var indexRoutes = require("./routes/index");
 var authRoutes = require("./routes/auth");
+var userRoutes = require("./routes/user");
 var radioInfoRoutes = require("./routes/radio-info");
 var radioTracksRoutes = require("./routes/radio-tracks");
 var personalityInfoRoutes = require("./routes/personality-info");
@@ -30,6 +31,8 @@ app.use(cors());
 app.use("/", indexRoutes);
 // Auth
 app.use("/auth", authRoutes);
+// User
+app.use("/user", userRoutes);
 // Radio routes
 app.use("/radio-info", radioInfoRoutes);
 app.use("/radio-tracks", radioTracksRoutes);

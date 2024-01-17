@@ -7,18 +7,18 @@ const {
 } = require("../middleware/auth-middleware");
 
 /* GET all radio info */
-router.get("/", accessAllUser, controller.getAll);
+router.get("/", [accessAllUser], controller.getAll);
 
 /* GET radio info by ID*/
-router.get("/:id", accessAllUser, controller.get);
+router.get("/:id", [accessAllUser], controller.get);
 
 /* POST radio info */
-router.post("/", accessOnlyAdmin, controller.create);
+router.post("/", [accessOnlyAdmin], controller.create);
 
 /* UPDATE radio info by ID */
-router.put("/:id", accessOnlyAdmin, controller.update);
+router.put("/:id", [accessOnlyAdmin], controller.update);
 
 /* DELETE radio info by ID */
-router.delete("/:id", accessOnlyAdmin, controller.delete);
+router.delete("/:id", [accessOnlyAdmin], controller.delete);
 
 module.exports = router;
