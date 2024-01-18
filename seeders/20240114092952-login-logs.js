@@ -11,15 +11,19 @@ module.exports = {
       order: Sequelize.literal("rand()"),
     });
     const filtered = user.map((item) => item.id);
-    const randomIndex = Math.floor(Math.random() * filtered.length);
-    const userData = Array.from({ length: 100 }, () => ({
-      id: faker.string.uuid(),
-      ipAddress: faker.internet.ip(),
-      users_id: filtered[randomIndex],
-      userAgent: faker.internet.userAgent(),
-      loginTime: faker.date.anytime(),
-    }));
-    await queryInterface.bulkInsert("LoginLogs", userData, {});
+    let data = [];
+    for (let index = 0; index < 100; index++) {
+      const randomIndex = Math.floor(Math.random() * filtered.length);
+      const randomized = {
+        id: faker.string.uuid(),
+        ipAddress: faker.internet.ip(),
+        users_id: filtered[randomIndex],
+        userAgent: faker.internet.userAgent(),
+        loginTime: faker.date.recent({ days: 7 }),
+      };
+      data.push(randomized);
+    }
+    await queryInterface.bulkInsert("LoginLogs", data, {});
   },
 
   async down(queryInterface, Sequelize) {

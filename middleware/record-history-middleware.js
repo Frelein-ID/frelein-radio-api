@@ -9,11 +9,9 @@ const {
 const model = require("../models");
 const History = model.History;
 const UsersFavRadioInfo = model.UsersFavRadioInfo;
+const UsersFavRadioTracks = model.UsersFavRadioTracks;
+const UsersFavPersonality = model.UsersFavPersonality;
 const { verifyToken } = require("../utils/token-utils");
-
-const getDataBefore = async (endpoint) => {
-  let data = null;
-};
 
 const recordHistory = async (req, res, next) => {
   try {
@@ -21,9 +19,7 @@ const recordHistory = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: INVALID_TOKEN });
     }
-    let id = null;
     let dataBefore = null;
-    id = req.params.id;
     const decoded = verifyToken(token);
     const userId = decoded.user.id ? decoded.user.id : null;
     const endpoint = req.originalUrl;
@@ -32,6 +28,20 @@ const recordHistory = async (req, res, next) => {
     if (action === "POST") {
       switch (endpoint) {
         case "/favorites/radio-info":
+          try {
+            await History.create({
+              users_id: userId,
+              endpoint: endpoint,
+              action: action,
+              dataBefore: dataBefore,
+              dataAfter: dataAfter,
+            });
+            break;
+          } catch (error) {
+            console.log({ error });
+            break;
+          }
+        case "/favorites/radio-tracks":
           try {
             await History.create({
               users_id: userId,
@@ -54,9 +64,53 @@ const recordHistory = async (req, res, next) => {
     }
     if (action === "DELETE") {
       switch (endpoint) {
+        case `/favorites/personality/${id}`:
+          try {
+            dataBefore = await UsersFavPersonality.findOne({
+              where: {
+                id: req.params.id,
+              },
+            });
+            if (dataBefore != null) {
+              await History.create({
+                users_id: userId,
+                endpoint: endpoint,
+                action: action,
+                dataBefore: dataBefore,
+                dataAfter: null,
+              });
+              break;
+            }
+            return res.status(404).json(INVALID_ID);
+          } catch (error) {
+            console.log({ error });
+            break;
+          }
         case `/favorites/radio-info/${id}`:
           try {
             dataBefore = await UsersFavRadioInfo.findOne({
+              where: {
+                radio_info_id: req.body.id,
+              },
+            });
+            if (dataBefore != null) {
+              await History.create({
+                users_id: userId,
+                endpoint: endpoint,
+                action: action,
+                dataBefore: dataBefore,
+                dataAfter: null,
+              });
+              break;
+            }
+            return res.status(404).json(INVALID_ID);
+          } catch (error) {
+            console.log({ error });
+            break;
+          }
+        case `/favorites/radio-tracks/${id}`:
+          try {
+            dataBefore = await UsersFavRadioTracks.findOne({
               where: {
                 id: req.params.id,
               },

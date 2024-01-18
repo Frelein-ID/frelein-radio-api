@@ -37,6 +37,11 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      favoritedBy: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

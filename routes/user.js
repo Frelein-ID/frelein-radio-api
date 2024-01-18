@@ -4,17 +4,30 @@ const controller = require("../controllers/user-controller");
 const {
   accessAllUser,
   accessOnlyAdmin,
+  accessByUserItself,
 } = require("../middleware/auth-middleware");
 
 router.get("/", [accessOnlyAdmin], controller.getAll);
 
-router.get("/:id", [accessAllUser], controller.get);
+router.get("/:userId", [accessAllUser], controller.get);
 
-router.get("/:id/mine", [accessAllUser], controller.getMyData);
+router.get(
+  "/:userId/my",
+  [accessAllUser, accessByUserItself],
+  controller.getMyData
+);
 
-router.put("/:id/change-password", [accessAllUser], controller.updatePassword);
+router.put(
+  "/:userId/change-password",
+  [accessAllUser, accessByUserItself],
+  controller.updatePassword
+);
 
-router.put("/:id", [accessOnlyAdmin], controller.updateUser);
+router.put(
+  "/:userId",
+  [accessAllUser, accessByUserItself],
+  controller.updateUser
+);
 
 router.delete("/:id", [accessOnlyAdmin], controller.delete);
 

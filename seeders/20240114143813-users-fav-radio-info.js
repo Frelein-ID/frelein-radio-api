@@ -17,15 +17,18 @@ module.exports = {
     });
     const filteredRadio = radio.map((item) => item.id);
     const filteredUsers = users.map((item) => item.id);
-    const randomRadio = Math.floor(Math.random() * filteredRadio.length);
-    const randomUsers = Math.floor(Math.random() * filteredUsers.length);
-    const data = Array.from({ length: 100 }, () => ({
-      id: faker.string.uuid(),
-      users_id: filteredUsers[randomUsers],
-      radio_info_id: filteredRadio[randomRadio],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }));
+    let data = [];
+    for (let index = 0; index < 100; index++) {
+      const randomRadio = Math.floor(Math.random() * filteredRadio.length);
+      const randomUsers = Math.floor(Math.random() * filteredUsers.length);
+      const randomized = {
+        users_id: filteredUsers[randomUsers],
+        radio_info_id: filteredRadio[randomRadio],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      data.push(randomized);
+    }
     await queryInterface.bulkInsert("UsersFavRadioInfo", data, {});
   },
 

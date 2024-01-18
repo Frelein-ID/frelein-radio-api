@@ -43,7 +43,7 @@ const userPasswordSchema = {
 exports.get = async (req, res) => {
   try {
     // Get id from params
-    const id = req.params.id;
+    const id = req.params.userId;
     // Get user data using it's ID
     let user = await Users.findByPk(id);
     if (!user) {
@@ -71,34 +71,23 @@ exports.get = async (req, res) => {
 
 exports.getMyData = async (req, res) => {
   try {
-    // Get id & token from
-    const id = req.params.id;
-    const token = req.header("Authorization");
-    if (!token) {
-      return res.status(401).json({ message: "Token not provided" });
-    }
-    const decoded = verifyToken(token);
-    if (decoded.user.id === id) {
-      // Get user data using it's ID
-      let user = await Users.findByPk(id);
-      if (!user) {
-        // Return error
-        return res.json({
-          error: RESPONSE_404,
-          message: USER_NOT_FOUND,
-        });
-      }
-      return res.status(200).json({
-        id: user.id,
-        username: user.username,
-        name: user.name,
-        email: user.email,
-        image: user.image,
+    // Get id from token
+    const id = req.params.userId;
+    // Get user data using it's ID
+    let user = await Users.findByPk(id);
+    if (!user) {
+      // Return error
+      return res.json({
+        error: RESPONSE_404,
+        message: USER_NOT_FOUND,
       });
     }
-    return res.status(400).json({
-      error: RESPONSE_400,
-      message: INVALID_ACCESS_DENIED,
+    return res.status(200).json({
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      image: user.image,
     });
   } catch (error) {
     // Handle errors
@@ -160,7 +149,7 @@ exports.updateUser = async (req, res) => {
       return res.status(400).json(validate);
     }
     // Get id from params
-    const id = req.params.id;
+    const id = req.params.userId;
     // Get user data using it's ID
     let user = await Users.findByPk(id);
     if (!user) {
@@ -196,7 +185,7 @@ exports.updatePassword = async (req, res) => {
       return res.status(400).json(validate);
     }
     // Get id from params
-    const id = req.params.id;
+    const id = req.params.userId;
     const token = req.header("Authorization");
     if (!token) {
       return res.status(401).json({ message: "Token not provided" });

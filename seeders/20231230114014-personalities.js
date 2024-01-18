@@ -17,17 +17,21 @@ module.exports = {
     });
     const filteredPersonality = personality.map((item) => item.id);
     const filteredTracks = tracks.map((item) => item.id);
-    const randomPersonality = Math.floor(
-      Math.random() * filteredPersonality.length
-    );
-    const randomTracks = Math.floor(Math.random() * filteredTracks.length);
-    const data = Array.from({ length: 100 }, () => ({
-      id: faker.string.uuid(),
-      tracks_id: filteredTracks[randomTracks],
-      personality_id: filteredPersonality[randomPersonality],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }));
+    let data = [];
+    for (let index = 0; index < 100; index++) {
+      const randomPersonality = Math.floor(
+        Math.random() * filteredPersonality.length
+      );
+      const randomTracks = Math.floor(Math.random() * filteredTracks.length);
+      const randomized = {
+        id: faker.string.uuid(),
+        tracks_id: filteredTracks[randomTracks],
+        personality_id: filteredPersonality[randomPersonality],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      data.push(randomized);
+    }
     await queryInterface.bulkInsert("Personalities", data, {});
   },
 

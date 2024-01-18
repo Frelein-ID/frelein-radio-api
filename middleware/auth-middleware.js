@@ -10,6 +10,7 @@ const model = require("../models");
 const {
   RESPONSE_400,
   ERROR_USER_AGENT_NULL,
+  INVALID_ACCESS_DENIED,
 } = require("../constants/constants");
 const User = model.Users;
 const LoginLogs = model.LoginLogs;
@@ -38,6 +39,47 @@ const accessAllUser = (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       message: "Invalid token",
+      error: error,
+    });
+  }
+};
+
+const accessByUserItself = async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const token = req.header("Authorization");
+    const decoded = verifyToken(token);
+    if (decoded.user.id !== userId) {
+      return res.status(400).json({
+        message: INVALID_ACCESS_DENIED,
+      });
+    }
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      error: error,
+    });
+  }
+};
+
+const accessByUserItselfAndAdmin = async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const token = req.header("Authorization");
+    const decoded = verifyToken(token);
+    const admin = await User.findOne({ where: { role: "admin" } });
+
+    if (decoded.user.role === "admin" || decoded.user.role === "user") {
+      if (decoded.user.id === userId || decoded.user.id === admin.id) {
+        next();
+      } else {
+        return res.status(400).json({
+          message: INVALID_ACCESS_DENIED,
+        });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({
       error: error,
     });
   }
@@ -116,4 +158,6 @@ module.exports = {
   logLogin,
   accessAllUser,
   accessOnlyAdmin,
+  accessByUserItself,
+  accessByUserItselfAndAdmin,
 };

@@ -15,13 +15,16 @@ const {
   USER_FAVORITE_PERSONALITY_SUCCESS_DELETE,
   RESPONSE_500,
 } = require("../constants/constants");
-const Personality = model.Personality;
+const PersonalityInfo = model.PersonalityInfo;
 const UsersFavPersonality = model.UsersFavPersonality;
 const v = new Validator();
+const {
+  decreasePersonalityInfoFavCount,
+  increasePersonalityInfoFavCount,
+} = require("../utils/fav-personality-utils");
 
 // Define validation schema
 const schema = {
-  users_id: "string",
   personality_id: "string",
 };
 
@@ -44,7 +47,7 @@ exports.create = async (req, res) => {
       });
     }
     // check if data is already added or not
-    const users_id = req.body.users_id;
+    const users_id = req.params.userId;
     const personality_id = req.body.personality_id;
     if (users_id) {
       const userData = await UsersFavPersonality.findOne({
@@ -56,7 +59,11 @@ exports.create = async (req, res) => {
         });
       }
     }
-    const fav = await UsersFavPersonality.create(req.body);
+    const fav = await UsersFavPersonality.create({
+      users_id: users_id,
+      personality_id: personality_id,
+    });
+    increasePersonalityInfoFavCount(personality_id);
     return res.json({
       message: USER_FAVORITE_PERSONALITY_SUCCESS_ADD,
       id: fav.id,
@@ -104,14 +111,14 @@ exports.getAll = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     let result = [];
-    const id = req.params.id;
+    const id = req.params.userId;
     const favList = await UsersFavPersonality.findAll({
       where: { users_id: id },
     });
     for (var fav of favList) {
-      const fav_data = await Personality.findByPk(fav.personality_id);
+      const fav_data = await PersonalityInfo.findByPk(fav.personality_id);
       const data = {
-        id: fav_data.id,
+        personality_id: fav_data.id,
         name: fav_data?.name,
         name_jp: fav_data?.name_jp,
         image: fav_data?.image,
@@ -129,7 +136,7 @@ exports.get = async (req, res) => {
     const result_final = [...new Set(result.map(JSON.stringify))].map(
       JSON.parse
     );
-    return res.status(200).json(result_final);
+    return res.status(200).json(favList);
   } catch (error) {
     // Handle errors
     console.log(error);
@@ -144,14 +151,16 @@ exports.get = async (req, res) => {
  * @function
  * @memberof module:users-fav-personality
  * @summary A function to get delete users favorite personality.
- * @param {String} id - UUIDv4 which represents user's ID.
+ * @param {String} id - UUIDv4 which represents user's favorite personality ID.
  * @name delete
- * @returns {JSON} An object that contains message about users favorite personality deletion.
+ * @returns {JSON} delete failed or successful message.
  * */
 exports.delete = async (req, res) => {
   try {
-    const id = req.params.id;
-    const fav = await UsersFavPersonality.findByPk(id);
+    const personality_id = req.body.personality_id;
+    const fav = await UsersFavPersonality.findOne({
+      where: { personality_id: personality_id },
+    });
     if (!fav) {
       return res.status(404).json({
         error: RESPONSE_404,
@@ -159,6 +168,7 @@ exports.delete = async (req, res) => {
       });
     }
     await fav.destroy();
+    decreasePersonalityInfoFavCount(personality_id);
     return res.status(200).json({
       message: USER_FAVORITE_PERSONALITY_SUCCESS_DELETE,
     });

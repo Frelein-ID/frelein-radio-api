@@ -10,7 +10,6 @@ const UsersFavRadioTracks = model.UsersFavRadioTracks;
 const RadioTracks = model.RadioTracks;
 const RadioInfo = model.RadioInfo;
 const v = new Validator();
-
 const {
   RESPONSE_400,
   RESPONSE_404,
@@ -20,10 +19,13 @@ const {
   USER_FAVORITE_RADIO_TRACKS_SUCCESS_ADD,
   USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
 } = require("../constants/constants");
+const {
+  decreaseRadioTracksFavCount,
+  increaseRadioTracksFavCount,
+} = require("../utils/fav-radio-tracks-utils");
 
 // Define validation schema
 const schema = {
-  users_id: "string",
   tracks_id: "string",
 };
 
@@ -43,7 +45,7 @@ exports.create = async (req, res) => {
       return res.status(400).json(validate);
     }
     // check if data is already added or not
-    const users_id = req.body.users_id;
+    const users_id = req.params.userId;
     const tracks_id = req.body.tracks_id;
     if (users_id) {
       const userData = await UsersFavRadioTracks.findOne({
@@ -56,7 +58,11 @@ exports.create = async (req, res) => {
         });
       }
     }
-    const fav = await UsersFavRadioTracks.create(req.body);
+    const fav = await UsersFavRadioTracks.create({
+      users_id: users_id,
+      tracks_id: tracks_id,
+    });
+    increaseRadioTracksFavCount(tracks_id);
     return res.json({
       message: USER_FAVORITE_RADIO_TRACKS_SUCCESS_ADD,
       id: fav.id,
@@ -110,7 +116,7 @@ exports.getAll = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     let result = [];
-    const id = req.params.id;
+    const id = req.params.userId;
     const favList = await UsersFavRadioTracks.findAll({
       where: { users_id: id },
     });
@@ -118,7 +124,7 @@ exports.get = async (req, res) => {
       const fav_data = await RadioTracks.findByPk(fav.tracks_id);
       const radio_info = await RadioInfo.findByPk(fav_data.radio_info);
       const data = {
-        id: fav_data.id,
+        tracks_id: fav_data.id,
         name: radio_info?.name,
         name_jp: radio_info?.name_jp,
         image: fav_data?.image,
@@ -152,22 +158,25 @@ exports.get = async (req, res) => {
 /**
  * @function
  * @memberof module:users-fav-radio-tracks
- * @summary A function to get delete users favorite radio tracks.
+ * @summary A function to delete users favorite radio tracks.
  * @param {String} id - UUIDv4 which represents users favorite radio track's ID.
  * @name delete
  * @returns {JSON} An object that contains message about users favorite radio info tracks.
  * */
 exports.delete = async (req, res) => {
   try {
-    const id = req.params.id;
-    const fav = await UsersFavRadioTracks.findByPk(id);
-    if (fav.length == 0) {
+    const tracks_id = req.body.tracks_id;
+    const fav = await UsersFavRadioTracks.findOne({
+      where: { tracks_id: tracks_id },
+    });
+    if (fav == null) {
       return res.status(404).json({
         error: RESPONSE_404,
         message: USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
       });
     }
     await fav.destroy();
+    decreaseRadioTracksFavCount(tracks_id);
     return res.status(200).json({
       message: USER_FAVORITE_RADIO_TRACKS_SUCCESS_DELETE,
     });

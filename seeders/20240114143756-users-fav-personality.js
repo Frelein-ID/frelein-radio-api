@@ -17,18 +17,21 @@ module.exports = {
     });
     const filteredPersonality = personality.map((item) => item.id);
     const filteredUsers = users.map((item) => item.id);
-    const randomPersonality = Math.floor(
-      Math.random() * filteredPersonality.length
-    );
-    const randomUsers = Math.floor(Math.random() * filteredUsers.length);
-    const data = Array.from({ length: 100 }, () => ({
-      id: faker.string.uuid(),
-      users_id: filteredUsers[randomUsers],
-      personality_id: filteredPersonality[randomPersonality],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }));
-    await queryInterface.bulkInsert("UsersFavPersonality", data, {});
+    let data = [];
+    for (let index = 0; index < 100; index++) {
+      const randomPersonality = Math.floor(
+        Math.random() * filteredPersonality.length
+      );
+      const randomUsers = Math.floor(Math.random() * filteredUsers.length);
+      const randomized = {
+        users_id: filteredUsers[randomUsers],
+        personality_id: filteredPersonality[randomPersonality],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      data.push(randomized);
+    }
+    await queryInterface.bulkInsert("UsersFavPersonality", data, []);
   },
 
   async down(queryInterface, Sequelize) {

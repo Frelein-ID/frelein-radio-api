@@ -62,9 +62,9 @@ module.exports = {
   // User
   USER_CREATE_SUCCESS: "User created successfully",
   USER_CREATE_FAILURE: "User create failure",
-  USER_UPDATE_SUCCESS: "User updated successfully",
+  USER_UPDATE_SUCCESS: "Your data has been updated",
   USER_UPDATE_PASSWORD_SUCCESS: "Your password has been changed",
-  USER_UPDATE_FAILURE: "User update failure",
+  USER_UPDATE_FAILURE: "Error occured. Failed to update your data",
   USER_DELETE_SUCCESS: "User deleted successfully",
   USER_DELETE_FAILURE: "User delete failure",
   USER_NOT_FOUND: "User not found",
@@ -84,8 +84,9 @@ module.exports = {
     "This radio info successfully added into favorites",
   USER_FAVORITE_RADIO_INFO_SUCCESS_DELETE:
     "This radio info successfully deleted from your favorites",
-  USER_FAVORITE_RADIO_INFO_NOT_FOUND:
-    "You didn't have any favorite personalities",
+  USER_FAVORITE_RADIO_INFO_FAILURE_DELETE_NOT_FOUND:
+    "The radio you want to delete from your favorites is not found",
+  USER_FAVORITE_RADIO_INFO_NOT_FOUND: "You didn't have any favorite radio",
   // Users favorite radio tracks
   USER_FAVORITE_RADIO_TRACKS_EXIST:
     "This radio tracks is already in your favorites",
@@ -94,5 +95,5 @@ module.exports = {
   USER_FAVORITE_RADIO_TRACKS_SUCCESS_DELETE:
     "This radio tracks successfully deleted from your favorites",
   USER_FAVORITE_RADIO_TRACKS_NOT_FOUND:
-    "You didn't have any favorite personalities",
+    "You didn't have any favorite radio tracks",
 };

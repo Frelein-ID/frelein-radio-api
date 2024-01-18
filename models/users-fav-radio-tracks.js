@@ -13,12 +13,6 @@ module.exports = (sequelize, DataTypes) => {
   const UsersFavRadioTracks = sequelize.define(
     "UsersFavRadioTracks",
     {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: () => uuidv4(),
-        primaryKey: true,
-        allowNull: false,
-      },
       users_id: {
         type: DataTypes.UUID,
         references: {

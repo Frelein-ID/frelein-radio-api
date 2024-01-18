@@ -11,7 +11,7 @@ module.exports = {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      createdAt: new Date(),
+      createdAt: faker.date.recent({ days: 7 }),
       updatedAt: new Date(),
     }));
     await queryInterface.bulkInsert("Users", userData, {});

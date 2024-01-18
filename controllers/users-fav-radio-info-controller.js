@@ -17,11 +17,15 @@ const {
   RESPONSE_500,
   USER_FAVORITE_RADIO_INFO_NOT_FOUND,
   USER_FAVORITE_RADIO_INFO_SUCCESS_DELETE,
+  USER_FAVORITE_RADIO_INFO_FAILURE_DELETE_NOT_FOUND,
 } = require("../constants/constants");
+const {
+  increaseRadioInfoFavCount,
+  decreaseRadioInfoFavCount,
+} = require("../utils/fav-radio-info-utils");
 
 // Define validation schema
 const schema = {
-  users_id: "string",
   radio_info_id: "string",
 };
 
@@ -41,7 +45,7 @@ exports.create = async (req, res) => {
       return res.status(400).json(validate);
     }
     // check if data is already added or not
-    const users_id = req.body.users_id;
+    const users_id = req.params.userId;
     const radio_info_id = req.body.radio_info_id;
     if (users_id) {
       const userData = await UsersFavRadioInfo.findOne({
@@ -54,10 +58,13 @@ exports.create = async (req, res) => {
         });
       }
     }
-    const fav = await UsersFavRadioInfo.create(req.body);
+    const fav = await UsersFavRadioInfo.create({
+      users_id: users_id,
+      radio_info_id: radio_info_id,
+    });
+    increaseRadioInfoFavCount(radio_info_id);
     return res.json({
       message: USER_FAVORITE_RADIO_INFO_SUCCESS_ADD,
-      id: fav.id,
       createdAt: fav.createdAt,
     });
   } catch (error) {
@@ -80,7 +87,7 @@ exports.create = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const fav = await UsersFavRadioInfo.findAll();
-    if (fav.length == 0) {
+    if (!fav) {
       return res.status(404).json({
         error: RESPONSE_404,
         message: USER_FAVORITE_RADIO_INFO_NOT_FOUND,
@@ -108,14 +115,14 @@ exports.getAll = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     let result = [];
-    const id = req.params.id;
+    const id = req.params.userId;
     const favList = await UsersFavRadioInfo.findAll({
       where: { users_id: id },
     });
     for (var fav of favList) {
       const fav_data = await RadioInfo.findByPk(fav.radio_info_id);
       const data = {
-        id: fav_data.id,
+        radio_info_id: fav_data.id,
         name: fav_data?.name,
         name_jp: fav_data?.name_jp,
         image: fav_data?.image,
@@ -154,15 +161,18 @@ exports.get = async (req, res) => {
  * */
 exports.delete = async (req, res) => {
   try {
-    const id = req.params.id;
-    const fav = await UsersFavRadioInfo.findByPk(id);
-    if (fav.length == 0) {
+    const radio_info_id = req.body.radio_info_id;
+    const fav = await UsersFavRadioInfo.findOne({
+      where: { radio_info_id: radio_info_id },
+    });
+    if (fav == null) {
       return res.status(404).json({
         error: RESPONSE_404,
-        message: USER_FAVORITE_RADIO_INFO_NOT_FOUND,
+        message: USER_FAVORITE_RADIO_INFO_FAILURE_DELETE_NOT_FOUND,
       });
     }
     await fav.destroy();
+    decreaseRadioInfoFavCount(radio_info_id);
     return res.status(200).json({
       message: USER_FAVORITE_RADIO_INFO_SUCCESS_DELETE,
     });

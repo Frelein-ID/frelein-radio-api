@@ -45,6 +45,11 @@ module.exports = {
         type: Sequelize.TIME,
         allowNull: true,
       },
+      favoritedBy: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

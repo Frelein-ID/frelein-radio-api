@@ -125,7 +125,7 @@ exports.login = async (req, res) => {
       role: user.role,
     });
     // Return token
-    res.json({ token });
+    res.json({ id: user.id, token });
   } catch (error) {
     // Log error and return internal server error
     console.error(error);
