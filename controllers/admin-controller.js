@@ -12,8 +12,16 @@ const PersonalityInfo = model.PersonalityInfo;
 const Users = model.Users;
 const LoginLogs = model.LoginLogs;
 const v = new Validator();
-const { RESPONSE_500 } = require("../constants/constants");
+const { RESPONSE_500, RESPONSE_200 } = require("../constants/constants");
 
+/**
+ * @function
+ * @memberof module:admin
+ * @name statistics
+ * @summary A function to get statistics about the systems.
+ * @param {String} token - User's token
+ * @returns {JSON} An object contains statistics about the systems.
+ * */
 exports.statistics = async (req, res) => {
   try {
     // Basic statistics
@@ -68,7 +76,14 @@ exports.statistics = async (req, res) => {
         }
       });
 
-      return loginCountsPerDate;
+      const loginCountsArray = Object.entries(loginCountsPerDate).map(
+        ([date, value]) => ({
+          date: date,
+          value: value,
+        })
+      );
+
+      return loginCountsArray;
     };
     // Fungsi untuk menghitung jumlah user register per hari
     const countRegisterLast7Days = (history) => {
@@ -105,11 +120,20 @@ exports.statistics = async (req, res) => {
         }
       });
 
-      return loginCountsPerDate;
+      const loginCountsArray = Object.entries(loginCountsPerDate).map(
+        ([date, value]) => ({
+          date: date,
+          value: value,
+        })
+      );
+
+      return loginCountsArray;
     };
     const users_login_last_week = countLoginsLast7Days(loginLogs);
     const users_register_lask_week = countRegisterLast7Days(users);
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       total_tracks,
       total_radio,
       total_personality,
@@ -120,6 +144,10 @@ exports.statistics = async (req, res) => {
   } catch (error) {
     // Handle errors
     console.error(error);
-    res.status(500).json({ error: RESPONSE_500 });
+    res.status(500).json({
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
+    });
   }
 };

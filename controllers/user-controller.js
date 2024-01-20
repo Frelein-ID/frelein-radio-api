@@ -48,23 +48,29 @@ exports.get = async (req, res) => {
     let user = await Users.findByPk(id);
     if (!user) {
       // Return error
-      return res.json({
-        error: RESPONSE_404,
+      return res.status(404).json({
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_NOT_FOUND,
       });
     }
     return res.status(200).json({
-      id: user.id,
-      username: user.username,
-      name: user.name,
-      image: user.image,
+      status: 500,
+      statusText: RESPONSE_500,
+      data: {
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        image: user.image,
+      },
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -77,24 +83,30 @@ exports.getMyData = async (req, res) => {
     let user = await Users.findByPk(id);
     if (!user) {
       // Return error
-      return res.json({
-        error: RESPONSE_404,
+      return res.status(404).json({
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_NOT_FOUND,
       });
     }
     return res.status(200).json({
-      id: user.id,
-      username: user.username,
-      name: user.name,
-      email: user.email,
-      image: user.image,
+      status: 500,
+      statusText: RESPONSE_500,
+      data: {
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      },
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -114,18 +126,24 @@ exports.getAll = async (req, res) => {
     if (user.length === 0) {
       // Return not found error
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_NOT_FOUND,
       });
     }
     // Return all user
-    return res.status(200).json(user);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: user,
+    });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -146,7 +164,11 @@ exports.updateUser = async (req, res) => {
     const validate = v.validate(req.body, userDataSchema);
     // If validation fails
     if (validate.length) {
-      return res.status(400).json(validate);
+      return res.status(400).json({
+        status: 400,
+        statusText: RESPONSE_400,
+        message: validate,
+      });
     }
     // Get id from params
     const id = req.params.userId;
@@ -154,24 +176,28 @@ exports.updateUser = async (req, res) => {
     let user = await Users.findByPk(id);
     if (!user) {
       // Return error
-      return res.json({
-        error: RESPONSE_404,
+      return res.status(404).json({
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_NOT_FOUND,
       });
     }
-    data = await user.update({
+    await user.update({
       name: req.body.name,
       image: req.body.image,
     });
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: USER_UPDATE_SUCCESS,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -182,7 +208,11 @@ exports.updatePassword = async (req, res) => {
     const validate = v.validate(req.body, userPasswordSchema);
     // If validation fails
     if (validate.length) {
-      return res.status(400).json(validate);
+      return res.status(400).json({
+        status: 400,
+        statusText: RESPONSE_400,
+        message: validate,
+      });
     }
     // Get id from params
     const id = req.params.userId;
@@ -199,7 +229,8 @@ exports.updatePassword = async (req, res) => {
       if (!user) {
         // Return error
         return res.json({
-          error: RESPONSE_404,
+          status: 404,
+          statusText: RESPONSE_404,
           message: USER_NOT_FOUND,
         });
       }
@@ -218,20 +249,24 @@ exports.updatePassword = async (req, res) => {
       }
       // return success message
       return res.status(200).json({
+        status: 200,
+        statusText: RESPONSE_200,
         message: USER_UPDATE_PASSWORD_SUCCESS,
       });
     }
     // return error
     return res.status(400).json({
-      error: RESPONSE_400,
+      status: 400,
+      statusText: RESPONSE_400,
       message: INVALID_ACCESS_DENIED,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -254,7 +289,8 @@ exports.delete = async (req, res) => {
     if (!user) {
       // Return error
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_NOT_FOUND,
       });
     }
@@ -262,14 +298,17 @@ exports.delete = async (req, res) => {
     await user.destroy();
     // Return success
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: USER_DELETE_SUCCESS,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };

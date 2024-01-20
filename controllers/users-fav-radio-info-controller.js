@@ -18,6 +18,7 @@ const {
   USER_FAVORITE_RADIO_INFO_NOT_FOUND,
   USER_FAVORITE_RADIO_INFO_SUCCESS_DELETE,
   USER_FAVORITE_RADIO_INFO_FAILURE_DELETE_NOT_FOUND,
+  RESPONSE_200,
 } = require("../constants/constants");
 const {
   increaseRadioInfoFavCount,
@@ -42,7 +43,11 @@ exports.create = async (req, res) => {
   try {
     const validate = v.validate(req.body, schema);
     if (validate.length) {
-      return res.status(400).json(validate);
+      return res.status(400).json({
+        status: 400,
+        statusText: RESPONSE_400,
+        message: validate,
+      });
     }
     // check if data is already added or not
     const users_id = req.params.userId;
@@ -53,7 +58,8 @@ exports.create = async (req, res) => {
       });
       if (userData && userData.radio_info_id === radio_info_id) {
         return res.status(400).json({
-          error: RESPONSE_400,
+          status: 400,
+          statusText: RESPONSE_400,
           message: USER_FAVORITE_RADIO_INFO_EXIST,
         });
       }
@@ -63,16 +69,19 @@ exports.create = async (req, res) => {
       radio_info_id: radio_info_id,
     });
     increaseRadioInfoFavCount(radio_info_id);
-    return res.json({
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: USER_FAVORITE_RADIO_INFO_SUCCESS_ADD,
-      createdAt: fav.createdAt,
+      data: fav,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -89,17 +98,23 @@ exports.getAll = async (req, res) => {
     const fav = await UsersFavRadioInfo.findAll();
     if (!fav) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_FAVORITE_RADIO_INFO_NOT_FOUND,
       });
     }
-    return res.status(200).json(fav);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: fav,
+    });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -133,20 +148,26 @@ exports.get = async (req, res) => {
     }
     if (result.length == 0) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_FAVORITE_RADIO_INFO_NOT_FOUND,
       });
     }
     const result_final = [...new Set(result.map(JSON.stringify))].map(
       JSON.parse
     );
-    return res.status(200).json(result_final);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: result_final,
+    });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -167,21 +188,25 @@ exports.delete = async (req, res) => {
     });
     if (fav == null) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_FAVORITE_RADIO_INFO_FAILURE_DELETE_NOT_FOUND,
       });
     }
     await fav.destroy();
     decreaseRadioInfoFavCount(radio_info_id);
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: USER_FAVORITE_RADIO_INFO_SUCCESS_DELETE,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };

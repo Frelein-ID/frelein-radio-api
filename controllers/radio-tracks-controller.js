@@ -18,6 +18,7 @@ const {
   RADIO_TRACKS_NOT_FOUND,
   RADIO_TRACKS_DELETE_SUCCESS,
   RADIO_TRACKS_CREATE_FAILURE_ALREADY_EXIST,
+  RESPONSE_200,
 } = require("../constants/constants");
 
 // Define validation schema
@@ -48,7 +49,8 @@ exports.create = async (req, res) => {
     if (validate.length) {
       // Return error if validation fails
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: validate,
       });
     }
@@ -59,20 +61,26 @@ exports.create = async (req, res) => {
     // If there's already a record with same name
     if (checkData != null) {
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: RADIO_TRACKS_CREATE_FAILURE_ALREADY_EXIST,
       });
     }
     // Create radiotracks
     const radiotracks = await RadioTracks.create(req.body);
     // Return success response
-    return res.json(radiotracks);
+    return res.json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: radiotracks,
+    });
   } catch (error) {
     // Handle errors
     console.log(error);
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -96,7 +104,11 @@ exports.update = async (req, res) => {
     // If validation fails
     if (validate.length) {
       // Return error
-      return res.status(400).json(validate);
+      return res.status(400).json({
+        status: 400,
+        statusText: RESPONSE_400,
+        message: validate,
+      });
     }
     // Get id from params
     const id = req.params.id;
@@ -106,20 +118,26 @@ exports.update = async (req, res) => {
     if (!radiotracks) {
       // Return error
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: RADIO_TRACKS_NOT_FOUND,
       });
     }
     // Update radio tracks
     radiotracks = await radiotracks.update(req.body);
     // Return success
-    return res.status(200).json(radiotracks);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: radiotracks,
+    });
   } catch (error) {
     // Handle errors
     console.log(error);
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -175,17 +193,23 @@ exports.getAll = async (req, res) => {
     }
     if (radiotracks.length === 0) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: RADIO_TRACKS_NOT_FOUND,
       });
     }
-    return res.status(200).json(result);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: result,
+    });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -235,13 +259,18 @@ exports.get = async (req, res) => {
       createdAt: radiotracks?.createdAt,
       updatedAt: radiotracks?.updatedAt,
     };
-    return res.status(200).json(result);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: result,
+    });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -260,20 +289,24 @@ exports.delete = async (req, res) => {
     const radiotracks = await RadioTracks.findByPk(id);
     if (!radiotracks) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: RADIO_TRACKS_NOT_FOUND,
       });
     }
     await radiotracks.destroy();
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: RADIO_TRACKS_DELETE_SUCCESS,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };

@@ -16,6 +16,7 @@ const {
   PERSONALITY_INFO_DELETE_SUCCESS,
   PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
   PERSONALITY_INFO_UPDATE_SUCCESS,
+  RESPONSE_200,
 } = require("../constants/constants");
 const PersonalityInfo = model.PersonalityInfo;
 const v = new Validator();
@@ -62,7 +63,8 @@ exports.create = async (req, res) => {
     if (validate.length) {
       // Return error response
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: validate,
       });
     }
@@ -73,22 +75,25 @@ exports.create = async (req, res) => {
     // If there's already a record with same name
     if (checkData != null) {
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
       });
     }
     // Create new personality info
-    const personalityinfo = await PersonalityInfo.create(req.body);
+    await PersonalityInfo.create(req.body);
     // Return success response
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: PERSONALITY_INFO_CREATE_SUCCESS,
-      data: personalityinfo,
     });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -116,6 +121,8 @@ exports.update = async (req, res) => {
     // Check if personality info exists
     if (!personalityinfo) {
       return res.status(400).json({
+        status: 400,
+        statusText: RESPONSE_400,
         error: RESPONSE_400,
         message: PERSONALITY_INFO_NOT_FOUND,
       });
@@ -126,7 +133,8 @@ exports.update = async (req, res) => {
     // Validate request data
     if (validate.length) {
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: validate,
       });
     }
@@ -134,14 +142,16 @@ exports.update = async (req, res) => {
     personalityinfo = await personalityinfo.update(req.body);
     // Return success response
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: PERSONALITY_INFO_UPDATE_SUCCESS,
-      data: personalityinfo,
     });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -161,17 +171,23 @@ exports.getAll = async (req, res) => {
     if (personalityinfo.length === 0) {
       // Return not found error
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: PERSONALITY_INFO_NOT_FOUND,
       });
     }
     // Return personality info
-    return res.status(200).json(personalityinfo);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: personalityinfo,
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -194,17 +210,23 @@ exports.get = async (req, res) => {
     if (!personalityinfo) {
       // Return not found error
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: PERSONALITY_INFO_NOT_FOUND,
       });
     }
     // Return personality info
-    return res.status(200).json(personalityinfo);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: personalityinfo,
+    });
   } catch (error) {
     // Handle error
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -227,7 +249,8 @@ exports.delete = async (req, res) => {
     if (!personalityinfo) {
       // Return not found error
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: PERSONALITY_INFO_NOT_FOUND,
       });
     }
@@ -235,13 +258,16 @@ exports.delete = async (req, res) => {
     await personalityinfo.destroy();
     // Return success message
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: PERSONALITY_INFO_DELETE_SUCCESS,
     });
   } catch (error) {
     // Handle error
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };

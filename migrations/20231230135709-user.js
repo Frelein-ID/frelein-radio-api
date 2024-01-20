@@ -42,6 +42,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      lastLogin: {
+        type: Sequelize.DATE,
+        defaultValue: null,
+        allowNull: true,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

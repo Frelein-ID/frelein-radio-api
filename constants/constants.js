@@ -1,10 +1,11 @@
 module.exports = {
   // Responses
-  RESPONSE_400: "400 Bad Request",
-  RESPONSE_401: "401 Unauthorized",
-  RESPONSE_403: "403 Forbidden",
-  RESPONSE_404: "404 Not Found",
-  RESPONSE_500: "500 Internal Server Error",
+  RESPONSE_200: "OK",
+  RESPONSE_400: "Bad Request",
+  RESPONSE_401: "Unauthorized",
+  RESPONSE_403: "Forbidden",
+  RESPONSE_404: "Not Found",
+  RESPONSE_500: "Internal Server Error",
   // Error
   INVALID_ENDPOINT: "Invalid endpoint",
   INVALID_TOKEN: "Invalid token",
@@ -18,6 +19,7 @@ module.exports = {
   LOGIN_FAILURE_INVALID_EMAIL:
     "Invalid credentials. This email is not registered",
   LOGIN_FAILURE_INVALID_PASSWORD: "Wrong password",
+  LOGIN_SUCCESS: "Login success",
   //  Register
   REGISTER_SUCCESS: "Account successfully created",
   REGISTER_FAILURE_UNIQUE_EMAIL: "This email is already registered",
@@ -59,6 +61,8 @@ module.exports = {
   PERSONALITIES_SUCCESS_CREATED: "Personalities has been assigned",
   PERSONALITIES_SUCCESS_UPDATED: "Personalities has been updated",
   PERSONALITIES_FAILURE_NOT_FOUND: "Personalities not found",
+  PERSONALITIES_FAILURE_EXISTS: "This Personalities is already assigned",
+  PERSONALITIES_FAILURE_UPDATE: "Personalities cannot be updated",
   // User
   USER_CREATE_SUCCESS: "User created successfully",
   USER_CREATE_FAILURE: "User create failure",

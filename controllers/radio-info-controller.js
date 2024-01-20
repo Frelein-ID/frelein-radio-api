@@ -13,6 +13,8 @@ const {
   RADIO_INFO_NOT_FOUND,
   RADIO_INFO_DELETE_SUCCESS,
   RADIO_INFO_CREATE_FAILURE_ALREADY_EXIST,
+  RESPONSE_200,
+  RADIO_INFO_UPDATE_SUCCESS,
 } = require("../constants/constants");
 const RadioInfo = model.RadioInfo;
 const RadioTracks = model.RadioTracks;
@@ -53,7 +55,8 @@ exports.create = async (req, res) => {
     const validate = v.validate(req.body, schema);
     if (validate.length) {
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: validate,
       });
     }
@@ -70,14 +73,18 @@ exports.create = async (req, res) => {
     }
     // Create radio info
     const radioinfo = await RadioInfo.create(req.body);
-
     // Return created radio info
-    return res.status(200).json(radioinfo);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: radioinfo,
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -99,28 +106,39 @@ exports.create = async (req, res) => {
  * */
 exports.update = async (req, res) => {
   try {
+    // Validate request body
     const validate = v.validate(req.body, schema);
     if (validate.length) {
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: validate,
       });
     }
+    // Check if data exist or not
     const id = req.params.id;
     let radioinfo = await RadioInfo.findByPk(id);
+    // Return failure if data not exist
     if (!radioinfo) {
       return res.status(404).json({
         error: RESPONSE_404,
         message: RADIO_INFO_NOT_FOUND,
       });
     }
+    // Update the data
     radioinfo = await radioinfo.update(req.body);
-    return res.status(200).json(radioinfo);
+    // Send response
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      message: RADIO_INFO_UPDATE_SUCCESS,
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -137,16 +155,22 @@ exports.getAll = async (req, res) => {
     const radioinfo = await RadioInfo.findAll();
     if (radioinfo.length === 0) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: RADIO_INFO_NOT_FOUND,
       });
     }
-    return res.status(200).json(radioinfo);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: radioinfo,
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -216,16 +240,22 @@ exports.get = async (req, res) => {
     };
     if (!radioinfo) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: RADIO_INFO_NOT_FOUND,
       });
     }
-    return res.status(200).json(result);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: result,
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 200,
+      statusText: RESPONSE_200,
+      message: error,
     });
   }
 };
@@ -244,19 +274,23 @@ exports.delete = async (req, res) => {
     const radioinfo = await RadioInfo.findByPk(id);
     if (!radioinfo) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: RADIO_INFO_NOT_FOUND,
       });
     }
     await radioinfo.destroy();
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: RADIO_INFO_DELETE_SUCCESS,
     });
   } catch (error) {
     // Handle errors
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };

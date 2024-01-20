@@ -14,6 +14,7 @@ const {
   USER_FAVORITE_PERSONALITY_NOT_FOUND,
   USER_FAVORITE_PERSONALITY_SUCCESS_DELETE,
   RESPONSE_500,
+  RESPONSE_200,
 } = require("../constants/constants");
 const PersonalityInfo = model.PersonalityInfo;
 const UsersFavPersonality = model.UsersFavPersonality;
@@ -42,7 +43,8 @@ exports.create = async (req, res) => {
     const validate = v.validate(req.body, schema);
     if (validate.length) {
       return res.status(400).json({
-        error: RESPONSE_400,
+        status: 400,
+        statusText: RESPONSE_400,
         message: validate,
       });
     }
@@ -55,6 +57,8 @@ exports.create = async (req, res) => {
       });
       if (userData && userData.personality_id === personality_id) {
         return res.status(400).json({
+          status: 400,
+          statusText: RESPONSE_400,
           message: USER_FAVORITE_PERSONALITY_EXIST,
         });
       }
@@ -65,16 +69,18 @@ exports.create = async (req, res) => {
     });
     increasePersonalityInfoFavCount(personality_id);
     return res.json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: USER_FAVORITE_PERSONALITY_SUCCESS_ADD,
-      id: fav.id,
-      createdAt: fav.createdAt,
+      data: fav,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -89,13 +95,18 @@ exports.create = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const fav = await UsersFavPersonality.findAll();
-    return res.status(200).json(fav);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: fav,
+    });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -129,20 +140,26 @@ exports.get = async (req, res) => {
     }
     if (result.length == 0) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_FAVORITE_PERSONALITY_NOT_FOUND,
       });
     }
     const result_final = [...new Set(result.map(JSON.stringify))].map(
       JSON.parse
     );
-    return res.status(200).json(favList);
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      data: result_final,
+    });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -163,21 +180,28 @@ exports.delete = async (req, res) => {
     });
     if (!fav) {
       return res.status(404).json({
-        error: RESPONSE_404,
+        status: 404,
+        statusText: RESPONSE_404,
         message: USER_FAVORITE_PERSONALITY_NOT_FOUND,
       });
     }
+    // Delete data from db
     await fav.destroy();
+    // Update personality info
     decreasePersonalityInfoFavCount(personality_id);
+    // Return response
     return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
       message: USER_FAVORITE_PERSONALITY_SUCCESS_DELETE,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: RESPONSE_500,
-      message: error.message,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
