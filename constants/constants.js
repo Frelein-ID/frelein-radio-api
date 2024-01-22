@@ -72,6 +72,8 @@ module.exports = {
   USER_DELETE_SUCCESS: "User deleted successfully",
   USER_DELETE_FAILURE: "User delete failure",
   USER_NOT_FOUND: "User not found",
+  // History
+  HISTORY_NOT_FOUND: "History not found",
   // Users favorite personality
   USER_FAVORITE_PERSONALITY_EXIST:
     "This personality is already in your favorites",

@@ -41,34 +41,34 @@ exports.statistics = async (req, res) => {
     // Chart statistics
     const sortByLoginTime = (a, b) => a.loginTime - b.loginTime;
 
-    // Fungsi untuk menghitung jumlah login per tanggal
+    // Count logins per date
     const countLoginsLast7Days = (history) => {
       const loginCountsPerDate = {};
       const now = new Date();
 
-      // Filter data untuk 7 hari terakhir
+      // Filter data for last 7 days
       const last7DaysData = history.filter(
         (entry) =>
           entry.loginTime >= new Date(now - 7 * 24 * 60 * 60 * 1000) &&
           entry.loginTime <= now
       );
 
-      // Urutkan data berdasarkan timestamp
+      // Sort data by login time
       last7DaysData.sort(sortByLoginTime);
 
       last7DaysData.forEach((entry) => {
-        // Ambil informasi tanggal dari timestamp
+        // Get information from timestamp
         const date = entry.loginTime.toISOString().split("T")[0];
 
-        // Inisialisasi jumlah login per tanggal jika belum ada
+        // Initiate count
         if (!loginCountsPerDate[date]) {
           loginCountsPerDate[date] = 0;
         }
 
-        // Hitung jumlah login per tanggal
+        // Count login
         loginCountsPerDate[date].totalLogins++;
 
-        // Hitung jumlah login per user
+        // Count login per user
         if (!loginCountsPerDate[date]) {
           loginCountsPerDate[date] = 1;
         } else {
@@ -76,43 +76,44 @@ exports.statistics = async (req, res) => {
         }
       });
 
+      // Convert object to array
       const loginCountsArray = Object.entries(loginCountsPerDate).map(
         ([date, value]) => ({
           date: date,
           value: value,
         })
       );
-
+      // Return array
       return loginCountsArray;
     };
-    // Fungsi untuk menghitung jumlah user register per hari
+    // Count registeredd user last 7 days
     const countRegisterLast7Days = (history) => {
       const loginCountsPerDate = {};
       const now = new Date();
 
-      // Filter data untuk 7 hari terakhir
+      // Filter data for last 7 days
       const last7DaysData = history.filter(
         (entry) =>
           entry.createdAt >= new Date(now - 7 * 24 * 60 * 60 * 1000) &&
           entry.createdAt <= now
       );
 
-      // Urutkan data berdasarkan timestamp
+      // Sort data by timestamp
       last7DaysData.sort(sortByLoginTime);
 
       last7DaysData.forEach((entry) => {
-        // Ambil informasi tanggal dari timestamp
+        // Get information from timestamp
         const date = entry.createdAt.toISOString().split("T")[0];
 
-        // Inisialisasi jumlah login per tanggal jika belum ada
+        // Initiate count
         if (!loginCountsPerDate[date]) {
           loginCountsPerDate[date] = 0;
         }
 
-        // Hitung jumlah login per tanggal
+        // Count register
         loginCountsPerDate[date].totalLogins++;
 
-        // Hitung jumlah login per user
+        // Count by user
         if (!loginCountsPerDate[date]) {
           loginCountsPerDate[date] = 1;
         } else {
@@ -120,13 +121,14 @@ exports.statistics = async (req, res) => {
         }
       });
 
+      // Convert object to array
       const loginCountsArray = Object.entries(loginCountsPerDate).map(
         ([date, value]) => ({
           date: date,
           value: value,
         })
       );
-
+      // Return array
       return loginCountsArray;
     };
     const users_login_last_week = countLoginsLast7Days(loginLogs);
@@ -134,12 +136,14 @@ exports.statistics = async (req, res) => {
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
-      total_tracks,
-      total_radio,
-      total_personality,
-      total_users,
-      users_login_last_week,
-      users_register_lask_week,
+      data: {
+        total_tracks,
+        total_radio,
+        total_personality,
+        total_users,
+        users_login_last_week,
+        users_register_lask_week,
+      },
     });
   } catch (error) {
     // Handle errors

@@ -5,6 +5,7 @@ const {
   accessAllUser,
   accessOnlyAdmin,
 } = require("../middleware/auth-middleware");
+const { recordHistory } = require("../middleware/record-history-middleware");
 
 /* GET all personality info */
 router.get("/", [accessAllUser], controller.getAll);
@@ -13,12 +14,12 @@ router.get("/", [accessAllUser], controller.getAll);
 router.get("/:id", [accessAllUser], controller.get);
 
 /* POST personality info */
-router.post("/", [accessOnlyAdmin], controller.create);
+router.post("/", [accessOnlyAdmin, recordHistory], controller.create);
 
 /* UPDATE personality info by ID */
-router.put("/:id", [accessOnlyAdmin], controller.update);
+router.put("/:id", [accessOnlyAdmin, recordHistory], controller.update);
 
 /* DELETE personality info by ID */
-router.delete("/:id", [accessOnlyAdmin], controller.delete);
+router.delete("/:id", [accessOnlyAdmin, recordHistory], controller.delete);
 
 module.exports = router;

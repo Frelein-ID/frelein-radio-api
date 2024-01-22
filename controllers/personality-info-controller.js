@@ -11,7 +11,6 @@ const {
   PERSONALITY_INFO_CREATE_SUCCESS,
   RESPONSE_400,
   PERSONALITY_INFO_NOT_FOUND,
-  PERSONALITY_INFO_UPDATE_FAILURE,
   RESPONSE_404,
   PERSONALITY_INFO_DELETE_SUCCESS,
   PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
@@ -81,12 +80,13 @@ exports.create = async (req, res) => {
       });
     }
     // Create new personality info
-    await PersonalityInfo.create(req.body);
+    const data = await PersonalityInfo.create(req.body);
     // Return success response
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
       message: PERSONALITY_INFO_CREATE_SUCCESS,
+      result: data.id,
     });
   } catch (error) {
     // Handle errors
@@ -139,7 +139,7 @@ exports.update = async (req, res) => {
       });
     }
     // Update personality info
-    personalityinfo = await personalityinfo.update(req.body);
+    await personalityinfo.update(req.body);
     // Return success response
     return res.status(200).json({
       status: 200,

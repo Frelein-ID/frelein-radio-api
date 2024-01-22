@@ -4,31 +4,28 @@ const controller = require("../controllers/user-controller");
 const {
   accessAllUser,
   accessOnlyAdmin,
-  accessByUserItself,
+  accessByUserItselfAndAdmin,
 } = require("../middleware/auth-middleware");
+const { recordHistory } = require("../middleware/record-history-middleware");
 
 router.get("/", [accessOnlyAdmin], controller.getAll);
 
 router.get("/:userId", [accessAllUser], controller.get);
 
-router.get(
-  "/:userId/my",
-  [accessAllUser, accessByUserItself],
-  controller.getMyData
-);
+router.get("/:userId/my", [accessByUserItselfAndAdmin], controller.getMyData);
 
 router.put(
   "/:userId/change-password",
-  [accessAllUser, accessByUserItself],
+  [accessByUserItselfAndAdmin, recordHistory],
   controller.updatePassword
 );
 
 router.put(
   "/:userId",
-  [accessAllUser, accessByUserItself],
+  [accessByUserItselfAndAdmin, recordHistory],
   controller.updateUser
 );
 
-router.delete("/:id", [accessOnlyAdmin], controller.delete);
+router.delete("/:id", [accessOnlyAdmin, recordHistory], controller.delete);
 
 module.exports = router;

@@ -9,61 +9,59 @@ const {
 const model = require("../models");
 const History = model.History;
 const UsersFavRadioInfo = model.UsersFavRadioInfo;
+const PersonalityInfo = model.PersonalityInfo;
 const UsersFavRadioTracks = model.UsersFavRadioTracks;
 const UsersFavPersonality = model.UsersFavPersonality;
 const { verifyToken } = require("../utils/token-utils");
 
 const recordHistory = async (req, res, next) => {
   try {
+    let id = null;
+    let userId = null;
+    let endpoint = null;
+    let action = null;
+    let dataBefore = null;
+    let dataAfter = null;
     const token = req.header("Authorization");
     if (!token) {
       return res.status(401).json({ message: INVALID_TOKEN });
     }
-    let dataBefore = null;
     const decoded = verifyToken(token);
-    const userId = decoded.user.id ? decoded.user.id : null;
-    const endpoint = req.originalUrl;
-    const action = req.method;
-    const dataAfter = req.body;
+    id = req.params.id;
+    userId = decoded.user.id;
+    endpoint = req.originalUrl;
+    action = req.method;
+    dataBefore = null;
+    dataAfter = req.body;
+    const createHistory = async () => {
+      await History.create({
+        users_id: userId,
+        endpoint: endpoint,
+        action: action,
+        dataBefore: dataBefore,
+        dataAfter: dataAfter,
+      });
+    };
     if (action === "POST") {
-      switch (endpoint) {
-        case "/favorites/radio-info":
-          try {
-            await History.create({
-              users_id: userId,
-              endpoint: endpoint,
-              action: action,
-              dataBefore: dataBefore,
-              dataAfter: dataAfter,
-            });
-            break;
-          } catch (error) {
-            console.log({ error });
-            break;
-          }
-        case "/favorites/radio-tracks":
-          try {
-            await History.create({
-              users_id: userId,
-              endpoint: endpoint,
-              action: action,
-              dataBefore: dataBefore,
-              dataAfter: dataAfter,
-            });
-            break;
-          } catch (error) {
-            console.log({ error });
-            break;
-          }
-        default:
-          console.log(INVALID_ENDPOINT);
-          break;
+      try {
+        createHistory();
+      } catch (error) {
+        console.log({ error });
       }
     }
     if (action === "UPDATE") {
     }
     if (action === "DELETE") {
+      console.log({ endpoint });
       switch (endpoint) {
+        case `/personality-info/${id}`:
+          try {
+            dataBefore = await PersonalityInfo.findByPk(req.params.id);
+            break;
+          } catch (error) {
+            console.log({ error });
+            break;
+          }
         case `/favorites/personality/${id}`:
           try {
             dataBefore = await UsersFavPersonality.findOne({
@@ -72,13 +70,7 @@ const recordHistory = async (req, res, next) => {
               },
             });
             if (dataBefore != null) {
-              await History.create({
-                users_id: userId,
-                endpoint: endpoint,
-                action: action,
-                dataBefore: dataBefore,
-                dataAfter: null,
-              });
+              createHistory();
               break;
             }
             return res.status(404).json(INVALID_ID);
@@ -94,13 +86,7 @@ const recordHistory = async (req, res, next) => {
               },
             });
             if (dataBefore != null) {
-              await History.create({
-                users_id: userId,
-                endpoint: endpoint,
-                action: action,
-                dataBefore: dataBefore,
-                dataAfter: null,
-              });
+              createHistory();
               break;
             }
             return res.status(404).json(INVALID_ID);
@@ -134,6 +120,7 @@ const recordHistory = async (req, res, next) => {
           console.log(INVALID_ENDPOINT);
           break;
       }
+      createHistory();
     }
 
     next();

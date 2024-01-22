@@ -19,6 +19,7 @@ const {
   RESPONSE_400,
   INVALID_ACCESS_DENIED,
   USER_UPDATE_PASSWORD_SUCCESS,
+  RESPONSE_200,
 } = require("../constants/constants");
 
 // Define validation schema

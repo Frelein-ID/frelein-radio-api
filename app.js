@@ -11,6 +11,7 @@ var indexRoutes = require("./routes/index");
 var authRoutes = require("./routes/auth");
 var adminRoutes = require("./routes/admin");
 var userRoutes = require("./routes/user");
+var historyRoutes = require("./routes/history");
 var radioInfoRoutes = require("./routes/radio-info");
 var radioTracksRoutes = require("./routes/radio-tracks");
 var personalityInfoRoutes = require("./routes/personality-info");
@@ -34,6 +35,8 @@ app.use("/", indexRoutes);
 app.use("/auth", authRoutes);
 // Admin
 app.use("/admin", adminRoutes);
+// History
+app.use("/history", historyRoutes);
 // User
 app.use("/user", userRoutes);
 // Radio routes

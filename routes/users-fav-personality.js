@@ -4,21 +4,26 @@ const controller = require("../controllers/users-fav-personality-controller");
 const {
   accessAllUser,
   accessOnlyAdmin,
-  accessByUserItself,
+  accessByUserItselfAndAdmin,
 } = require("../middleware/auth-middleware");
+const { recordHistory } = require("../middleware/record-history-middleware");
 
 router.get("/", [accessOnlyAdmin], controller.getAll);
 
 // GET all users fav personality by user id
-router.get("/:userId", [accessAllUser, accessByUserItself], controller.get);
+router.get("/:userId", [accessByUserItselfAndAdmin], controller.get);
 
 // POST users fav personality
-router.post("/:userId", [accessAllUser, accessByUserItself], controller.create);
+router.post(
+  "/:userId",
+  [accessByUserItselfAndAdmin, recordHistory],
+  controller.create
+);
 
 // DELETE users fav personality by ID
 router.delete(
   "/:userId/:id",
-  [accessAllUser, accessByUserItself],
+  [accessByUserItselfAndAdmin, recordHistory],
   controller.delete
 );
 

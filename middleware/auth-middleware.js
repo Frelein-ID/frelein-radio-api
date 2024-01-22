@@ -19,8 +19,7 @@ const LoginLogs = model.LoginLogs;
  * @function
  * @memberof module:auth-middleware
  * @name accessAllUser
- * @summary Decode user's token and get user information to filter route only can be accessed by user.
- * @param {String} token - User's token JWT.
+ * @summary Decode user's token and get user information to filter route can be accessed by all user.
  * */
 const accessAllUser = (req, res, next) => {
   try {
@@ -44,6 +43,12 @@ const accessAllUser = (req, res, next) => {
   }
 };
 
+/**
+ * @function
+ * @memberof module:auth-middleware
+ * @name accessByUserItself
+ * @summary Decode user's token and get user information to filter route only can be accessed by current user.
+ * */
 const accessByUserItself = async (req, res, next) => {
   try {
     const userId = req.params.userId;
@@ -62,6 +67,12 @@ const accessByUserItself = async (req, res, next) => {
   }
 };
 
+/**
+ * @function
+ * @memberof module:auth-middleware
+ * @name accessByUserItselfAndAdmin
+ * @summary Decode user's token and get user information to filter route only can be accessed by current user and admins.
+ * */
 const accessByUserItselfAndAdmin = async (req, res, next) => {
   try {
     const userId = req.params.userId;
@@ -90,7 +101,6 @@ const accessByUserItselfAndAdmin = async (req, res, next) => {
  * @memberof module:auth-middleware
  * @name accessOnlyAdmin
  * @summary Decode user's token and get user information to filter route only can be accessed by admin.
- * @param {String} token - User's token JWT.
  * */
 const accessOnlyAdmin = (req, res, next) => {
   try {

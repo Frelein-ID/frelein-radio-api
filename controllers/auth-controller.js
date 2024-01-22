@@ -21,6 +21,7 @@ const {
   RESPONSE_200,
   RESPONSE_400,
   RESPONSE_401,
+  LOGIN_SUCCESS,
 } = require("../constants/constants");
 
 // Define schema for user registration
@@ -169,7 +170,7 @@ exports.login = async (req, res) => {
     res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
-      message: SERVER_ERROR_INTERNAL_SERVER_ERROR,
+      message: error,
     });
   }
 };
