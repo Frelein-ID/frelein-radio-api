@@ -20,6 +20,8 @@ const {
   PERSONALITIES_FAILURE_EXISTS,
   RESPONSE_200,
   PERSONALITIES_FAILURE_UPDATE,
+  RESPONSE_201,
+  PERSONALITIES_SUCCESS_DELETED,
 } = require("../constants/constants");
 
 // Define schema for personalities
@@ -55,8 +57,9 @@ exports.create = async (req, res) => {
         personality_id: req.body.personality_id,
       },
     });
+    console.log({ checkData });
     // If data is not null then return bad request message
-    if (checkData != null) {
+    if (checkData) {
       return res.status(400).json({
         status: 400,
         statusText: RESPONSE_400,
@@ -64,11 +67,12 @@ exports.create = async (req, res) => {
       });
     }
     // Insert data to database
-    await RadioTracks.create(req.body);
-    return res.status(200).json({
-      status: 200,
-      statusText: RESPONSE_200,
+    const data = await Personalities.create(req.body);
+    return res.status(201).json({
+      status: 201,
+      statusText: RESPONSE_201,
       message: PERSONALITIES_SUCCESS_CREATED,
+      data: data,
     });
   } catch (error) {
     // Handle errors
@@ -76,7 +80,7 @@ exports.create = async (req, res) => {
     res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
-      error: error,
+      message: error,
     });
   }
 };
@@ -101,8 +105,9 @@ exports.update = async (req, res) => {
         message: validate,
       });
     }
+    // get id from params
     const id = req.params.id;
-    let personalities = await Personalities.findByPk(id);
+    const personalities = await Personalities.findByPk(id);
     // Check if data exists or not
     if (!personalities) {
       return res.status(404).json({
@@ -112,12 +117,13 @@ exports.update = async (req, res) => {
       });
     }
     // Update the data
-    personalities = await Personalities.update(req.body);
+    data = await personalities.update(req.body);
     // Return success
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
       message: PERSONALITIES_SUCCESS_UPDATED,
+      data: data,
     });
   } catch (error) {
     // Error handling
@@ -139,18 +145,29 @@ exports.update = async (req, res) => {
  * */
 exports.getAll = async (req, res) => {
   try {
+    // get all personalities data from db
     const personalities = await Personalities.findAll();
+    // if data doesn't exists return 404
+    if (personalities.length == 0) {
+      return res.status(404).json({
+        status: 404,
+        statusText: RESPONSE_404,
+        message: PERSONALITIES_FAILURE_NOT_FOUND,
+      });
+    }
+    // if data exists return its data
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
       data: personalities,
     });
   } catch (error) {
+    // handle errors
     console.log({ error });
     return res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
-      error: error,
+      message: error,
     });
   }
 };
@@ -165,53 +182,59 @@ exports.getAll = async (req, res) => {
  * */
 exports.get = async (req, res) => {
   try {
-    let result = [];
+    // get id from params
     const id = req.params.id;
-    // Check if
-    const personalities_list = await Personalities.findAll({
-      where: { tracks_id: id },
-    });
-    for (var personality of personalities_list) {
-      const person_data = await PersonalityInfo.findByPk(
-        personality.personality_id
-      );
-      const personality_info = {
-        name: person_data?.name,
-        name_jp: person_data?.name_kanji,
-        nickname: person_data?.nickname,
-        image: person_data?.image,
-      };
-      result.push(personality_info);
-    }
-    if (result.length == 0) {
+    // get all personalities data from db
+    const personalities = await Personalities.findByPk(id);
+    // if data doesn't exists return 404
+    if (!personalities) {
       return res.status(404).json({
         status: 404,
         statusText: RESPONSE_404,
         message: PERSONALITIES_FAILURE_NOT_FOUND,
       });
     }
-    const result_final = [...new Set(result.map(JSON.stringify))].map(
-      JSON.parse
-    );
+    // if data exists return its data
     return res.status(200).json({
-      status: 404,
-      statusText: RESPONSE_404,
-      data: result_final,
+      status: 200,
+      statusText: RESPONSE_200,
+      data: personalities,
     });
-  } catch (error) {}
+  } catch (error) {
+    // handle errors
+    console.log({ error });
+    return res.status(500).json({
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
+    });
+  }
 };
 
 exports.delete = async (req, res) => {
-  const id = req.params.id;
-  const radiotracks = await RadioTracks.findByPk(id);
-  if (!radiotracks) {
-    return res.status(404).json({
-      error: "404 Not Found",
-      message: "Radio tracks not found",
+  try {
+    const id = req.params.id;
+    const radiotracks = await RadioTracks.findByPk(id);
+    if (!radiotracks) {
+      return res.status(404).json({
+        status: 404,
+        statusText: RESPONSE_404,
+        message: PERSONALITIES_FAILURE_NOT_FOUND,
+      });
+    }
+    await radiotracks.destroy();
+    return res.status(200).json({
+      status: 200,
+      statusText: RESPONSE_200,
+      message: PERSONALITIES_SUCCESS_DELETED,
+    });
+  } catch (error) {
+    // handle errors
+    console.log({ error });
+    return res.status(500).json({
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
-  await radiotracks.destroy();
-  return res.status(200).json({
-    message: "Deleted successfully!",
-  });
 };

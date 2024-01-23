@@ -8,8 +8,12 @@ const {
 } = require("../constants/constants");
 const model = require("../models");
 const History = model.History;
-const UsersFavRadioInfo = model.UsersFavRadioInfo;
+const Users = model.Users;
+const RadioInfo = model.RadioInfo;
+const RadioTracks = model.RadioTracks;
 const PersonalityInfo = model.PersonalityInfo;
+const Personalities = model.Personalities;
+const UsersFavRadioInfo = model.UsersFavRadioInfo;
 const UsersFavRadioTracks = model.UsersFavRadioTracks;
 const UsersFavPersonality = model.UsersFavPersonality;
 const { verifyToken } = require("../utils/token-utils");
@@ -51,28 +55,96 @@ const recordHistory = async (req, res, next) => {
     }
     if (action === "UPDATE") {
       switch (endpoint) {
+        case `/radio-info/${id}`:
+          try {
+            dataBefore = await RadioInfo.findByPk(req.params.id);
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
+        case `/radio-tracks/${id}`:
+          try {
+            dataBefore = await RadioTracks.findByPk(req.params.id);
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
         case `/personality-info/${id}`:
           try {
             dataBefore = await PersonalityInfo.findByPk(req.params.id);
-            break;
           } catch (error) {
             console.log({ error });
-            break;
           }
+          break;
+        case `/personalities/${id}`:
+          try {
+            dataBefore = await Personalities.findByPk(req.params.id);
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
+        case `/user/${id}`:
+          try {
+            dataBefore = await Users.findByPk(req.params.id);
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
+        case `/user/${id}/change-password`:
+          try {
+            dataBefore = await Users.findByPk(req.params.id);
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
+        default:
+          console.log(INVALID_ENDPOINT);
+          break;
       }
       createHistory();
     }
     if (action === "DELETE") {
       switch (endpoint) {
+        case `/radio-info/${id}`:
+          try {
+            dataBefore = await RadioInfo.findByPk(req.params.id);
+            dataAfter = null;
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
+        case `/radio-tracks/${id}`:
+          try {
+            dataBefore = await RadioTracks.findByPk(req.params.id);
+            dataAfter = null;
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
         case `/personality-info/${id}`:
           try {
             dataBefore = await PersonalityInfo.findByPk(req.params.id);
             dataAfter = null;
-            break;
           } catch (error) {
             console.log({ error });
-            break;
           }
+          break;
+        case `/personalities/${id}`:
+          try {
+            dataBefore = await Personalities.findByPk(req.params.id);
+            dataAfter = null;
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
+        case `/user/${id}`:
+          try {
+            dataBefore = await Users.findByPk(req.params.id);
+            dataAfter = null;
+          } catch (error) {
+            console.log({ error });
+          }
+          break;
         case `/favorites/personality/${userId}`:
           try {
             dataBefore = await UsersFavPersonality.findOne({
@@ -82,52 +154,33 @@ const recordHistory = async (req, res, next) => {
               },
             });
             dataAfter = null;
-            if (dataBefore != null) {
-              createHistory();
-              break;
-            }
-            return res.status(404).json(INVALID_ID);
           } catch (error) {
             console.log({ error });
-            break;
           }
-        case `/favorites/radio-info/${id}`:
+          break;
+        case `/favorites/radio-info/${userId}`:
           try {
             dataBefore = await UsersFavRadioInfo.findOne({
               where: {
-                radio_info_id: req.body.id,
+                users_id: req.params.userId,
+                radio_info_id: req.body.radio_info_id,
               },
             });
-            if (dataBefore != null) {
-              createHistory();
-              break;
-            }
-            return res.status(404).json(INVALID_ID);
+            dataAfter = null;
           } catch (error) {
             console.log({ error });
-            break;
           }
-        case `/favorites/radio-tracks/${id}`:
+        case `/favorites/radio-tracks/${userId}`:
           try {
             dataBefore = await UsersFavRadioTracks.findOne({
               where: {
-                id: req.params.id,
+                users_id: req.params.userId,
+                tracks_id: req.body.tracks_id,
               },
             });
-            if (dataBefore != null) {
-              await History.create({
-                users_id: userId,
-                endpoint: endpoint,
-                action: action,
-                dataBefore: dataBefore,
-                dataAfter: null,
-              });
-              break;
-            }
-            return res.status(404).json(INVALID_ID);
+            dataAfter = null;
           } catch (error) {
             console.log({ error });
-            break;
           }
         default:
           console.log(INVALID_ENDPOINT);

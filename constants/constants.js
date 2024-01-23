@@ -65,6 +65,7 @@ module.exports = {
   // Personalities
   PERSONALITIES_SUCCESS_CREATED: "Personalities has been assigned",
   PERSONALITIES_SUCCESS_UPDATED: "Personalities has been updated",
+  PERSONALITIES_SUCCESS_DELETED: "Personalities successfully deleted",
   PERSONALITIES_FAILURE_NOT_FOUND: "Personalities not found",
   PERSONALITIES_FAILURE_EXISTS: "This Personalities is already assigned",
   PERSONALITIES_FAILURE_UPDATE: "Personalities cannot be updated",
