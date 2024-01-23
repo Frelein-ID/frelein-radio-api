@@ -1,6 +1,8 @@
+# custom ignore
 interfaces
 seeders/data
 test
+sync.js
 
 # Logs
 logs

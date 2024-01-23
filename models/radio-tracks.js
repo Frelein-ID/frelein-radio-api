@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property {Date=} radio_oa - When the radio is on air.
    * @property {String=} image - An url links which represents the radio tracks's image.
    * @property {Text} src - Radio streaming source.
+   * @property {Integer=} favoritedBy - Count favorite of radio tracks.
    * @property {Date} createdAt - The time the radio tracks was created.
    * @property {Date} updatedAt - The last time the radio tracks was updated.
    */

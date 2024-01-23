@@ -11,6 +11,11 @@ const {
   RESPONSE_400,
   ERROR_USER_AGENT_NULL,
   INVALID_ACCESS_DENIED,
+  RESPONSE_401,
+  INVALID_TOKEN_NOT_PROVIDED,
+  RESPONSE_403,
+  INVALID_ONLY_ADMIN,
+  RESPONSE_500,
 } = require("../constants/constants");
 const User = model.Users;
 const LoginLogs = model.LoginLogs;
@@ -62,7 +67,9 @@ const accessByUserItself = async (req, res, next) => {
     next();
   } catch (error) {
     return res.status(500).json({
-      error: error,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -91,7 +98,9 @@ const accessByUserItselfAndAdmin = async (req, res, next) => {
     }
   } catch (error) {
     return res.status(500).json({
-      error: error,
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -107,22 +116,29 @@ const accessOnlyAdmin = (req, res, next) => {
     const token = req.header("Authorization");
 
     if (!token) {
-      return res.status(401).json({ message: "Token not provided" });
+      return res.status(401).json({
+        status: 401,
+        statusText: RESPONSE_401,
+        message: INVALID_TOKEN_NOT_PROVIDED,
+      });
     }
 
     const decoded = verifyToken(token);
 
     if (decoded.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized. Only admin allowed." });
+      return res.status(403).json({
+        status: 403,
+        statusText: RESPONSE_403,
+        message: INVALID_ONLY_ADMIN,
+      });
     }
 
     next();
   } catch (error) {
-    return res.status(401).json({
-      message: "Invalid token",
-      error: error,
+    return res.status(500).json({
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
     });
   }
 };
@@ -160,7 +176,11 @@ const logLogin = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({
+      status: 500,
+      statusText: RESPONSE_500,
+      message: error,
+    });
   }
 };
 

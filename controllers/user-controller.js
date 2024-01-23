@@ -56,8 +56,8 @@ exports.get = async (req, res) => {
       });
     }
     return res.status(200).json({
-      status: 500,
-      statusText: RESPONSE_500,
+      status: 200,
+      statusText: RESPONSE_200,
       data: {
         id: user.id,
         username: user.username,
@@ -91,8 +91,8 @@ exports.getMyData = async (req, res) => {
       });
     }
     return res.status(200).json({
-      status: 500,
-      statusText: RESPONSE_500,
+      status: 200,
+      statusText: RESPONSE_200,
       data: {
         id: user.id,
         username: user.username,

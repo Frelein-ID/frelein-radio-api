@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property {String=} image - An url link which represents the personality information's image.
    * @property {Text=} description - Description about the personality.
    * @property {String=} source - Personality information source link.
+   * @property {Integer=} favoritedBy - Count favorite of personality.
    * @property {Date} createdAt - The time the personality information was created.
    * @property {Date} updatedAt - The last time the personality information was updated.
    */

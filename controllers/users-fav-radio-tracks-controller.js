@@ -19,6 +19,10 @@ const {
   USER_FAVORITE_RADIO_TRACKS_SUCCESS_ADD,
   USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
   RESPONSE_200,
+  TOKEN_NULL,
+  UNMATCH_ID,
+  RESPONSE_201,
+  USER_FAVORITE_ADD_RADIO_TRACKS_NOT_EXIST,
 } = require("../constants/constants");
 const {
   decreaseRadioTracksFavCount,
@@ -41,7 +45,9 @@ const schema = {
  * */
 exports.create = async (req, res) => {
   try {
+    // validate request body
     const validate = v.validate(req.body, schema);
+    // if validation error return error message
     if (validate.length) {
       return res.status(400).json({
         status: 400,
@@ -49,14 +55,26 @@ exports.create = async (req, res) => {
         message: validate,
       });
     }
-    // check if data is already added or not
+    // data check
     const users_id = req.params.userId;
     const tracks_id = req.body.tracks_id;
+    // check if radio tracks added is exist or not
+    if (tracks_id) {
+      const tracksData = await RadioTracks.findByPk(tracks_id);
+      if (!tracksData) {
+        return res.status(404).json({
+          status: 404,
+          statusText: RESPONSE_404,
+          message: USER_FAVORITE_ADD_RADIO_TRACKS_NOT_EXIST,
+        });
+      }
+    }
+    // check if data is already added or not
     if (users_id) {
       const userData = await UsersFavRadioTracks.findOne({
-        where: { users_id: users_id },
+        where: { users_id: users_id, tracks_id: tracks_id },
       });
-      if (userData && userData.tracks_id === tracks_id) {
+      if (userData) {
         return res.status(400).json({
           status: 400,
           statusText: RESPONSE_400,
@@ -64,14 +82,17 @@ exports.create = async (req, res) => {
         });
       }
     }
+    // add new data to db
     const fav = await UsersFavRadioTracks.create({
       users_id: users_id,
       tracks_id: tracks_id,
     });
+    // update radio tracks favorite count
     increaseRadioTracksFavCount(tracks_id);
-    return res.status(200).json({
-      status: 200,
-      statusText: RESPONSE_200,
+    // return success message
+    return res.status(201).json({
+      status: 201,
+      statusText: RESPONSE_201,
       message: USER_FAVORITE_RADIO_TRACKS_SUCCESS_ADD,
       data: fav,
     });
@@ -144,8 +165,7 @@ exports.get = async (req, res) => {
         image: fav_data?.image,
         radio_oa: fav_data?.radio_oa,
         episode: fav_data?.episode,
-        createdAt: fav.createdAt,
-        updatedAt: fav.updatedAt,
+        favoritedAt: fav.favoritedAt,
       };
       result.push(data);
     }
@@ -185,19 +205,37 @@ exports.get = async (req, res) => {
  * */
 exports.delete = async (req, res) => {
   try {
+    // get token from header
+    const token = req.header("Authorization");
+    // get radio tracks id from request body
     const tracks_id = req.body.tracks_id;
+    // check if token is provided or not
+    if (!token) {
+      return res.status(401).json({ message: TOKEN_NULL });
+    }
+    // decode the token
+    const decoded = verifyToken(token);
+    // check if decoded user same as requesting user
+    if (decoded.user.id !== users_id) {
+      return res.status(403).json({ message: UNMATCH_ID });
+    }
+    // check if this radio has been favorited by the user or not
     const fav = await UsersFavRadioTracks.findOne({
       where: { tracks_id: tracks_id },
     });
-    if (fav == null) {
+    // If empty then return failure
+    if (!fav) {
       return res.status(404).json({
         status: 404,
         statusText: RESPONSE_404,
         message: USER_FAVORITE_RADIO_TRACKS_NOT_FOUND,
       });
     }
+    // If exist then delete the data from db
     await fav.destroy();
+    // Update radio tracks favorite count
     decreaseRadioTracksFavCount(tracks_id);
+    // Return success message
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,

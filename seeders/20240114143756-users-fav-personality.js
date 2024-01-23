@@ -24,10 +24,10 @@ module.exports = {
       );
       const randomUsers = Math.floor(Math.random() * filteredUsers.length);
       const randomized = {
+        id: faker.string.uuid(),
         users_id: filteredUsers[randomUsers],
         personality_id: filteredPersonality[randomPersonality],
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        favoritedAt: new Date(),
       };
       data.push(randomized);
     }

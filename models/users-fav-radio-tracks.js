@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require("uuid");
+
 module.exports = (sequelize, DataTypes) => {
   /**
    * @class
@@ -11,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
   const UsersFavRadioTracks = sequelize.define(
     "UsersFavRadioTracks",
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
+        primaryKey: true,
+        allowNull: false,
+      },
       users_id: {
         type: DataTypes.UUID,
         references: {
@@ -27,17 +35,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         allowNull: false,
       },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
+      favoritedAt: {
         type: DataTypes.DATE,
         allowNull: false,
       },
     },
     {
       tableName: "UsersFavRadioTracks",
+      createdAt: false,
+      updatedAt: false,
     }
   );
 

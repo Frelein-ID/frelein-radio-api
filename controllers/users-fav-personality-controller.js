@@ -15,6 +15,10 @@ const {
   USER_FAVORITE_PERSONALITY_SUCCESS_DELETE,
   RESPONSE_500,
   RESPONSE_200,
+  TOKEN_NULL,
+  UNMATCH_ID,
+  RESPONSE_201,
+  USER_FAVORITE_ADD_PERSONALITY_NOT_EXIST,
 } = require("../constants/constants");
 const PersonalityInfo = model.PersonalityInfo;
 const UsersFavPersonality = model.UsersFavPersonality;
@@ -23,6 +27,7 @@ const {
   decreasePersonalityInfoFavCount,
   increasePersonalityInfoFavCount,
 } = require("../utils/fav-personality-utils");
+const { verifyToken } = require("../utils/token-utils");
 
 // Define validation schema
 const schema = {
@@ -40,7 +45,9 @@ const schema = {
  * */
 exports.create = async (req, res) => {
   try {
+    // validate request body
     const validate = v.validate(req.body, schema);
+    // if validation error return error message
     if (validate.length) {
       return res.status(400).json({
         status: 400,
@@ -48,14 +55,26 @@ exports.create = async (req, res) => {
         message: validate,
       });
     }
-    // check if data is already added or not
+    // data check
     const users_id = req.params.userId;
     const personality_id = req.body.personality_id;
+    // check if personality added is exist or not
+    if (personality_id) {
+      const personalityData = await PersonalityInfo.findByPk(personality_id);
+      if (!personalityData) {
+        return res.status(404).json({
+          status: 404,
+          statusText: RESPONSE_404,
+          message: USER_FAVORITE_ADD_PERSONALITY_NOT_EXIST,
+        });
+      }
+    }
+    // check if data is already added or not
     if (users_id) {
       const userData = await UsersFavPersonality.findOne({
-        where: { users_id: users_id },
+        where: { users_id: users_id, personality_id: personality_id },
       });
-      if (userData && userData.personality_id === personality_id) {
+      if (userData) {
         return res.status(400).json({
           status: 400,
           statusText: RESPONSE_400,
@@ -63,14 +82,17 @@ exports.create = async (req, res) => {
         });
       }
     }
+    // add new data to db
     const fav = await UsersFavPersonality.create({
       users_id: users_id,
       personality_id: personality_id,
     });
+    // update personality info favorite count
     increasePersonalityInfoFavCount(personality_id);
-    return res.json({
-      status: 200,
-      statusText: RESPONSE_200,
+    // return success message
+    return res.status(201).json({
+      status: 201,
+      statusText: RESPONSE_201,
       message: USER_FAVORITE_PERSONALITY_SUCCESS_ADD,
       data: fav,
     });
@@ -95,6 +117,13 @@ exports.create = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const fav = await UsersFavPersonality.findAll();
+    if (fav.length == 0) {
+      return res.status(404).json({
+        status: 404,
+        statusText: RESPONSE_404,
+        message: USER_FAVORITE_PERSONALITY_NOT_FOUND,
+      });
+    }
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
@@ -133,8 +162,7 @@ exports.get = async (req, res) => {
         name: fav_data?.name,
         name_jp: fav_data?.name_jp,
         image: fav_data?.image,
-        createdAt: fav.createdAt,
-        updatedAt: fav.updatedAt,
+        favoritedAt: fav.favoritedAt,
       };
       result.push(data);
     }
@@ -174,10 +202,27 @@ exports.get = async (req, res) => {
  * */
 exports.delete = async (req, res) => {
   try {
+    // get token from header
+    const token = req.header("Authorization");
+    // get personality id from request body
     const personality_id = req.body.personality_id;
+    // get user id from request body
+    const users_id = req.params.userId;
+    // check if token is provided or not
+    if (!token) {
+      return res.status(401).json({ message: TOKEN_NULL });
+    }
+    // decode the token
+    const decoded = verifyToken(token);
+    // check if decoded user same as requesting user
+    if (decoded.user.id !== users_id) {
+      return res.status(403).json({ message: UNMATCH_ID });
+    }
+    // check if this personality has been favorited by the user or not
     const fav = await UsersFavPersonality.findOne({
       where: { personality_id: personality_id },
     });
+    // If empty then return failure
     if (!fav) {
       return res.status(404).json({
         status: 404,
@@ -187,9 +232,9 @@ exports.delete = async (req, res) => {
     }
     // Delete data from db
     await fav.destroy();
-    // Update personality info
+    // Update personality info favorite count
     decreasePersonalityInfoFavCount(personality_id);
-    // Return response
+    // Return success message
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,

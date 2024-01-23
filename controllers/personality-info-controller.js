@@ -16,6 +16,7 @@ const {
   PERSONALITY_INFO_CREATE_FAILURE_ALREADY_EXIST,
   PERSONALITY_INFO_UPDATE_SUCCESS,
   RESPONSE_200,
+  RESPONSE_201,
 } = require("../constants/constants");
 const PersonalityInfo = model.PersonalityInfo;
 const v = new Validator();
@@ -82,11 +83,11 @@ exports.create = async (req, res) => {
     // Create new personality info
     const data = await PersonalityInfo.create(req.body);
     // Return success response
-    return res.status(200).json({
-      status: 200,
-      statusText: RESPONSE_200,
+    return res.status(201).json({
+      status: 201,
+      statusText: RESPONSE_201,
       message: PERSONALITY_INFO_CREATE_SUCCESS,
-      result: data.id,
+      data: data,
     });
   } catch (error) {
     // Handle errors
@@ -118,19 +119,6 @@ exports.update = async (req, res) => {
   try {
     // Validate request body
     const validate = v.validate(req.body, schema);
-    // Check if personality info exists
-    if (!personalityinfo) {
-      return res.status(400).json({
-        status: 400,
-        statusText: RESPONSE_400,
-        error: RESPONSE_400,
-        message: PERSONALITY_INFO_NOT_FOUND,
-      });
-    }
-    const id = req.params.id;
-    // Get personality info by ID
-    let personalityinfo = await PersonalityInfo.findByPk(id);
-    // Validate request data
     if (validate.length) {
       return res.status(400).json({
         status: 400,
@@ -138,13 +126,25 @@ exports.update = async (req, res) => {
         message: validate,
       });
     }
+    // Get id from params
+    const id = req.params.id;
+    // Get personality info by ID
+    const personalityinfo = await PersonalityInfo.findByPk(id);
+    if (!personalityinfo) {
+      return res.status(404).json({
+        status: 404,
+        statusText: RESPONSE_404,
+        message: PERSONALITY_INFO_NOT_FOUND,
+      });
+    }
     // Update personality info
-    await personalityinfo.update(req.body);
+    const data = await personalityinfo.update(req.body);
     // Return success response
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
       message: PERSONALITY_INFO_UPDATE_SUCCESS,
+      data: data,
     });
   } catch (error) {
     // Handle errors

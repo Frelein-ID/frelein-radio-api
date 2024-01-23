@@ -22,7 +22,7 @@ router.post(
 
 // DELETE users fav personality by ID
 router.delete(
-  "/:userId/:id",
+  "/:userId",
   [accessByUserItselfAndAdmin, recordHistory],
   controller.delete
 );

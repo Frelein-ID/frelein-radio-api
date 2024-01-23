@@ -50,9 +50,6 @@ const recordHistory = async (req, res, next) => {
       }
     }
     if (action === "UPDATE") {
-    }
-    if (action === "DELETE") {
-      console.log({ endpoint });
       switch (endpoint) {
         case `/personality-info/${id}`:
           try {
@@ -62,13 +59,29 @@ const recordHistory = async (req, res, next) => {
             console.log({ error });
             break;
           }
-        case `/favorites/personality/${id}`:
+      }
+      createHistory();
+    }
+    if (action === "DELETE") {
+      switch (endpoint) {
+        case `/personality-info/${id}`:
+          try {
+            dataBefore = await PersonalityInfo.findByPk(req.params.id);
+            dataAfter = null;
+            break;
+          } catch (error) {
+            console.log({ error });
+            break;
+          }
+        case `/favorites/personality/${userId}`:
           try {
             dataBefore = await UsersFavPersonality.findOne({
               where: {
-                id: req.params.id,
+                users_id: req.params.userId,
+                personality_id: req.body.personality_id,
               },
             });
+            dataAfter = null;
             if (dataBefore != null) {
               createHistory();
               break;

@@ -1,6 +1,7 @@
 module.exports = {
   // Responses
   RESPONSE_200: "OK",
+  RESPONSE_201: "Created",
   RESPONSE_400: "Bad Request",
   RESPONSE_401: "Unauthorized",
   RESPONSE_403: "Forbidden",
@@ -9,12 +10,16 @@ module.exports = {
   // Error
   INVALID_ENDPOINT: "Invalid endpoint",
   INVALID_TOKEN: "Invalid token",
+  INVALID_TOKEN_NOT_PROVIDED: "Invalid. Token not provided",
   INVALID_ID: "Invalid ID",
   INVALID_ID_NULL: "Invalid ID. ID shouldn't be null",
   INVALID_ACCESS_DENIED: "Access denied",
+  INVALID_ONLY_ADMIN: "Unauthorized. Only admin allowed.",
   DATA_DELETED: "Data has been deleted",
   // Auth
   ERROR_USER_AGENT_NULL: "User Agent cannot be null",
+  TOKEN_NULL: "Missing token",
+  UNMATCH_ID: "Unauthorized. Your ID isn't match",
   // Login
   LOGIN_FAILURE_INVALID_EMAIL:
     "Invalid credentials. This email is not registered",
@@ -83,6 +88,8 @@ module.exports = {
     "This personality successfully deleted from your favorites",
   USER_FAVORITE_PERSONALITY_NOT_FOUND:
     "You didn't have any favorite personalities",
+  USER_FAVORITE_ADD_PERSONALITY_NOT_EXIST:
+    "The personality you want to add to your favorite list isn't exist",
   // Users favorite radio info
   USER_FAVORITE_RADIO_INFO_EXIST:
     "This radio info is already in your favorites",
@@ -93,6 +100,8 @@ module.exports = {
   USER_FAVORITE_RADIO_INFO_FAILURE_DELETE_NOT_FOUND:
     "The radio you want to delete from your favorites is not found",
   USER_FAVORITE_RADIO_INFO_NOT_FOUND: "You didn't have any favorite radio",
+  USER_FAVORITE_ADD_RADIO_INFO_NOT_EXIST:
+    "The radio information you want to add to your favorite list isn't exist",
   // Users favorite radio tracks
   USER_FAVORITE_RADIO_TRACKS_EXIST:
     "This radio tracks is already in your favorites",
@@ -102,4 +111,6 @@ module.exports = {
     "This radio tracks successfully deleted from your favorites",
   USER_FAVORITE_RADIO_TRACKS_NOT_FOUND:
     "You didn't have any favorite radio tracks",
+  USER_FAVORITE_ADD_RADIO_TRACKS_NOT_EXIST:
+    "The radio tracks you want to add to your favorite list isn't exist",
 };

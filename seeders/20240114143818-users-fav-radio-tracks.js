@@ -22,10 +22,10 @@ module.exports = {
       const randomRadio = Math.floor(Math.random() * filteredRadio.length);
       const randomUsers = Math.floor(Math.random() * filteredUsers.length);
       const randomized = {
+        id: faker.string.uuid(),
         users_id: filteredUsers[randomUsers],
         tracks_id: filteredRadio[randomRadio],
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        favoritedAt: new Date(),
       };
       data.push(randomized);
     }

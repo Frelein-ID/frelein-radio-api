@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property {String} endpoint - endpoint that refers to the API route.
    * @property {String} action - HTTP method used by the client.
    * @property {Object=} dataBefore - Snapshot of data before change.
-   * @property {Object} dataAfter - Snapshot of data after change.
+   * @property {Object=} dataAfter - Snapshot of data after change.
    * @property {Date} createdAt - Time when it happened.
    */
   const History = sequelize.define(
