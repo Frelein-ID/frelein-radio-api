@@ -12,6 +12,7 @@ const {
   HISTORY_NOT_FOUND,
 } = require("../constants/constants");
 const History = model.History;
+const Users = model.Users;
 
 /**
  * @function
@@ -22,10 +23,11 @@ const History = model.History;
  * */
 exports.getAll = async (req, res) => {
   try {
+    const result = [];
     // Find all history info
-    const data = await History.findAll();
+    const list = await History.findAll();
     // If no history info found
-    if (data.length === 0) {
+    if (list.length === 0) {
       // Return not found error
       return res.status(404).json({
         status: 404,
@@ -33,11 +35,31 @@ exports.getAll = async (req, res) => {
         message: HISTORY_NOT_FOUND,
       });
     }
+    for (var data of list) {
+      const user_data = await Users.findByPk(data.users_id);
+      const user = {
+        id: user_data.id,
+        name: user_data.name,
+        username: user_data.username,
+        email: user_data.email,
+        image: user_data.image,
+      };
+      const data_final = {
+        id: data.id,
+        user: user,
+        endpoint: data.endpoint,
+        action: data.action,
+        dataBefore: data.dataBefore,
+        dataAfter: data.dataAfter,
+        createdAt: data.createdAt,
+      };
+      result.push(data_final);
+    }
     // Return history info
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
-      data: data,
+      data: result,
     });
   } catch (error) {
     // Handle errors

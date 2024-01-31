@@ -167,8 +167,7 @@ exports.getAll = async (req, res) => {
         );
         const personality_info = {
           name: person_data?.name,
-          name_kanji: person_data?.name_kanji,
-          nickname: person_data?.nickname,
+          name_jp: person_data?.name_jp,
           image: person_data?.image,
         };
         personalities.push(personality_info);
@@ -237,8 +236,7 @@ exports.get = async (req, res) => {
       );
       const personality_info = {
         name: person_data?.name,
-        name_kanji: person_data?.name_kanji,
-        nickname: person_data?.nickname,
+        name_jp: person_data?.name_jp,
         image: person_data?.image,
       };
       personalities.push(personality_info);

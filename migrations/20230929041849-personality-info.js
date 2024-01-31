@@ -34,8 +34,8 @@ module.exports = {
         allowNull: true,
       },
       bloodtype: {
-        type: Sequelize.ENUM("A", "B", "AB", "O"),
-        allowNull: true,
+        type: Sequelize.ENUM("Unknown", "A", "B", "AB", "O"),
+        allowNull: false,
       },
       description: {
         type: Sequelize.TEXT,

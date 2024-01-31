@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property {String=} nickname - Personality's nickname.
    * @property {String=} birthdate - Personality's birth date.
    * @property {String=} birthplace - Personality's birth place.
-   * @property {String=} bloodtype - Personality's blood type.
+   * @property {String} bloodtype - Personality's blood type.
    * @property {String=} image - An url link which represents the personality information's image.
    * @property {Text=} description - Description about the personality.
    * @property {String=} source - Personality information source link.
@@ -48,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       bloodtype: {
-        type: DataTypes.ENUM("A", "B", "AB", "O"),
-        allowNull: true,
+        type: DataTypes.ENUM("Unknown", "A", "B", "AB", "O"),
+        allowNull: false,
       },
       description: {
         type: DataTypes.TEXT,

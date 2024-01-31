@@ -19,19 +19,22 @@ const {
   RESPONSE_201,
 } = require("../constants/constants");
 const PersonalityInfo = model.PersonalityInfo;
+const Personalities = model.Personalities;
+const RadioTracks = model.RadioTracks;
+const RadioInfo = model.RadioInfo;
 const v = new Validator();
 
 // Define schema for personality information
 const schema = {
   name: "string|min:3|max:255",
-  name_jp: "string|min:3|max:255|optional",
-  nickname: "string|min:3|max:255|optional",
+  name_jp: "string|optional",
+  nickname: "string|optional",
   birthdate: "string",
   birthplace: "string|optional",
   bloodtype: {
     type: "string",
     items: "string",
-    enum: ["A", "B", "AB", "O"],
+    enum: ["Unknown", "A", "B", "AB", "O"],
     optional: true,
   },
   description: "string|optional",
@@ -202,6 +205,9 @@ exports.getAll = async (req, res) => {
  * */
 exports.get = async (req, res) => {
   try {
+    // define empty array to store a list of radio & tracks which personality participated
+    const tracks = [];
+    const radios = [];
     // Get the ID from params
     const id = req.params.id;
     // Find personality info by ID
@@ -215,11 +221,70 @@ exports.get = async (req, res) => {
         message: PERSONALITY_INFO_NOT_FOUND,
       });
     }
+    let track_list = await Personalities.findAll({
+      where: { personality_id: id },
+    });
+    for (var data of track_list) {
+      const trackData = await RadioTracks.findByPk(data.tracks_id);
+      const radio = await RadioInfo.findByPk(trackData.radio_info);
+      var final_track = {
+        id: trackData.id,
+        episode: trackData.episode,
+        radio: {
+          id: radio.id,
+          name: radio.name,
+          name_jp: radio.name_jp,
+          image: radio.image,
+        },
+        radio_oa: trackData.radio_oa,
+        image: trackData.image,
+        favoritedBy: trackData.favoritedBy,
+      };
+      tracks.push(final_track);
+    }
+
+    tracks.reduce((acc, currentItem) => {
+      const radio = currentItem.radio.id;
+      if (!acc[radio]) {
+        acc[radio] = [];
+      }
+      const data = {
+        id: currentItem.radio.id,
+        name: currentItem.radio.name,
+        name_jp: currentItem.radio.name_jp,
+        image: currentItem.radio.image,
+      };
+      radios.push(data);
+      return acc;
+    }, {});
+
+    const final_radio = radios.filter(
+      (obj, index, self) =>
+        index === self.findIndex((item) => item.id === obj.id)
+    );
+
+    const final_data = {
+      id: personalityinfo.id,
+      name: personalityinfo.name,
+      name_jp: personalityinfo.name_jp,
+      nickname: personalityinfo.nickname,
+      birthdate: personalityinfo.birthdate,
+      birthplace: personalityinfo.birthplace,
+      bloodtype: personalityinfo.bloodtype,
+      image: personalityinfo.image,
+      description: personalityinfo.description,
+      source: personalityinfo.source,
+      favoritedBy: personalityinfo.favoritedBy,
+      createdAt: personalityinfo.createdAt,
+      updatedAt: personalityinfo.updatedAt,
+      tracks: tracks,
+      radio: final_radio,
+    };
     // Return personality info
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
-      data: personalityinfo,
+      data: final_data,
     });
   } catch (error) {
     // Handle error

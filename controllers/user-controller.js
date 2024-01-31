@@ -55,6 +55,7 @@ exports.get = async (req, res) => {
         message: USER_NOT_FOUND,
       });
     }
+    // return success response
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,

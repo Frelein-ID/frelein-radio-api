@@ -51,6 +51,7 @@ const schema = {
  * */
 exports.create = async (req, res) => {
   try {
+    // def
     // Validate request body
     const validate = v.validate(req.body, schema);
     if (validate.length) {
@@ -190,12 +191,13 @@ exports.get = async (req, res) => {
     // Find radio info by ID
     const radioinfo = await RadioInfo.findByPk(id);
     // Find radio tracks for the radio info
-    const radiotracks = await RadioTracks.findAll({
+    let radiotracks = await RadioTracks.findAll({
       where: { radio_info: id },
     });
     // Initialize tracks array
     const tracks = [];
     // Iterate through radio tracks
+    console.log({ radiotracks });
     for (var radio of radiotracks) {
       let personalities = [];
       const personalities_list = await Personalities.findAll({
