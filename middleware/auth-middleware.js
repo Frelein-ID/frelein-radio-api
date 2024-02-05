@@ -23,6 +23,33 @@ const LoginLogs = model.LoginLogs;
 /**
  * @function
  * @memberof module:auth-middleware
+ * @name verifyAccessToken
+ * @summary Decode user's token and get user information to filter route can be accessed by all user.
+ * */
+const verifyAccessToken = (req, res, next) => {
+  try {
+    const token = req.header("Access-Token");
+
+    if (!token) {
+      return res.status(401).json({ message: "Access token not provided" });
+    }
+
+    if (token !== process.env.ACCESS_TOKEN) {
+      return res.status(403).json({ message: "Invalid access token" });
+    }
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      message: "Invalid token",
+      error: error,
+    });
+  }
+};
+
+/**
+ * @function
+ * @memberof module:auth-middleware
  * @name accessAllUser
  * @summary Decode user's token and get user information to filter route can be accessed by all user.
  * */
@@ -185,6 +212,7 @@ const logLogin = async (req, res, next) => {
 };
 
 module.exports = {
+  verifyAccessToken,
   logLogin,
   accessAllUser,
   accessOnlyAdmin,

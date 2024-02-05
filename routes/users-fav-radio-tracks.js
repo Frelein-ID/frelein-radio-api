@@ -5,26 +5,31 @@ const {
   accessAllUser,
   accessOnlyAdmin,
   accessByUserItselfAndAdmin,
+  verifyAccessToken,
 } = require("../middleware/auth-middleware");
 const { recordHistory } = require("../middleware/record-history-middleware");
 
 // GET all users fav radio tracks
-router.get("/", [accessOnlyAdmin], controller.getAll);
+router.get("/", [verifyAccessToken, accessOnlyAdmin], controller.getAll);
 
 // GET all users fav radio tracks by user id
-router.get("/:userId", [accessByUserItselfAndAdmin], controller.get);
+router.get(
+  "/:userId",
+  [verifyAccessToken, accessByUserItselfAndAdmin],
+  controller.get
+);
 
 // POST users fav radio tracks
 router.post(
   "/:userId",
-  [accessByUserItselfAndAdmin, recordHistory],
+  [verifyAccessToken, accessByUserItselfAndAdmin, recordHistory],
   controller.create
 );
 
 // DELETE users fav radio tracks by ID
 router.delete(
   "/:userId",
-  [accessByUserItselfAndAdmin, recordHistory],
+  [verifyAccessToken, accessByUserItselfAndAdmin, recordHistory],
   controller.delete
 );
 
