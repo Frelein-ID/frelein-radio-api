@@ -7,6 +7,7 @@
 const Validator = require("fastest-validator");
 const model = require("../models");
 const {
+  RESPONSE_201,
   RESPONSE_400,
   RESPONSE_500,
   RESPONSE_404,
@@ -25,7 +26,7 @@ const v = new Validator();
 // Define validation schema
 const schema = {
   name: "string|min:3|max:255",
-  name_jp: "string|min:3|max:255|optional",
+  name_jp: "string|optional",
   image: "string|optional",
   description: "string|optional",
   website: "string|optional",
@@ -75,9 +76,9 @@ exports.create = async (req, res) => {
     // Create radio info
     const radioinfo = await RadioInfo.create(req.body);
     // Return created radio info
-    return res.status(200).json({
-      status: 200,
-      statusText: RESPONSE_200,
+    return res.status(201).json({
+      status: 201,
+      statusText: RESPONSE_201,
       data: radioinfo,
     });
   } catch (error) {

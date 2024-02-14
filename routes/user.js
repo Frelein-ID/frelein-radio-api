@@ -7,9 +7,7 @@ const {
   accessByUserItselfAndAdmin,
   verifyAccessToken,
 } = require("../middleware/auth-middleware");
-const {
-  recordHistory,
-} = require("../middleware/record-history-middlewareverifyAccessToken,");
+const { recordHistory } = require("../middleware/record-history-middleware");
 
 router.get("/", [verifyAccessToken, accessOnlyAdmin], controller.getAll);
 

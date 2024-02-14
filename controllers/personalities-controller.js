@@ -214,15 +214,15 @@ exports.get = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const id = req.params.id;
-    const radiotracks = await RadioTracks.findByPk(id);
-    if (!radiotracks) {
+    const response = await Personalities.findByPk(id);
+    if (!response) {
       return res.status(404).json({
         status: 404,
         statusText: RESPONSE_404,
         message: PERSONALITIES_FAILURE_NOT_FOUND,
       });
     }
-    await radiotracks.destroy();
+    await response.destroy();
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,

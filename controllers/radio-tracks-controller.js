@@ -19,6 +19,7 @@ const {
   RADIO_TRACKS_DELETE_SUCCESS,
   RADIO_TRACKS_CREATE_FAILURE_ALREADY_EXIST,
   RESPONSE_200,
+  RESPONSE_201,
 } = require("../constants/constants");
 
 // Define validation schema
@@ -56,7 +57,7 @@ exports.create = async (req, res) => {
     }
     // Check if there's already a record with same name
     const checkData = await RadioTracks.findOne({
-      where: { name: req.body.name },
+      where: { radio_info: req.body.radio_info, episode: req.body.episode },
     });
     // If there's already a record with same name
     if (checkData != null) {
@@ -70,8 +71,8 @@ exports.create = async (req, res) => {
     const radiotracks = await RadioTracks.create(req.body);
     // Return success response
     return res.json({
-      status: 200,
-      statusText: RESPONSE_200,
+      status: 201,
+      statusText: RESPONSE_201,
       data: radiotracks,
     });
   } catch (error) {
@@ -166,6 +167,8 @@ exports.getAll = async (req, res) => {
           personality.personality_id
         );
         const personality_info = {
+          id: personality.id,
+          personality_id: person_data?.id,
           name: person_data?.name,
           name_jp: person_data?.name_jp,
           image: person_data?.image,
@@ -235,6 +238,8 @@ exports.get = async (req, res) => {
         personality.personality_id
       );
       const personality_info = {
+        id: personality.id,
+        personality_id: person_data?.id,
         name: person_data?.name,
         name_jp: person_data?.name_jp,
         image: person_data?.image,
@@ -249,6 +254,7 @@ exports.get = async (req, res) => {
       name: radioinfo?.name,
       name_jp: radioinfo?.name_jp,
       episode: radiotracks?.episode,
+      radio_info: radiotracks?.radio_info,
       radio_oa: radiotracks?.radio_oa,
       personalities: personalities_final,
       radio_image: radioinfo?.image,
