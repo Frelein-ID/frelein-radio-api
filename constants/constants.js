@@ -1,4 +1,11 @@
 module.exports = {
+  // Role
+  ROLE_ADMIN: "admin",
+  ROLE_USER: "user",
+  // Headers
+  HEADERS_AUTHORIZATION: "Authorization",
+  HEADERS_ACCESS_TOKEN: "Access-Token",
+  HEADERS_USER_AGENT: "user-agent",
   // Responses
   RESPONSE_200: "OK",
   RESPONSE_201: "Created",
@@ -11,10 +18,14 @@ module.exports = {
   INVALID_ENDPOINT: "Invalid endpoint",
   INVALID_TOKEN: "Invalid token",
   INVALID_TOKEN_NOT_PROVIDED: "Invalid. Token not provided",
+  INVALID_ACCESS_TOKEN: "Invalid access token",
+  INVALID_ACCESS_TOKEN_NOT_PROVIDED: "Invalid. Access token not provided",
   INVALID_ID: "Invalid ID",
   INVALID_ID_NULL: "Invalid ID. ID shouldn't be null",
   INVALID_ACCESS_DENIED: "Access denied",
   INVALID_ONLY_ADMIN: "Unauthorized. Only admin allowed.",
+  INVALID_CREDENTIALS: "Invalid credentials",
+  INVALID_UNAUTHORIZED: "Unauthorized",
   DATA_DELETED: "Data has been deleted",
   // Auth
   ERROR_USER_AGENT_NULL: "User Agent cannot be null",

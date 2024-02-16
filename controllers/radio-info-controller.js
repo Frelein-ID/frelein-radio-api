@@ -134,6 +134,7 @@ exports.update = async (req, res) => {
       status: 200,
       statusText: RESPONSE_200,
       message: RADIO_INFO_UPDATE_SUCCESS,
+      data: radioinfo,
     });
   } catch (error) {
     // Handle errors

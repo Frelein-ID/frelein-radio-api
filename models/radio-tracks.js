@@ -63,8 +63,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "RadioTracks",
-      updatedAt: true,
-      createdAt: true,
     }
   );
 

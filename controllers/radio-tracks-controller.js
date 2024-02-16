@@ -20,6 +20,7 @@ const {
   RADIO_TRACKS_CREATE_FAILURE_ALREADY_EXIST,
   RESPONSE_200,
   RESPONSE_201,
+  RADIO_TRACKS_UPDATE_SUCCESS,
 } = require("../constants/constants");
 
 // Define validation schema
@@ -77,7 +78,6 @@ exports.create = async (req, res) => {
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
     return res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
@@ -130,11 +130,11 @@ exports.update = async (req, res) => {
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
+      message: RADIO_TRACKS_UPDATE_SUCCESS,
       data: radiotracks,
     });
   } catch (error) {
     // Handle errors
-    console.log(error);
     return res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
@@ -207,7 +207,6 @@ exports.getAll = async (req, res) => {
     });
   } catch (error) {
     // Handle errors
-    console.log({ error });
     return res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
@@ -270,7 +269,6 @@ exports.get = async (req, res) => {
     });
   } catch (error) {
     // Handle errors
-    console.log({ error });
     return res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
@@ -306,7 +304,6 @@ exports.delete = async (req, res) => {
     });
   } catch (error) {
     // Handle errors
-    console.log({ error });
     return res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
