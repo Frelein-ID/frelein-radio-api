@@ -16,6 +16,16 @@ const {
   RESPONSE_403,
   INVALID_ONLY_ADMIN,
   RESPONSE_500,
+  INVALID_CREDENTIALS,
+  INVALID_UNAUTHORIZED,
+  INVALID_ACCESS_TOKEN_NOT_PROVIDED,
+  INVALID_ACCESS_TOKEN,
+  HEADERS_AUTHORIZATION,
+  HEADERS_ACCESS_TOKEN,
+  INVALID_TOKEN,
+  ROLE_ADMIN,
+  ROLE_USER,
+  HEADERS_USER_AGENT,
 } = require("../constants/constants");
 const User = model.Users;
 const LoginLogs = model.LoginLogs;
@@ -28,20 +38,30 @@ const LoginLogs = model.LoginLogs;
  * */
 const verifyAccessToken = (req, res, next) => {
   try {
-    const token = req.header("Access-Token");
+    const token = req.header(HEADERS_ACCESS_TOKEN);
 
     if (!token) {
-      return res.status(401).json({ message: "Access token not provided" });
+      return res.status(401).json({
+        status: 401,
+        statusText: RESPONSE_401,
+        message: INVALID_ACCESS_TOKEN_NOT_PROVIDED,
+      });
     }
 
     if (token !== process.env.ACCESS_TOKEN) {
-      return res.status(403).json({ message: "Invalid access token" });
+      return res.status(403).json({
+        status: 403,
+        statusText: RESPONSE_403,
+        message: INVALID_ACCESS_TOKEN,
+      });
     }
 
     next();
   } catch (error) {
     return res.status(401).json({
-      message: "Invalid token",
+      status: 401,
+      statusText: RESPONSE_401,
+      message: INVALID_TOKEN,
       error: error,
     });
   }
@@ -55,22 +75,31 @@ const verifyAccessToken = (req, res, next) => {
  * */
 const accessAllUser = (req, res, next) => {
   try {
-    const token = req.header("Authorization");
+    const token = req.header(HEADERS_AUTHORIZATION);
 
     if (!token) {
-      return res.status(401).json({ message: "Token not provided" });
+      return res.status(401).json({
+        status: 401,
+        statusText: RESPONSE_401,
+        message: INVALID_TOKEN_NOT_PROVIDED,
+      });
     }
     const decoded = verifyToken(token);
 
-    if (decoded.user.role !== "user" && decoded.user.role !== "admin") {
-      return res.status(403).json({ message: "Unauthorized" });
+    if (decoded.user.role !== ROLE_USER && decoded.user.role !== ROLE_ADMIN) {
+      return res.status(403).json({
+        status: 403,
+        statusText: RESPONSE_403,
+        message: INVALID_UNAUTHORIZED,
+      });
     }
 
     next();
   } catch (error) {
     return res.status(401).json({
-      message: "Invalid token",
-      error: error,
+      status: 401,
+      statusText: RESPONSE_401,
+      message: error,
     });
   }
 };
@@ -84,10 +113,12 @@ const accessAllUser = (req, res, next) => {
 const accessByUserItself = async (req, res, next) => {
   try {
     const userId = req.params.userId;
-    const token = req.header("Authorization");
+    const token = req.header(HEADERS_AUTHORIZATION);
     const decoded = verifyToken(token);
     if (decoded.user.id !== userId) {
       return res.status(400).json({
+        status: 400,
+        statusText: RESPONSE_400,
         message: INVALID_ACCESS_DENIED,
       });
     }
@@ -110,15 +141,17 @@ const accessByUserItself = async (req, res, next) => {
 const accessByUserItselfAndAdmin = async (req, res, next) => {
   try {
     const userId = req.params.userId;
-    const token = req.header("Authorization");
+    const token = req.header(HEADERS_AUTHORIZATION);
     const decoded = verifyToken(token);
-    const admin = await User.findOne({ where: { role: "admin" } });
+    const admin = await User.findOne({ where: { role: ROLE_ADMIN } });
 
-    if (decoded.user.role === "admin" || decoded.user.role === "user") {
+    if (decoded.user.role === ROLE_ADMIN || decoded.user.role === ROLE_USER) {
       if (decoded.user.id === userId || decoded.user.id === admin.id) {
         next();
       } else {
         return res.status(400).json({
+          status: 400,
+          statusText: RESPONSE_400,
           message: INVALID_ACCESS_DENIED,
         });
       }
@@ -140,7 +173,7 @@ const accessByUserItselfAndAdmin = async (req, res, next) => {
  * */
 const accessOnlyAdmin = (req, res, next) => {
   try {
-    const token = req.header("Authorization");
+    const token = req.header(HEADERS_AUTHORIZATION);
 
     if (!token) {
       return res.status(401).json({
@@ -152,7 +185,7 @@ const accessOnlyAdmin = (req, res, next) => {
 
     const decoded = verifyToken(token);
 
-    if (decoded.user.role !== "admin") {
+    if (decoded.user.role !== ROLE_ADMIN) {
       return res.status(403).json({
         status: 403,
         statusText: RESPONSE_403,
@@ -185,14 +218,20 @@ const logLogin = async (req, res, next) => {
     const { email } = req.body;
     const user = await User.findOne({ where: { email } });
     const ipAddress = req.ip;
-    const userAgent = req.get("user-agent");
+    const userAgent = req.get(HEADERS_USER_AGENT);
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({
+        status: 401,
+        statusText: RESPONSE_401,
+        message: INVALID_CREDENTIALS,
+      });
     }
     if (!userAgent) {
-      return res
-        .status(400)
-        .json({ error: RESPONSE_400, message: ERROR_USER_AGENT_NULL });
+      return res.status(400).json({
+        status: 400,
+        statusText: RESPONSE_400,
+        message: ERROR_USER_AGENT_NULL,
+      });
     }
     await LoginLogs.create({
       users_id: user.id,
@@ -202,7 +241,6 @@ const logLogin = async (req, res, next) => {
     });
     next();
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       status: 500,
       statusText: RESPONSE_500,
