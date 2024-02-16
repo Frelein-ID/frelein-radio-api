@@ -132,7 +132,7 @@ exports.statistics = async (req, res) => {
       return loginCountsArray;
     };
     const users_login_last_week = countLoginsLast7Days(loginLogs);
-    const users_register_lask_week = countRegisterLast7Days(users);
+    const users_register_last_week = countRegisterLast7Days(users);
     return res.status(200).json({
       status: 200,
       statusText: RESPONSE_200,
@@ -142,7 +142,7 @@ exports.statistics = async (req, res) => {
         total_personality,
         total_users,
         users_login_last_week,
-        users_register_lask_week,
+        users_register_last_week,
       },
     });
   } catch (error) {
