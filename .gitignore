@@ -3,6 +3,10 @@ interfaces
 seeders/data
 test
 sync.js
+.dockerignore
+compose.yaml
+Dockerfile
+README.Docker.md
 
 # Logs
 logs
